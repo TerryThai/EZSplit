@@ -2,7 +2,7 @@ const passport = require('passport')
 const router = require('express').Router()
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const {User} = require('../db/models')
-const secret = require('../../secrets')
+let googleConfig
 module.exports = router
 
 /**
@@ -19,10 +19,20 @@ module.exports = router
  * process.env.GOOGLE_CALLBACK = '/your/google/callback'
  */
 
-const googleConfig = {
-  clientID: process.env.GOOGLE_CLIENT_ID || secret.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET || secret.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK || secret.GOOGLE_CALLBACK
+if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+  console.log('Google client ID / secret not found. Skipping Google OAuth.')
+  const secret = require('../../secrets')
+  googleConfig = {
+    clientID: secret.GOOGLE_CLIENT_ID,
+    clientSecret: secret.GOOGLE_CLIENT_SECRET,
+    callbackURL: secret.GOOGLE_CALLBACK
+  }
+} else {
+  googleConfig = {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK
+  }
 }
 
 const strategy = new GoogleStrategy(
