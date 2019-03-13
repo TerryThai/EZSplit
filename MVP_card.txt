@@ -1,0 +1,14 @@
+EZsplit()
+
+Overview:
+EZsplit() is for splitting bills between users based individual expenditures using just a picture of the receipt and minimal corrections. 
+
+MVP:
+EZsplit() should be able to parse out all items on a receipt along with their prices and the total amount and allow users to make corrections. It should be able to do basic division of bills based on number of items and users while taking taxes into consideration.
+
+Stretch Goals:
+*User logs in to see past bills, etc
+*User can add friends via QR codes, or usernames
+*User takes picture on mobile to upload
+*Users connect to see shared bill and expenses
+*Users can pay through app via venmo or stripe
