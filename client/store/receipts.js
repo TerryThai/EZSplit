@@ -41,7 +41,8 @@ export const getOcrThunk = image => async dispatch => {
     const formData = new FormData()
     formData.append('file', image)
     formData.append('base64', base64)
-    const ocr = await axios.post('/api/receipts/send', formData)
+    const {data: ocr} = await axios.post('/api/receipts/send', formData)
+    console.log(ocr)
     dispatch(getOcr(ocr))
   } catch (err) {
     console.error(err)

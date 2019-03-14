@@ -20,7 +20,15 @@ router.post('/send', async (req, res, next) => {
         language: 'en'
       })
       .end(function(result) {
-        console.log(result.status, result.headers, result.body)
+        res.json(result.body)
+        console.log(
+          '====>status',
+          result.status,
+          '====>headers',
+          result.headers,
+          '====>body',
+          result.body
+        )
       })
   } catch (error) {
     next(error)
