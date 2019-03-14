@@ -1,3 +1,4 @@
+const fileUpload = require('express-fileupload')
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
@@ -10,6 +11,7 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 3000
 const app = express()
 const socketio = require('socket.io')
+const bodyParser = require('body-parser')
 module.exports = app
 
 if (process.env.NODE_ENV === 'test') {
@@ -35,8 +37,13 @@ const createApp = () => {
   app.use(morgan('dev'))
 
   // body parsing middleware
-  app.use(express.json())
-  app.use(express.urlencoded({extended: true}))
+  app.use(bodyParser.json({limit: '10mb', extended: true}))
+  app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
+  // app.use(express.json())
+  // app.use(express.urlencoded({extended: true}))
+
+  // file uploading middleware
+  app.use(fileUpload())
 
   // compression middleware
   app.use(compression())

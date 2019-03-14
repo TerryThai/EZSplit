@@ -1,5 +1,18 @@
 import axios from 'axios'
 
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
+  })
+}
+function parseBase64(base64) {
+  let idx = base64.indexOf(',') + 1
+  return base64.slice(idx)
+}
+
 /**
  * ACTION TYPES
  */
@@ -13,7 +26,6 @@ const initialState = {
   ocr: {},
   history: []
 }
-
 /**
  * ACTION CREATORS
  */
@@ -23,22 +35,14 @@ const getOcr = ocr => ({type: GET_OCR, ocr})
  * THUNK CREATORS
  */
 export const getOcrThunk = image => async dispatch => {
-  console.log(image)
   try {
+    const b64 = await getBase64(image)
+    const base64 = parseBase64(b64)
     const formData = new FormData()
     formData.append('file', image)
-    const config = {
-      headers: {
-        apikey: '1c9f54d045b211e9bba4c5572eb43161'
-      }
-    }
-    const res = await axios.post(
-      'https://api.taggun.io/api/receipt/v1/verbose/file',
-      formData,
-      config
-    )
-    console.log(res.data)
-    dispatch(getOcr(res.data))
+    formData.append('base64', base64)
+    const ocr = await axios.post('/api/receipts/send', formData)
+    dispatch(getOcr(ocr))
   } catch (err) {
     console.error(err)
   }
