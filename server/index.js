@@ -11,6 +11,7 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 3000
 const app = express()
 const socketio = require('socket.io')
+const mongoose = require('../server/mongodb/index')
 const bodyParser = require('body-parser')
 module.exports = app
 
@@ -109,6 +110,10 @@ async function bootApp() {
   await syncDb()
   await createApp()
   await startListening()
+  mongoose.on('error', console.error.bind(console, 'connection error:'))
+  mongoose.once('open', function() {
+    console.log('MONGOO SUCCESS!!!!!!')
+  })
 }
 // This evaluates as true when this file is run directly from the command line,
 // i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)
