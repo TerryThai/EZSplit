@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {getGroupsThunk, leaveGroupThunk} from '../store/user'
+import {getGroupsThunk, leaveGroupThunk} from '../store/groups'
 import {helpers} from '../../helpers'
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'

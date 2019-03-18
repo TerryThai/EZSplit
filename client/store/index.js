@@ -4,12 +4,13 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import receipts from './receipts'
+import groups from './groups'
 
-const reducer = combineReducers({user, receipts})
+const reducer = combineReducers({user, receipts, groups})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
 const store = createStore(reducer, middleware)
 
 export default store
-export * from './user'
+export * from './groups'
