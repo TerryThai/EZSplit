@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getGroupsThunk, leaveGroupThunk} from '../store/groups'
-import {helpers} from '../../helpers'
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
+import {Divider} from 'semantic-ui-react'
 
 // TODO
 // leave group action? remove user from group.users, remove group from user.groups
@@ -22,29 +22,31 @@ class CreateGroup extends Component {
   }
 
   async componentDidMount() {
-    this.props.getGroupsThunk(this.props.user.id)
+    // this.props.getGroupsThunk(this.props.user.id)
     await this.setState({
       componentMounted: true
     })
   }
 
   render() {
-    const lineItems = this.props.groups.map(group => {
-      return {
-        id: group.id,
-        name: group.name,
-        members: group.users.map(user => (
-          <Link to={`users/${user.id}`} key={user.id}>
-            user.name
-          </Link>
-        )),
-        leaveGroup: (
-          <button onClick={() => this.handleLeaveGroup(group.id, group.name)}>
-            X
-          </button>
-        )
-      }
-    })
+    if (this.props.groups) {
+      const lineItems = this.props.groups.map(group => {
+        return {
+          id: group.id,
+          name: group.name,
+          members: group.users.map(user => (
+            <Link to={`users/${user.id}`} key={user.id}>
+              {user.name}
+            </Link>
+          )),
+          leaveGroup: (
+            <button onClick={() => this.handleLeaveGroup(group.id, group.name)}>
+              X
+            </button>
+          )
+        }
+      })
+    }
 
     const columns = [
       {
@@ -61,8 +63,15 @@ class CreateGroup extends Component {
       }
     ]
 
+    const style = {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }
+
     return (
-      <div>
+      <div style={style}>
+        <br />
         {this.props.groups[0] ? (
           <BootstrapTable
             keyField="id"
@@ -75,7 +84,8 @@ class CreateGroup extends Component {
         ) : (
           <h3>Loading groups...</h3>
         )}
-        <Link to="/groups/create">
+        <Divider />
+        <Link to="/groups/create/redir">
           <h3>Create a group!</h3>
         </Link>
       </div>
@@ -84,8 +94,8 @@ class CreateGroup extends Component {
 }
 
 const mapState = state => ({
-  groups: state.user.groups,
-  user: state.user.user.id
+  groups: state.groups.groups,
+  user: state.user.id
 })
 
 const mapDispatch = dispatch => ({

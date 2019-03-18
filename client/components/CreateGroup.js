@@ -34,19 +34,26 @@ class CreateGroup extends Component {
   handleSubmit = async event => {
     event.preventDefault()
     await this.props.createGroupThunk(this.state)
-    // this.props.history.goBack() ?
+    if (this.props.redir) {
+      this.props.history.push('/addbill')
+    }
   }
 
   async componentDidMount() {
-    this.props.getFriendsThunk(this.props.user.id)
+    // this.props.getFriendsThunk(this.props.user.id)
     await this.setState({
       componentMounted: true
     })
   }
 
   render() {
+    const style = {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }
     return (
-      <div>
+      <div style={style}>
         <div>
           {this.state.users[0] ? (
             <div>
@@ -70,6 +77,7 @@ class CreateGroup extends Component {
         </div>
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="groupName">Group Name</label>
+          <br />
           <input
             type="text"
             id="groupName"
@@ -78,6 +86,7 @@ class CreateGroup extends Component {
             onChange={this.handleChange}
             placeholder="Create a Group Name!"
           />
+          <br />
           <label htmlFor="addUsers">Add Users</label>
 
           {this.props.friends[0] ? (
@@ -93,6 +102,8 @@ class CreateGroup extends Component {
                 })}
               </ul>
             </div>
+          ) : this.state.componentMounted ? (
+            <h3>You have no friends.</h3>
           ) : (
             <h3>Loading...</h3>
           )}
@@ -105,8 +116,8 @@ class CreateGroup extends Component {
 }
 
 const mapState = state => ({
-  friends: state.user.friends,
-  user: state.user.user.id
+  friends: state.groups.friends,
+  user: state.user.id
 })
 
 const mapDispatch = dispatch => ({
