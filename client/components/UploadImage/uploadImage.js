@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getOcrThunk} from '../../store/receipts'
-import {Table} from '../Table/table'
 import {Button, Label, Divider, Grid} from 'semantic-ui-react'
-import {Spinner} from '../index'
+import {Spinner, Table} from '../index'
 
 class UploadImage extends Component {
   state = {
@@ -39,6 +38,7 @@ class UploadImage extends Component {
           </Label>
         </Grid.Row>
         {this.state.isLoading ? <Spinner /> : <Table />}
+        {/* <Table /> */}
         <Divider />
       </Grid>
     )

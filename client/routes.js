@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, UserHome, Groups, CreateGroup} from './components'
-import {me} from './store'
+import {me} from './store/user'
 
 /**
  * COMPONENT
