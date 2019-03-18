@@ -3,13 +3,18 @@ import {connect} from 'react-redux'
 import {getOcrThunk} from '../../store/receipts'
 import Table from '../Table/table'
 import {Button, Label, Divider, Grid} from 'semantic-ui-react'
+import {Spinner} from '../index'
 
 class UploadImage extends Component {
-  state = {}
+  state = {
+    isLoading: false
+  }
 
   handleChange = async evt => {
+    this.setState({isLoading: true})
     let file = evt.target.files[0]
     await this.props.getOcrThunk(file)
+    this.setState({isLoading: false})
   }
 
   render() {
@@ -33,7 +38,7 @@ class UploadImage extends Component {
             />
           </Label>
         </Grid.Row>
-        <Table />
+        {this.state.isLoading ? <Spinner /> : <Table />}
         <Divider />
       </Grid>
     )
