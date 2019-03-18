@@ -21,14 +21,6 @@ router.post('/send', async (req, res, next) => {
       })
       .end(function(result) {
         res.json(result.body)
-        console.log(
-          '====>status',
-          result.status,
-          '====>headers',
-          result.headers,
-          '====>body',
-          result.body
-        )
       })
   } catch (error) {
     next(error)

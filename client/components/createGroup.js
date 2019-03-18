@@ -1,10 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import {getFriendsThunk, createGroupThunk} from '../store/user'
-import {helpers} from '../../helpers'
-import BootstrapTable from 'react-bootstrap-table-next'
-import cellEditFactory from 'react-bootstrap-table2-editor'
 
 // TODO
 // leave group action? remove user from group.users, remove group from user.groups

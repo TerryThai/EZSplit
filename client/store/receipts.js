@@ -29,7 +29,7 @@ const initialState = {
 /**
  * ACTION CREATORS
  */
-const getOcr = ocr => ({type: GET_OCR, ocr})
+export const getOcr = ocr => ({type: GET_OCR, ocr})
 
 /**
  * THUNK CREATORS
