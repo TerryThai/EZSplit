@@ -4,7 +4,6 @@ import {connect} from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
 import Tip from '../Tip/tip'
-import './table.css'
 
 class Table extends Component {
   state = {}
@@ -61,7 +60,7 @@ class Table extends Component {
     )
 
     return (
-      <div className="BootstrapTable-div-container">
+      <div style={{width: '70%', margin: 'auto'}}>
         {table}
         {total}
       </div>
