@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getOcrThunk} from '../../store/receipts'
-import Table from '../Table/table'
+import {Table} from '../Table/table'
 import {Button, Label, Divider, Grid} from 'semantic-ui-react'
 import {Spinner} from '../index'
 

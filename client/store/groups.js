@@ -4,8 +4,6 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-const GET_USER = 'GET_USER'
-const REMOVE_USER = 'REMOVE_USER'
 const SELECT_GROUP = 'SELECT_GROUP'
 const CREATE_GROUP = 'CREATE_GROUP'
 const GET_GROUPS = 'GET_GROUPS'
@@ -16,7 +14,6 @@ const GET_FRIENDS = 'GET_FRIENDS'
  * INITIAL STATE
  */
 const initialState = {
-  user: {},
   selectedGroup: {},
   friends: [],
   groups: []
@@ -25,8 +22,6 @@ const initialState = {
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
-const removeUser = () => ({type: REMOVE_USER})
 export const selectGroup = groupId => ({type: SELECT_GROUP, groupId})
 const createGroup = group => ({type: CREATE_GROUP, group})
 const getGroups = groups => ({type: GET_GROUPS, groups})
@@ -76,41 +71,6 @@ export const createGroupThunk = groupObj => async dispatch => {
   }
 }
 
-export const me = () => async dispatch => {
-  try {
-    const res = await axios.get('/auth/me')
-    dispatch(getUser(res.data || initialState.user))
-  } catch (err) {
-    console.error(err)
-  }
-}
-
-export const auth = (email, password, method) => async dispatch => {
-  let res
-  try {
-    res = await axios.post(`/auth/${method}`, {email, password})
-  } catch (authError) {
-    return dispatch(getUser({error: authError}))
-  }
-
-  try {
-    dispatch(getUser(res.data))
-    history.push('/home')
-  } catch (dispatchOrHistoryErr) {
-    console.error(dispatchOrHistoryErr)
-  }
-}
-
-export const logout = () => async dispatch => {
-  try {
-    await axios.post('/auth/logout')
-    dispatch(removeUser())
-    history.push('/login')
-  } catch (err) {
-    console.error(err)
-  }
-}
-
 /**
  * REDUCER
  */
@@ -136,10 +96,6 @@ export default function(state = initialState, action) {
       }
     case GET_GROUPS:
       return {...state, groups: action.groups}
-    case GET_USER:
-      return {...state, user: action.user}
-    case REMOVE_USER:
-      return initialState
     default:
       return state
   }
