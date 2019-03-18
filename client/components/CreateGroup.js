@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getFriendsThunk, createGroupThunk} from '../store/user'
+import {getFriendsThunk, createGroupThunk} from '../store/groups'
 
 // TODO
 // leave group action? remove user from group.users, remove group from user.groups
@@ -117,12 +117,12 @@ class CreateGroup extends Component {
 
 const mapState = state => ({
   friends: state.groups.friends,
-  user: state.user.id
+  user: state.user
 })
 
 const mapDispatch = dispatch => ({
   getFriendsThunk: userId => dispatch(getFriendsThunk(userId)),
-  createGroupThunk: userId => dispatch(createGroupThunk(userId))
+  createGroupThunk: group => dispatch(createGroupThunk(group))
 })
 
 export default connect(mapState, mapDispatch)(CreateGroup)

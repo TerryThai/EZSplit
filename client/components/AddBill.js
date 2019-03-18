@@ -25,8 +25,8 @@ class AddBill extends Component {
 }
 
 const mapState = state => ({
-  groups: state.user.groups,
-  user: state.user.user.id
+  groups: state.groups.groups,
+  user: state.user
 })
 
 const mapDispatch = dispatch => ({

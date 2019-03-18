@@ -95,7 +95,7 @@ class CreateGroup extends Component {
 
 const mapState = state => ({
   groups: state.groups.groups,
-  user: state.user.id
+  user: state.user
 })
 
 const mapDispatch = dispatch => ({
