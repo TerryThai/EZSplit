@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 // balance array item would include person who owes balance
 const userSchema = new Schema({
-  googleId: Number,
+  email: String,
   name: String,
   groups: Array,
   receipts: Array,

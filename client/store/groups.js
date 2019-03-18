@@ -51,9 +51,9 @@ export const leaveGroupThunk = (userId, groupId) => async dispatch => {
   }
 }
 
-export const getGroupsThunk = userId => async dispatch => {
+export const getGroupsThunk = email => async dispatch => {
   try {
-    const res = await axios.get(`/api/users/${userId}/groups`)
+    const res = await axios.get(`/api/groups/${email}/`)
     const groups = res.data
     dispatch(getGroups(groups))
   } catch (error) {
@@ -63,7 +63,7 @@ export const getGroupsThunk = userId => async dispatch => {
 
 export const createGroupThunk = groupObj => async dispatch => {
   try {
-    const res = await axios.post(`/api/users/group`, groupObj)
+    const res = await axios.post(`/api/groups`, groupObj)
     const group = res.data
     dispatch(createGroup(group))
   } catch (error) {
