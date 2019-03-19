@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getFriendsThunk, createGroupThunk} from '../store/groups'
+import history from '../history'
 
 // TODO
 // leave group action? remove user from group.users, remove group from user.groups
@@ -35,7 +36,7 @@ class CreateGroup extends Component {
     event.preventDefault()
     await this.props.createGroupThunk(this.state)
     if (this.props.redir) {
-      this.props.history.push('/addbill')
+      history.push('/addbill')
     }
   }
 
@@ -47,6 +48,7 @@ class CreateGroup extends Component {
   }
 
   render() {
+    console.log('this.props.history', history)
     const style = {
       display: 'flex',
       flexDirection: 'column',
@@ -82,7 +84,7 @@ class CreateGroup extends Component {
             type="text"
             id="groupName"
             name="name"
-            value={this.state.groupName}
+            value={this.state.name}
             onChange={this.handleChange}
             placeholder="Create a Group Name!"
           />

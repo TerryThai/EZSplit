@@ -29,27 +29,23 @@ class CreateGroup extends Component {
   }
 
   render() {
-    if (this.props.groups) {
-      const lineItems =
-        this.props.groups.map(group => {
-          return {
-            id: group.id,
-            name: group.name,
-            members: group.users.map(user => (
-              <Link to={`users/${user.id}`} key={user.id}>
-                {user.name}
-              </Link>
-            )),
-            leaveGroup: (
-              <button
-                onClick={() => this.handleLeaveGroup(group.id, group.name)}
-              >
-                X
-              </button>
-            )
-          }
-        }) || []
-    }
+    const lineItems =
+      this.props.groups.map(group => {
+        return {
+          id: group.id,
+          name: group.name,
+          members: group.users.map(user => (
+            <Link to={`users/${user.id}`} key={user.id}>
+              {user.name}
+            </Link>
+          )),
+          leaveGroup: (
+            <button onClick={() => this.handleLeaveGroup(group.id, group.name)}>
+              X
+            </button>
+          )
+        }
+      }) || []
 
     const columns = [
       {
