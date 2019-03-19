@@ -19,11 +19,10 @@ router.get('/:email', async (req, res, next) => {
 //create new group
 router.post('/', async (req, res, next) => {
   try {
-    const groupObj = req.body
+    const {name} = req.body
     const group = await MongoGroup.create({
-      groupObj
+      name
     })
-    console.log(group)
     res.json(group)
   } catch (err) {
     next(err)
@@ -31,18 +30,18 @@ router.post('/', async (req, res, next) => {
 })
 
 //add friends to a group
-router.put('/', async (req, res, next) => {
-  try {
-    const groupObj = req.body
-    const group = await MongoGroup.create({
-      groupObj
-    })
-    console.log(group)
-    res.json(group)
-  } catch (err) {
-    next(err)
-  }
-})
+// router.put('/', async (req, res, next) => {
+//   try {
+//     const groupObj = req.body
+//     const group = await MongoGroup.create({
+//       groupObj
+//     })
+//     console.log(group)
+//     res.json(group)
+//   } catch (err) {
+//     next(err)
+//   }
+// })
 
 // select group by id
 router.get('/:id', async (req, res, next) => {

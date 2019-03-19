@@ -29,8 +29,8 @@ class CreateGroup extends Component {
   }
 
   render() {
-    if (this.props.groups) {
-      const lineItems = this.props.groups.map(group => {
+    const lineItems =
+      this.props.groups.map(group => {
         return {
           id: group.id,
           name: group.name,
@@ -45,8 +45,7 @@ class CreateGroup extends Component {
             </button>
           )
         }
-      })
-    }
+      }) || []
 
     const columns = [
       {

@@ -50,7 +50,7 @@ const strategy = new GoogleStrategy(
     })
       .then(([user]) => done(null, user))
       .catch(done)
-    MongoUser.create({name, email}, function(err, user) {
+    MongoUser.findOne({name, email}, function(err, user) {
       if (err) return console.log(err)
       console.log(user)
     })
