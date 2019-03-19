@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Button} from 'semantic-ui-react'
+import {Button, Form, Icon} from 'semantic-ui-react'
 import {getOcr} from '../../store/receipts'
 
 class Tip extends Component {
-  state = {}
+  state = {
+    customTip: 0
+  }
 
   // the tip function is made to follow the DRY approach
   // the function takes the value of each button and coerces it
@@ -12,18 +14,31 @@ class Tip extends Component {
   // this function makes use of the existing getOcr() that exists in the store
   // we the getOcr() a 'new' receipt object and it will trigger a state change
   // once that state change occurs, the component can rerender
+
   tip = event => {
     const tipAmount = 1 + Number(event.target.value) * 0.01
-    let newReceipt = {...this.props.ocr}
-    newReceipt.amounts.forEach(item => {
-      item.data *= tipAmount
+    const newItems = [...this.props.originalOcr.amounts]
+    const copyOfItems = newItems.map(item => {
+      const copyItem = {...item}
+      copyItem.data = (copyItem.data * tipAmount).toFixed(2)
+      return copyItem
     })
-    this.props.updateOcr(newReceipt)
+    this.props.updateOcr(copyOfItems)
   }
+
+  handleCustomTipClick = event => {
+    const customValue = event.target.value
+    if (!Number(customValue) && customValue !== 0) {
+      this.setState({customTip: 0})
+    } else {
+      this.setState({customTip: Number(event.target.value)})
+    }
+  }
+
   render() {
     return (
-      <Button.Group>
-        <Button color="black" onClick={this.tip} value={15}>
+      <Button.Group size="tiny">
+        <Button size="tiny" color="black" onClick={this.tip} value={15}>
           15%
         </Button>
         <Button.Or />
@@ -34,6 +49,24 @@ class Tip extends Component {
         <Button color="black" onClick={this.tip} value={20}>
           20%
         </Button>
+        <Button.Or />
+        <Button
+          name="customTip"
+          color="black"
+          onClick={this.tip}
+          value={this.state.customTip}
+        >
+          Custom Tip
+          <Icon name="arrow right" />
+        </Button>
+        <Form size="tiny" id="custom">
+          <Form.Field
+            control="input"
+            placeholder="Custom Tip"
+            onChange={this.handleCustomTipClick}
+            value={this.state.customTip}
+          />
+        </Form>
       </Button.Group>
     )
   }
