@@ -9,7 +9,7 @@ import {getFriendsThunk, createGroupThunk} from '../store/groups'
 class CreateGroup extends Component {
   state = {
     componentMounted: false,
-    groupName: '',
+    name: '',
     users: []
   }
 
@@ -81,7 +81,7 @@ class CreateGroup extends Component {
           <input
             type="text"
             id="groupName"
-            name="groupName"
+            name="name"
             value={this.state.groupName}
             onChange={this.handleChange}
             placeholder="Create a Group Name!"
