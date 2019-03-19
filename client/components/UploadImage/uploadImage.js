@@ -38,7 +38,6 @@ class UploadImage extends Component {
           </Label>
         </Grid.Row>
         {this.state.isLoading ? <Spinner /> : <Table />}
-        {/* <Table /> */}
         <Divider />
       </Grid>
     )

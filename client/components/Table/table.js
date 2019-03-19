@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
 import Tip from '../Tip/tip'
+import {Button} from 'semantic-ui-react'
 
 class Table extends Component {
   state = {}
@@ -35,12 +36,12 @@ class Table extends Component {
     // this table variable is tenary that renders out
     // our tip buttons and receipt only if it exists in our redux store.
     // In other words, it will not render unless the user uploads a receipt.
-    const table = this.props.ocr.amounts ? (
+    const table = this.props.ocr.amounts && (
       <div>
         {/* Rendering the tip buttons on top of receipt table.
         Also passing in the ocr object from redux store as props.
         We could have used connect in the tip component as well */}
-        <Tip ocr={this.props.ocr} />
+        <Tip originalOcr={this.props.originalOcr} />
         <BootstrapTable
           keyField="id"
           data={lineItems}
@@ -48,28 +49,30 @@ class Table extends Component {
           cellEdit={cellEditFactory({mode: 'click'})}
         />
       </div>
-    ) : (
-      ''
-    )
-    // the total is also a ternary that either renders
-    // out am amount or nothing at all
-    const total = this.props.ocr.totalAmount ? (
-      <div>total amount: {this.props.ocr.totalAmount.data}</div>
-    ) : (
-      ''
     )
 
+    const {totalAmount} = this.props.ocr
     return (
-      <div style={{width: '70%', margin: 'auto'}}>
+      <div className="table-div-container">
         {table}
-        {total}
+        {this.props.ocr.totalAmount && (
+          <div className="total-Save-contaniner">
+            <div>
+              total amount: {totalAmount.data}
+              <Button color="black" floated="right">
+                Save Receipt
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     )
   }
 }
 
 const mapState = state => ({
-  ocr: state.receipts.ocr
+  ocr: state.receipts.ocr,
+  originalOcr: state.receipts.originalOcr
 })
 
 export default connect(mapState)(Table)
