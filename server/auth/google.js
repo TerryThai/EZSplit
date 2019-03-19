@@ -50,10 +50,15 @@ const strategy = new GoogleStrategy(
     })
       .then(([user]) => done(null, user))
       .catch(done)
-    MongoUser.findOne({name, email}, function(err, user) {
-      if (err) return console.log(err)
-      console.log(user)
-    })
+    MongoUser.findOneAndUpdate(
+      {email, name},
+      {name},
+      {setDefaultsOnInsert: true, upsert: true},
+      (err, user) => {
+        if (err) console.log(err)
+        console.log(user)
+      }
+    )
   }
 )
 

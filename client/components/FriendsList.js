@@ -1,18 +1,31 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getFriendsThunk} from '../store/groups'
+import {getFriendsThunk} from '../store'
 import {List, ListItem} from 'semantic-ui-react'
 
 class FriendsList extends Component {
-  componentDidMount() {}
+  state = {
+    componentMounted: false
+  }
+  componentDidMount = async () => {
+    await this.props.getFriendsThunk(this.props.user.email)
+    await this.setState({
+      componentMounted: true
+    })
+  }
   render() {
+    // console.log(this.props.friends)
     return (
       <div>
         <List>
           {this.props.friends[0] ? (
             this.props.friends.map(friend => {
+              console.log(friend)
               return (
-                <ListItem onClick={() => this.onClick(friend.id)}>
+                <ListItem
+                  key={friend.email}
+                  onClick={() => this.onClick(friend.email)}
+                >
                   {friend.name}
                 </ListItem>
               )
@@ -29,7 +42,7 @@ class FriendsList extends Component {
 }
 
 const mapState = state => ({
-  friends: state.groups.friends,
+  friends: state.friends.friends,
   user: state.user
 })
 

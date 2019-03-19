@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getFriendsThunk, createGroupThunk} from '../store/groups'
 import history from '../history'
+import {Button, Icon} from 'semantic-ui-react'
 
 // TODO
 // leave group action? remove user from group.users, remove group from user.groups
@@ -11,7 +12,7 @@ class CreateGroup extends Component {
   state = {
     componentMounted: false,
     name: '',
-    users: []
+    users: [{name: this.props.user.name, email: this.props.user.email}]
   }
 
   addUser = async user => {
@@ -63,11 +64,11 @@ class CreateGroup extends Component {
               <ul>
                 {this.state.users.map(user => {
                   return (
-                    <li>
+                    <li key={user.email}>
                       {user.name}
-                      <button onClick={() => this.removeUser(user.id)}>
-                        Remove
-                      </button>
+                      <Button icon onClick={() => this.removeUser(user.id)}>
+                        <Icon name="trash alternate" color="red" />
+                      </Button>
                     </li>
                   )
                 })}
@@ -78,7 +79,9 @@ class CreateGroup extends Component {
           )}
         </div>
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor="groupName">Group Name</label>
+          <label htmlFor="groupName">
+            <h3>Group Name</h3>
+          </label>
           <br />
           <input
             type="text"
@@ -89,7 +92,9 @@ class CreateGroup extends Component {
             placeholder="Create a Group Name!"
           />
           <br />
-          <label htmlFor="addUsers">Add Users</label>
+          <label htmlFor="addUsers">
+            <h3>Add Users</h3>
+          </label>
 
           {this.props.friends[0] ? (
             <div>
@@ -118,7 +123,7 @@ class CreateGroup extends Component {
 }
 
 const mapState = state => ({
-  friends: state.groups.friends,
+  friends: state.friends.friends,
   user: state.user
 })
 

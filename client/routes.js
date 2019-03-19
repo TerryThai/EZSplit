@@ -6,9 +6,10 @@ import {
   Signup,
   Login,
   UserHome,
-  Groups,
+  GroupsList,
   CreateGroup,
-  AddBill
+  AddBill,
+  FriendsList
 } from './components'
 import {me} from './store/user'
 
@@ -33,8 +34,9 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
-            <Route path="/addbill" component={AddBill} />
-            <Route exact path="/groups" component={Groups} />
+            <Route exact path="/addbill" component={AddBill} />
+            <Route exact path="/friends" component={FriendsList} />
+            <Route exact path="/groups" component={GroupsList} />
             <Route exact path="/groups/create" component={CreateGroup} />
             <Route
               path="/groups/create/redir"

@@ -8,14 +8,12 @@ const SELECT_GROUP = 'SELECT_GROUP'
 const CREATE_GROUP = 'CREATE_GROUP'
 const GET_GROUPS = 'GET_GROUPS'
 const LEAVE_GROUP = 'LEAVE_GROUP'
-const GET_FRIENDS = 'GET_FRIENDS'
 
 /**
  * INITIAL STATE
  */
 const initialState = {
   selectedGroup: {},
-  friends: [],
   groups: []
 }
 
@@ -26,26 +24,17 @@ export const selectGroup = groupId => ({type: SELECT_GROUP, groupId})
 const createGroup = group => ({type: CREATE_GROUP, group})
 const getGroups = groups => ({type: GET_GROUPS, groups})
 const leaveGroup = groupId => ({type: LEAVE_GROUP, groupId})
-const getFriends = friends => ({type: GET_FRIENDS, friends})
 
 /**
  * THUNK CREATORS
  */
-// export const getFriendsThunk = userId => async dispatch => {
-//   try {
-//     //const res = await axios.get(`users/${userId}/friends`)
-//     // const friends = res.data
-//     // dispatch(getFriends(friends))
-//   } catch (error) {
-//     console.error(error)
-//   }
-// }
 
-export const leaveGroupThunk = (userId, groupId) => async dispatch => {
+export const leaveGroupThunk = (groupId, userEmail) => async dispatch => {
+  console.log(groupId, userEmail)
   try {
-    // axios.put remove group from user.groups
-    // axios.put remove user from group.users
-    // dispatch(leaveGroup(groupId))
+    const res = await axios.put(`/api/groups/${groupId}/${userEmail}`)
+    console.log('response', res.data)
+    dispatch(leaveGroup(res.data))
   } catch (error) {
     console.error(error)
   }
@@ -85,14 +74,14 @@ export default function(state = initialState, action) {
     case SELECT_GROUP:
       return {
         ...state,
-        selectedGroup: state.groups.filter(group => group.id === action.groupId)
+        selectedGroup: state.groups.filter(
+          group => group._id === action.groupId
+        )
       }
-    case GET_FRIENDS:
-      return {...state, friends: action.friends}
     case LEAVE_GROUP:
       return {
         ...state,
-        groups: state.groups.filter(group => group.id !== action.groupId)
+        groups: state.groups.filter(group => group._id !== action.groupId)
       }
     case GET_GROUPS:
       return {...state, groups: action.groups}

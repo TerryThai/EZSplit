@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {Groups} from './index'
+import {GroupsList} from './index'
 
 class AddBill extends Component {
   state = {
@@ -9,7 +8,7 @@ class AddBill extends Component {
   }
 
   async componentDidMount() {
-    this.props.getGroupsThunk(this.props.user.id)
+    // this.props.getGroupsThunk(this.props.user.id)
     await this.setState({
       componentMounted: true
     })
@@ -18,7 +17,7 @@ class AddBill extends Component {
   render() {
     return (
       <div>
-        <Groups />
+        <GroupsList />
       </div>
     )
   }

@@ -5,9 +5,9 @@ const Schema = mongoose.Schema
 const userSchema = new Schema({
   email: String,
   name: String,
-  groups: Array,
-  receipts: Array,
+  friends: [{name: String, email: String}],
+  receipts: [{type: Array}],
   balance: [{name: String, balance: Number}]
 })
-const User = mongoose.model('User', userSchema)
-module.exports = User
+const MongoUser = mongoose.model('User', userSchema)
+module.exports = MongoUser

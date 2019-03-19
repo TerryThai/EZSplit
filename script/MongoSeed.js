@@ -1,13 +1,11 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+// const User = require('../server/mongodb/models/user')
+// const Group = require('../server/mongodb/models/group')
+// const Receipt = require('../server/mongodb/models/receipt')
 
-const groupSchema = new Schema({
-  name: String,
-  users: [],
-  receipts: []
-})
-const Group = mongoose.model('Group', groupSchema)
-module.exports = Group
+// Group.insertMany(Groups, function(err, x) {
+//   if (err) console.log(err)
+//   console.log(x)
+// })
 
 // // create some events
 // const Groups = [
@@ -36,7 +34,10 @@ module.exports = Group
 //     ]
 //   }
 // ]
-// Group.insertMany(Groups, function(err, x) {
-//   if (err) console.log(err)
-//   console.log(x)
-// })
+// // use the Event model to insert/save
+// // Groups.forEach(async group => {
+// //   const newGroup = await Group.create(group, function(err, g) {
+// //     if (err) console.log(err)
+// //     console.log('newGroup', g)
+// //   })
+// // })

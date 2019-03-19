@@ -10,19 +10,20 @@ import {Divider} from 'semantic-ui-react'
 // leave group action? remove user from group.users, remove group from user.groups
 // react-modal? leave group button: confirmation
 
-class CreateGroup extends Component {
+class GroupsList extends Component {
   state = {
     componentMounted: false
   }
 
-  handleLeaveGroup = async (groupId, groupName) => {
+  handleLeaveGroup = (groupId, email) => {
+    this.props.leaveGroupThunk(groupId, this.props.user.email)
     // show modal, modal action trigger leave group...
     // modal: Are you sure you want to leave {groupName}? yes/no
     // await this.props.leaveGroupThunk(this.props.user.id, groupId)
   }
 
   async componentDidMount() {
-    // this.props.getGroupsThunk(this.props.user.id)
+    this.props.getGroupsThunk(this.props.user.email)
     await this.setState({
       componentMounted: true
     })
@@ -32,17 +33,15 @@ class CreateGroup extends Component {
     const lineItems =
       this.props.groups.map(group => {
         return {
-          id: group.id,
+          id: group._id,
           name: group.name,
-          members: group.users.map(user => (
-            <Link to={`users/${user.id}`} key={user.id}>
-              {user.name}
+          members: group.users.map((user, idx) => (
+            <Link to={`users/${user.email}`} key={idx}>
+              {user.name}{' '}
             </Link>
           )),
           leaveGroup: (
-            <button onClick={() => this.handleLeaveGroup(group.id, group.name)}>
-              X
-            </button>
+            <button onClick={() => this.handleLeaveGroup(group._id)}>X</button>
           )
         }
       }) || []
@@ -73,10 +72,11 @@ class CreateGroup extends Component {
         <br />
         {this.props.groups[0] ? (
           <BootstrapTable
+            // key={lineItems.key}
             keyField="id"
             data={lineItems}
             columns={columns}
-            cellEdit={cellEditFactory({mode: 'click'})}
+            // cellEdit={cellEditFactory({mode: 'click'})}
           />
         ) : this.state.componentMounted ? (
           <h3>Join or Create a group</h3>
@@ -99,8 +99,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   getGroupsThunk: userId => dispatch(getGroupsThunk(userId)),
-  leaveGroupThunk: (userId, groupId) =>
-    dispatch(leaveGroupThunk(userId, groupId))
+  leaveGroupThunk: (groupId, email) => dispatch(leaveGroupThunk(groupId, email))
 })
 
-export default connect(mapState, mapDispatch)(CreateGroup)
+export default connect(mapState, mapDispatch)(GroupsList)

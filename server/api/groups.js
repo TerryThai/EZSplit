@@ -6,11 +6,9 @@ module.exports = router
 //get all groups for user /api/groups/:email
 router.get('/:email', async (req, res, next) => {
   try {
-    const users = await MongoUser.find({
-      email: req.params.email
-    })
-    console.log(users.groups)
-    res.json(users.groups)
+    const email = req.params.email
+    const groups = await MongoGroup.find({'users.email': email})
+    res.json(groups)
   } catch (err) {
     next(err)
   }
@@ -19,11 +17,32 @@ router.get('/:email', async (req, res, next) => {
 //create new group
 router.post('/', async (req, res, next) => {
   try {
-    const {name} = req.body
+    const {name, users} = req.body
+    console.log('req.body', req.body)
     const group = await MongoGroup.create({
-      name
+      name,
+      users
     })
     res.json(group)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//leave group
+router.put('/:groupId/:email', async (req, res, next) => {
+  try {
+    const {groupId, email} = req.params
+    console.log('leave group backend', groupId, email)
+    const group = await MongoGroup.findOneAndUpdate(
+      {
+        _id: groupId
+      },
+      {$pull: {users: {email}}},
+      {new: true}
+    )
+    console.log('newwwgroup', group)
+    res.json(group._id)
   } catch (err) {
     next(err)
   }
