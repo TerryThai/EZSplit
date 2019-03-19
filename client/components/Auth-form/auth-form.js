@@ -15,19 +15,29 @@ const AuthForm = props => {
       <Segment inverted>
         <Form unstackable inverted onSubmit={handleSubmit} name={name}>
           <Form.Group widths="equal">
+            {props.signup && (
+              <Form.Input
+                fluid
+                label="Name"
+                placeholder="first and last name"
+              />
+            )}
             <Form.Input fluid label="Email" placeholder="email" />
             <Form.Input fluid label="Password" placeholder="password" />
           </Form.Group>
           <Form.Checkbox label="I agree to the Terms and Conditions" />
+
           <Button type="submit">Submit</Button>
-          <Button
-            method="get"
-            action="/auth/google"
-            color="google plus"
-            href="/auth/google"
-          >
-            <Icon name="google plus" /> Login with Google
-          </Button>
+          {!props.signup && (
+            <Button
+              method="get"
+              action="/auth/google"
+              color="google plus"
+              href="/auth/google"
+            >
+              <Icon name="google plus" /> Login with Google
+            </Button>
+          )}
         </Form>
       </Segment>
     </Container>
@@ -62,9 +72,10 @@ const mapDispatch = dispatch => {
     handleSubmit(evt) {
       evt.preventDefault()
       const formName = evt.target.name
+      const name = evt.target.name.value
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      dispatch(auth(email, password, formName, name))
     }
   }
 }

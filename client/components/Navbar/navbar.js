@@ -5,25 +5,44 @@ import {Link} from 'react-router-dom'
 import {logout} from '../../store'
 import {Menu, Sidebar, Icon} from 'semantic-ui-react'
 
+const menuStyle = {
+  justifyContent: 'center'
+}
+
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div className="sidebar">
-    <h1>EZSPLIT</h1>
+    <Link to={isLoggedIn ? '/home' : '/login'}>
+      <h1>EZSPLIT</h1>
+    </Link>
     <nav>
       {isLoggedIn ? (
-        <div>
+        <Menu style={menuStyle} inverted={true}>
           {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <Link to="/groups">Groups</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
+          <Menu.Item>
+            <Link to="/home">Home</Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/groups">Groups</Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/receipts">Show All Receipts</Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/addbill">Add Bill</Link>
+          </Menu.Item>
+          <Menu.Item>
+            <a href="#" onClick={handleClick}>
+              Logout
+            </a>
+          </Menu.Item>
+        </Menu>
       ) : (
-        <div>
+        <Menu style={menuStyle} inverted={true}>
           {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
+          <Menu.Item>
+            <Link to="/signup">Sign Up</Link>
+          </Menu.Item>
+        </Menu>
       )}
     </nav>
   </div>

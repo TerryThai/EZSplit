@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getFriendsThunk, createGroupThunk} from '../store/user'
+import {getFriendsThunk, createGroupThunk} from '../store/groups'
+import history from '../history'
 
 // TODO
 // leave group action? remove user from group.users, remove group from user.groups
@@ -9,7 +10,7 @@ import {getFriendsThunk, createGroupThunk} from '../store/user'
 class CreateGroup extends Component {
   state = {
     componentMounted: false,
-    groupName: '',
+    name: '',
     users: []
   }
 
@@ -34,19 +35,27 @@ class CreateGroup extends Component {
   handleSubmit = async event => {
     event.preventDefault()
     await this.props.createGroupThunk(this.state)
-    // this.props.history.goBack() ?
+    if (this.props.redir) {
+      history.push('/addbill')
+    }
   }
 
   async componentDidMount() {
-    this.props.getFriendsThunk(this.props.user.id)
+    // this.props.getFriendsThunk(this.props.user.id)
     await this.setState({
       componentMounted: true
     })
   }
 
   render() {
+    console.log('this.props.history', history)
+    const style = {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }
     return (
-      <div>
+      <div style={style}>
         <div>
           {this.state.users[0] ? (
             <div>
@@ -70,14 +79,16 @@ class CreateGroup extends Component {
         </div>
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="groupName">Group Name</label>
+          <br />
           <input
             type="text"
             id="groupName"
-            name="groupName"
-            value={this.state.groupName}
+            name="name"
+            value={this.state.name}
             onChange={this.handleChange}
             placeholder="Create a Group Name!"
           />
+          <br />
           <label htmlFor="addUsers">Add Users</label>
 
           {this.props.friends[0] ? (
@@ -93,6 +104,8 @@ class CreateGroup extends Component {
                 })}
               </ul>
             </div>
+          ) : this.state.componentMounted ? (
+            <h3>You have no friends.</h3>
           ) : (
             <h3>Loading...</h3>
           )}
@@ -105,13 +118,13 @@ class CreateGroup extends Component {
 }
 
 const mapState = state => ({
-  friends: state.user.friends,
-  user: state.user.user.id
+  friends: state.groups.friends,
+  user: state.user
 })
 
 const mapDispatch = dispatch => ({
   getFriendsThunk: userId => dispatch(getFriendsThunk(userId)),
-  createGroupThunk: userId => dispatch(createGroupThunk(userId))
+  createGroupThunk: group => dispatch(createGroupThunk(group))
 })
 
 export default connect(mapState, mapDispatch)(CreateGroup)

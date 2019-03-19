@@ -2,6 +2,7 @@ const passport = require('passport')
 const router = require('express').Router()
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const {User} = require('../db/models')
+const MongoUser = require('../mongodb/models/user')
 let googleConfig
 module.exports = router
 
@@ -49,6 +50,10 @@ const strategy = new GoogleStrategy(
     })
       .then(([user]) => done(null, user))
       .catch(done)
+    MongoUser.findOne({name, email}, function(err, user) {
+      if (err) return console.log(err)
+      console.log(user)
+    })
   }
 )
 
