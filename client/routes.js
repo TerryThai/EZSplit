@@ -9,6 +9,7 @@ import {
   GroupsList,
   CreateGroup,
   AddBill,
+  groupReceipts,
   FriendsList
 } from './components'
 import {me} from './store/user'
@@ -38,6 +39,7 @@ class Routes extends Component {
             <Route exact path="/friends" component={FriendsList} />
             <Route exact path="/groups" component={GroupsList} />
             <Route exact path="/groups/create" component={CreateGroup} />
+            <Route exact path="/receipts/:groupId" component={groupReceipts} />
             <Route
               path="/groups/create/redir"
               render={() => <CreateGroup redir={true} />}

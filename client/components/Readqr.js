@@ -32,12 +32,12 @@ class Readqr extends Component {
           padding: '100px 0 0px 0'
         }}
       >
-        <QrReader
+        {/* <QrReader
           delay={100}
           onError={this.handleError}
           onScan={this.handleScan}
           style={{width: '20%'}}
-        />
+        /> */}
 
         <div />
         <p>{this.state.result}</p>

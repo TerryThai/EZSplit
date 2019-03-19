@@ -5,7 +5,7 @@ const receiptSchema = new Schema({
   date: {type: Date, default: Date.now},
   groupId: Number,
   data: Array,
-  calc: Array,
+  calc: {type: Array, default: [{Name: 'Henry', Payee: 'Terry', Amount: 500}]},
   img: {name: String, data: Buffer, contentType: String}
 })
 const Receipt = mongoose.model('Receipt', receiptSchema)

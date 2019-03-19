@@ -5,6 +5,7 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
 import Tip from '../Tip/tip'
 import {Button} from 'semantic-ui-react'
+import {saveReceiptThunk} from '../../store/receipts'
 
 class Table extends Component {
   state = {}
@@ -59,7 +60,11 @@ class Table extends Component {
           <div className="total-Save-contaniner">
             <div>
               total amount: {totalAmount.data}
-              <Button color="black" floated="right">
+              <Button
+                color="black"
+                floated="right"
+                onClick={() => this.props.saveReceipt(21, lineItems)}
+              >
                 Save Receipt
               </Button>
             </div>
@@ -75,4 +80,8 @@ const mapState = state => ({
   originalOcr: state.receipts.originalOcr
 })
 
-export default connect(mapState)(Table)
+const mapDispatch = dispatch => ({
+  saveReceipt: (groupId, table) => dispatch(saveReceiptThunk(groupId, table))
+})
+
+export default connect(mapState, mapDispatch)(Table)
