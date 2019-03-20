@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Qrcode, Readqr, UploadImage, Table} from '../index'
+import {Qrcode, Readqr, UploadImage, Table, SideBarGroup} from '../index'
 import {
   Button,
   Divider,
@@ -34,7 +34,7 @@ export const UserHome = props => {
     </Segment>
   ) : (
     <Container>
-      <Table />
+      <SideBarGroup />
     </Container>
   )
 }

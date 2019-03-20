@@ -53,6 +53,8 @@ class Table extends Component {
     )
 
     const {totalAmount} = this.props.ocr
+    const id = this.props.groupId ? this.props.groupId : 'nothing yet'
+    console.log('id from tabkle', id)
     return (
       <div className="table-div-container">
         {table}
@@ -63,7 +65,7 @@ class Table extends Component {
               <Button
                 color="black"
                 floated="right"
-                onClick={() => this.props.saveReceipt(21, lineItems)}
+                onClick={() => this.props.saveReceipt(id, lineItems)}
               >
                 Save Receipt
               </Button>
