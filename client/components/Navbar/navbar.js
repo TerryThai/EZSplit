@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../../store'
-import {Menu, Sidebar, Icon} from 'semantic-ui-react'
+import {Menu, Sidebar, Icon, Divider} from 'semantic-ui-react'
 
 const menuStyle = {
   justifyContent: 'center'
@@ -12,7 +12,10 @@ const menuStyle = {
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div className="sidebar">
     <Link to={isLoggedIn ? '/home' : '/login'}>
-      <h1>EZSPLIT</h1>
+      <img
+        className="logo"
+        src="https://tbncdn.freelogodesign.org/91a4a8f3-8bfd-49c2-aeac-45f8d00728f1.png?1553056809103"
+      />
     </Link>
     <nav>
       {isLoggedIn ? (
@@ -44,6 +47,12 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           {/* The navbar will show these links before you log in */}
           <Menu.Item>
             <Link to="/signup">Sign Up</Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/bio">About Us</Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/contacts">Contacts</Link>
           </Menu.Item>
         </Menu>
       )}

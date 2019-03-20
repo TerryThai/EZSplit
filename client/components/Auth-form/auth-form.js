@@ -3,44 +3,46 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../../store'
 import {Button, Form, Container, Icon, Segment} from 'semantic-ui-react'
-
+import {Welcome} from '../index'
 /**
  * COMPONENT
  */
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
-
   return (
-    <Container>
-      <Segment inverted>
-        <Form unstackable inverted onSubmit={handleSubmit} name={name}>
-          <Form.Group widths="equal">
-            {props.signup && (
-              <Form.Input
-                fluid
-                label="Name"
-                placeholder="first and last name"
-              />
-            )}
-            <Form.Input fluid label="Email" placeholder="email" />
-            <Form.Input fluid label="Password" placeholder="password" />
-          </Form.Group>
-          <Form.Checkbox label="I agree to the Terms and Conditions" />
+    <div className="loginheight">
+      <Welcome />
+      <Container className="padThai">
+        <Segment inverted className="shadow">
+          <Form unstackable inverted onSubmit={handleSubmit} name={name}>
+            <Form.Group widths="equal">
+              {props.signup && (
+                <Form.Input
+                  fluid
+                  label="Name"
+                  placeholder="first and last name"
+                />
+              )}
+              <Form.Input fluid label="Email" placeholder="email" />
+              <Form.Input fluid label="Password" placeholder="password" />
+            </Form.Group>
+            <Form.Checkbox label="I agree to the Terms and Conditions" />
 
-          <Button type="submit">Submit</Button>
-          {!props.signup && (
-            <Button
-              method="get"
-              action="/auth/google"
-              color="google plus"
-              href="/auth/google"
-            >
-              <Icon name="google plus" /> Login with Google
-            </Button>
-          )}
-        </Form>
-      </Segment>
-    </Container>
+            <Button type="submit">Submit</Button>
+            {!props.signup && (
+              <Button
+                method="get"
+                action="/auth/google"
+                color="google plus"
+                href="/auth/google"
+              >
+                <Icon name="google plus" /> Login with Google
+              </Button>
+            )}
+          </Form>
+        </Segment>
+      </Container>
+    </div>
   )
 }
 

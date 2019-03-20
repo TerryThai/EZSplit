@@ -38,7 +38,7 @@ class Table extends Component {
     // our tip buttons and receipt only if it exists in our redux store.
     // In other words, it will not render unless the user uploads a receipt.
     const table = this.props.ocr.amounts && (
-      <div>
+      <div className="thetable">
         {/* Rendering the tip buttons on top of receipt table.
         Also passing in the ocr object from redux store as props.
         We could have used connect in the tip component as well */}

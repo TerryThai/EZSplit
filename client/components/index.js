@@ -16,4 +16,4 @@ export {default as AddBill} from './AddBill'
 export {default as Table} from './Table/table'
 export {default as groupReceipts} from './groupReceipts'
 export {default as FriendsList} from './FriendsList'
-
+export {default as Welcome} from './Welcome/welcome'
