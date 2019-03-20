@@ -18,4 +18,3 @@ export * from './groups'
 export * from './user'
 export * from './receipts'
 export * from './friends'
-

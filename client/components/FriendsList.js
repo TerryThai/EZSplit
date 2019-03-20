@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getFriendsThunk} from '../store'
+import {getFriendsThunk, deleteFriendThunk} from '../store'
 import {List, ListItem} from 'semantic-ui-react'
 
 class FriendsList extends Component {
@@ -47,7 +47,9 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  getFriendsThunk: userId => dispatch(getFriendsThunk(userId))
+  getFriendsThunk: userId => dispatch(getFriendsThunk(userId)),
+  deleteFriendThunk: (email, myEmail) =>
+    dispatch(deleteFriendThunk(email, myEmail))
 })
 
 export default connect(mapState, mapDispatch)(FriendsList)

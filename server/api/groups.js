@@ -23,6 +23,7 @@ router.post('/', async (req, res, next) => {
       name,
       users
     })
+    // add to user obj
     res.json(group)
   } catch (err) {
     next(err)

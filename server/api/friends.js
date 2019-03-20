@@ -33,3 +33,17 @@ router.put('/add', async (req, res, next) => {
     next(err)
   }
 })
+
+router.delete('/:email/myEmail', async (req, res, next) => {
+  try {
+    const email = req.params.email
+    const myEmail = req.params.myEmail
+    await MongoUser.findOneAndUpdate(
+      {email: myEmail},
+      {friends: {$pull: {email}}}
+    )
+    res.status(204)
+  } catch (error) {
+    next(err)
+  }
+})

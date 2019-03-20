@@ -57,9 +57,9 @@ export const getFriendsThunk = email => async dispatch => {
   }
 }
 
-export const removeFriendThunk = email => async dispatch => {
+export const deleteFriendThunk = (email, myEmail) => async dispatch => {
   try {
-    await axios.delete('/api/user/friend', {email})
+    await axios.delete(`/api/friends/${email}/${myEmail}`)
     dispatch(deleteFriend(email))
   } catch (error) {
     console.error(error)
