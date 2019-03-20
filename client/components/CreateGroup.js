@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getFriendsThunk, createGroupThunk} from '../store/groups'
+import {getFriendsThunk, createGroupThunk} from '../store'
 import history from '../history'
-import {Button, Icon} from 'semantic-ui-react'
+import {Button, Icon, List, ListItem} from 'semantic-ui-react'
 
 // TODO
 // leave group action? remove user from group.users, remove group from user.groups
@@ -15,15 +15,15 @@ class CreateGroup extends Component {
     users: [{name: this.props.user.name, email: this.props.user.email}]
   }
 
-  addUser = async user => {
-    await this.setState({
-      users: this.state.users.push(user)
+  addUser = user => {
+    this.setState({
+      users: [...this.state.users, user]
     })
   }
 
-  removeUser = async userId => {
-    await this.setState({
-      users: this.state.users.filter(user => user.id !== userId)
+  removeUser = email => {
+    this.setState({
+      users: this.state.users.filter(user => user.email !== email)
     })
   }
 
@@ -42,14 +42,13 @@ class CreateGroup extends Component {
   }
 
   async componentDidMount() {
-    // this.props.getFriendsThunk(this.props.user.id)
+    this.props.getFriendsThunk(this.props.user.email)
     await this.setState({
       componentMounted: true
     })
   }
 
   render() {
-    console.log('this.props.history', history)
     const style = {
       display: 'flex',
       flexDirection: 'column',
@@ -61,18 +60,25 @@ class CreateGroup extends Component {
           {this.state.users[0] ? (
             <div>
               <h3>Group Members:</h3>
-              <ul>
+              <List celled>
                 {this.state.users.map(user => {
                   return (
-                    <li key={user.email}>
+                    <ListItem key={user.email}>
                       {user.name}
-                      <Button icon onClick={() => this.removeUser(user.id)}>
-                        <Icon name="trash alternate" color="red" />
-                      </Button>
-                    </li>
+                      {this.props.user.email !== user.email && (
+                        <Button
+                          size="tiny"
+                          floated="right"
+                          icon
+                          onClick={() => this.removeUser(user.email)}
+                        >
+                          <Icon name="trash alternate" color="blue" />
+                        </Button>
+                      )}
+                    </ListItem>
                   )
                 })}
-              </ul>
+              </List>
             </div>
           ) : (
             <h3>Add Members:</h3>
@@ -90,22 +96,36 @@ class CreateGroup extends Component {
             value={this.state.name}
             onChange={this.handleChange}
             placeholder="Create a Group Name!"
-          />
+          />{' '}
+          <Button content="create group" primary />
           <br />
           <label htmlFor="addUsers">
-            <h3>Add Users</h3>
+            <h3>Add Users:</h3>
           </label>
-
           {this.props.friends[0] ? (
             <div>
               <ul>
-                {this.props.friends.map(friend => {
-                  return (
-                    <li>
-                      {friend.name}
-                      <button onClick={() => this.addUser(friend)}>Add</button>
-                    </li>
-                  )
+                {this.props.friends.map((friend, idx) => {
+                  if (
+                    this.state.users.filter(user => {
+                      return user.email === friend.email
+                    })[0]
+                  ) {
+                    console.log('im inside & returning null')
+                    return null
+                  } else {
+                    return (
+                      <li key={idx}>
+                        {friend.name}
+                        <button
+                          type="button"
+                          onClick={() => this.addUser(friend)}
+                        >
+                          Add
+                        </button>
+                      </li>
+                    )
+                  }
                 })}
               </ul>
             </div>
@@ -128,7 +148,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  getFriendsThunk: userId => dispatch(getFriendsThunk(userId)),
+  getFriendsThunk: email => dispatch(getFriendsThunk(email)),
   createGroupThunk: group => dispatch(createGroupThunk(group))
 })
 

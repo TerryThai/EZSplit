@@ -14,16 +14,14 @@ router.get('/:email', async (req, res, next) => {
   }
 })
 
-//create new group
+//create new group with friends
 router.post('/', async (req, res, next) => {
   try {
     const {name, users} = req.body
-    console.log('req.body', req.body)
     const group = await MongoGroup.create({
       name,
       users
     })
-    // add to user obj
     res.json(group)
   } catch (err) {
     next(err)
