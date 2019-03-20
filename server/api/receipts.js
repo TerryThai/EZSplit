@@ -60,3 +60,20 @@ router.post('/save', async (req, res, next) => {
     next(err)
   }
 })
+
+//Update Receipt
+router.put('/:receiptId', async (req, res, next) => {
+  try {
+    const {_id, data, groupId} = await MongoReceipt.findOneAndUpdate(
+      {_id: req.params.receiptId},
+      {data: req.body.data}
+    )
+    res.json({
+      _id,
+      data,
+      groupId
+    })
+  } catch (err) {
+    next(err)
+  }
+})
