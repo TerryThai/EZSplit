@@ -1,22 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Qrcode, Readqr, UploadImage} from '../index'
+import {Qrcode, Readqr, UploadImage, Table} from '../index'
+import {
+  Button,
+  Divider,
+  Form,
+  Grid,
+  Segment,
+  Image,
+  Container
+} from 'semantic-ui-react'
 
 /**
  * COMPONENT
  */
 export const UserHome = props => {
   const {email, imageUrl} = props
-
-  return (
-    <div className="userHome">
-      <h3>Welcome, {email} </h3>
-      <img src={imageUrl} />
-      <UploadImage />
-      <Qrcode />
-      <Readqr />
-    </div>
+  console.log(props.ocr)
+  return !props.ocr.amounts ? (
+    <Segment placeholder>
+      <Grid columns={2} relaxed="very" stackable>
+        <Grid.Column>
+          <h4>Welcome, {email} </h4>
+          <Image src={imageUrl} />
+          <Qrcode />
+        </Grid.Column>
+        <Grid.Column verticalAlign="middle">
+          <UploadImage />
+        </Grid.Column>
+      </Grid>
+      <Divider vertical>Upload A Receipt</Divider>
+    </Segment>
+  ) : (
+    <Container>
+      <Table />
+    </Container>
   )
 }
 
@@ -26,7 +45,8 @@ export const UserHome = props => {
 const mapState = state => {
   return {
     email: state.user.email,
-    imageUrl: state.user.imageUrl
+    imageUrl: state.user.imageUrl,
+    ocr: state.receipts.ocr
   }
 }
 

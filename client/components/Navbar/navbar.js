@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout} from '../../store'
+import {logout, clearOCR} from '../../store'
 import {Menu, Sidebar, Icon, Divider} from 'semantic-ui-react'
 
 const menuStyle = {
   justifyContent: 'center'
 }
 
-const Navbar = ({handleClick, isLoggedIn}) => (
+const Navbar = ({handleClick, isLoggedIn, clearOcr}) => (
   <div className="sidebar">
     <Link to={isLoggedIn ? '/home' : '/login'}>
       <img
@@ -22,7 +22,9 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         <Menu style={menuStyle} inverted={true}>
           {/* The navbar will show these links after you log in */}
           <Menu.Item>
-            <Link to="/home">Home</Link>
+            <Link to="/home" onClick={clearOcr}>
+              Home
+            </Link>
           </Menu.Item>
           <Menu.Item>
             <Link to="/friends">Friends</Link>
@@ -73,7 +75,8 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout())
-    }
+    },
+    clearOcr: () => dispatch(clearOCR())
   }
 }
 

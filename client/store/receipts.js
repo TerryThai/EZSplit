@@ -22,6 +22,7 @@ const GET_OCR_TWO = 'GET_OCR_TWO'
 const GET_HISTORY = 'GET_HISTORY'
 const SAVE_RECEIPT = 'SAVE_RECEIPT'
 const GET_RECEIPTS_BY_GROUP = 'GET_RECEIPTS_BY_GROUP'
+const CLEAR_OCR = 'CLEAR_OCR'
 
 /**
  * INITIAL STATE
@@ -46,6 +47,7 @@ export const getReceiptsByGroup = groupReceipts => ({
   type: GET_RECEIPTS_BY_GROUP,
   groupReceipts
 })
+export const clearOCR = () => ({type: CLEAR_OCR})
 /**
  * THUNK CREATORS
  */
@@ -100,6 +102,8 @@ export default function(state = initialState, action) {
       return {...state, receipt: action.receipt}
     case GET_RECEIPTS_BY_GROUP:
       return {...state, groupReceipts: action.groupReceipts}
+    case CLEAR_OCR:
+      return {...state, ocr: {}}
     default:
       return state
   }

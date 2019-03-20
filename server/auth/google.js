@@ -42,7 +42,9 @@ const strategy = new GoogleStrategy(
     const googleId = profile.id
     const name = profile.displayName
     const email = profile.emails[0].value
-    const imageUrl = profile.photos[0].value
+    const imageUrl = profile.photos[0].value.split('?sz=50')[0] + '?sz=' + '300'
+
+    console.log(imageUrl)
 
     User.findOrCreate({
       where: {googleId},
