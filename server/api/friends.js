@@ -13,8 +13,8 @@ router.get('/all/:email', async (req, res, next) => {
       '-_id friends'
     )
     res.json(friends)
-  } catch (err) {
-    next(err)
+  } catch (error) {
+    next(error)
   }
 })
 
@@ -33,24 +33,29 @@ router.put('/quickadd', async (req, res, next) => {
     console.log('NEWFRIEND!!!!!!!!', newFriend)
     res.json(newFriend)
   } catch (error) {
-    next(err)
+    next(error)
   }
 })
 
 // add a friend to user.friends
 router.put('/add', async (req, res, next) => {
   try {
+    console.log('hit add')
     myEmail = req.body.myEmail
     friendEmail = req.body.friendEmail
     let friend = await MongoUser.findOne({email: friendEmail})
-    newFriend = {name: friend.name, email: friend.email}
-    await MongoUser.findOneAndUpdate(
-      {email: myEmail},
-      {$push: {friends: newFriend}}
-    )
+    if (friend === null) {
+      newFriend = {error: 'User not found'}
+    } else {
+      newFriend = {name: friend.name, email: friend.email}
+      await MongoUser.findOneAndUpdate(
+        {email: myEmail},
+        {$push: {friends: newFriend}}
+      )
+    }
     res.json(newFriend)
   } catch (error) {
-    next(err)
+    next(error)
   }
 })
 
@@ -65,6 +70,6 @@ router.delete('/:email/:myEmail', async (req, res, next) => {
     )
     res.status(204)
   } catch (error) {
-    next(err)
+    next(error)
   }
 })

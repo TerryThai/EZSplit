@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import {endianness} from 'os'
 
 /**
  * ACTION TYPES
@@ -8,13 +9,15 @@ const SELECT_FRIEND = 'SELECT_FRIEND'
 const DELETE_FRIEND = 'DELETE_FRIEND'
 const GET_FRIENDS = 'GET_FRIENDS'
 const ADD_FRIEND = 'ADD_FRIEND'
+const ERROR = 'ERROR'
 
 /**
  * INITIAL STATE
  */
 const initialState = {
   // selectedFriend: {},
-  friends: []
+  friends: [],
+  errorMsg: ''
 }
 
 /**
@@ -24,6 +27,7 @@ const initialState = {
 const getFriends = friends => ({type: GET_FRIENDS, friends})
 const deleteFriend = email => ({type: DELETE_FRIEND, email})
 const addFriend = friend => ({type: ADD_FRIEND, friend})
+const error = msg => ({type: ERROR, msg})
 
 /**
  * THUNK CREATORS
@@ -52,6 +56,10 @@ export const addFriendThunk = (
       })
     } else {
       res = await axios.put('/api/friends/add', {myEmail, friendEmail})
+      if (res.data.error) {
+        dispatch(error(res.data.error))
+        return
+      }
     }
     const friend = res.data
     dispatch(addFriend(friend))
@@ -84,6 +92,8 @@ export const deleteFriendThunk = (email, myEmail) => async dispatch => {
  */
 export default function(state = initialState, action) {
   switch (action.type) {
+    case ERROR:
+      return {...state, errorMsg: action.msg}
     // case SELECT_FRIEND:
     //   return {...state, selectedFriend: action.friend}
     case ADD_FRIEND:

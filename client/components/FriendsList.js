@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getFriendsThunk, deleteFriendThunk, addFriendThunk} from '../store'
-import {List, ListItem, Button, Icon, Form} from 'semantic-ui-react'
+import {List, ListItem, Button, Icon, Form, Message} from 'semantic-ui-react'
 
 class FriendsList extends Component {
   state = {
@@ -114,7 +114,7 @@ class FriendsList extends Component {
           )}
         </List>
         Add friend by
-        <Button.Group color="black">
+        <Button.Group color="black" style={{width: '80%', maxWidth: '450px'}}>
           <Button onClick={() => this.toggleForm(1)}>email</Button>
           <Button.Or />
           <Button positive onClick={() => this.toggleForm(1, 1)}>
@@ -122,33 +122,38 @@ class FriendsList extends Component {
           </Button>
         </Button.Group>
         <Form onSubmit={this.handleSubmit}>
-          {this.state.showform[0] && (
-            <Form.Field>
-              <label>Name</label>
-              <input
-                type="text"
-                placeholder={"Friend's name"}
-                name="name"
-                onChange={this.handleChange}
-                value={this.state.name}
-              />
-            </Form.Field>
-          )}
           {this.state.showform[0] &&
             this.state.showform[1] && (
               <Form.Field>
-                <label>Email</label>
+                <label>Name</label>
                 <input
                   type="text"
-                  placeholder={"Friend's email"}
-                  name="email"
+                  placeholder={"Friend's name"}
+                  name="name"
                   onChange={this.handleChange}
-                  value={this.state.email}
+                  value={this.state.name}
                 />
               </Form.Field>
             )}
+          {this.state.showform[0] && (
+            <Form.Field>
+              <label>Email</label>
+              <input
+                type="text"
+                placeholder={"Friend's email"}
+                name="email"
+                onChange={this.handleChange}
+                value={this.state.email}
+              />
+            </Form.Field>
+          )}
           {this.state.showform[0] && <Button type="submit">Submit</Button>}
         </Form>
+        {this.props.errorMsg && (
+          <Message error style={{width: '80%', maxWidth: '450px'}}>
+            {this.props.errorMsg}
+          </Message>
+        )}
       </div>
     )
   }
@@ -156,6 +161,7 @@ class FriendsList extends Component {
 
 const mapState = state => ({
   friends: state.friends.friends,
+  errorMsg: state.friends.errorMsg,
   user: state.user
 })
 
