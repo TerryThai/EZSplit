@@ -18,6 +18,26 @@ router.get('/all/:email', async (req, res, next) => {
   }
 })
 
+// add a friend manually to user.friends
+router.put('/quickadd', async (req, res, next) => {
+  try {
+    myEmail = req.body.myEmail
+    friendEmail = req.body.friendEmail
+    friendName = req.body.friendName
+    console.log(friendName, friendEmail)
+    newFriend = {name: friendName, email: friendEmail}
+    await MongoUser.findOneAndUpdate(
+      {email: myEmail},
+      {$push: {friends: newFriend}}
+    )
+    console.log('NEWFRIEND!!!!!!!!', newFriend)
+    res.json(newFriend)
+  } catch (error) {
+    next(err)
+  }
+})
+
+// add a friend to user.friends
 router.put('/add', async (req, res, next) => {
   try {
     myEmail = req.body.myEmail
@@ -34,13 +54,14 @@ router.put('/add', async (req, res, next) => {
   }
 })
 
-router.delete('/:email/myEmail', async (req, res, next) => {
+// remove a friend from user.friends
+router.delete('/:email/:myEmail', async (req, res, next) => {
   try {
     const email = req.params.email
     const myEmail = req.params.myEmail
     await MongoUser.findOneAndUpdate(
       {email: myEmail},
-      {friends: {$pull: {email}}}
+      {$pull: {friends: {email}}}
     )
     res.status(204)
   } catch (error) {

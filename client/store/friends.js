@@ -37,10 +37,23 @@ const addFriend = friend => ({type: ADD_FRIEND, friend})
 //     console.error(error)
 //   }
 // }
-export const addFriendThunk = (myEmail, friendEmail) => async dispatch => {
+export const addFriendThunk = (
+  myEmail,
+  friendEmail,
+  friendName
+) => async dispatch => {
   try {
-    const res = await axios.put('/api/friends/add', {myEmail, friendEmail})
-    const friend = res.data.friend
+    let res
+    if (friendName.length > 0) {
+      res = await axios.put('/api/friends/quickadd', {
+        myEmail,
+        friendEmail,
+        friendName
+      })
+    } else {
+      res = await axios.put('/api/friends/add', {myEmail, friendEmail})
+    }
+    const friend = res.data
     dispatch(addFriend(friend))
   } catch (error) {
     console.error(error)

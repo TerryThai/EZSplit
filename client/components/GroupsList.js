@@ -61,14 +61,8 @@ class GroupsList extends Component {
       }
     ]
 
-    const style = {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center'
-    }
-
     return (
-      <div style={style}>
+      <div className="column-center">
         <br />
         {this.props.groups[0] ? (
           <BootstrapTable

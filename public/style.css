@@ -2,6 +2,12 @@
   box-shadow: inset 0px 0px 5px 1px black;
 }
 
+.column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .table-div-container {
   margin: auto;
   width: 60%;
@@ -315,5 +321,7 @@ thead {
 .logo {
   height: 100px;
   width: 100px;
-  margin-left: 45%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
