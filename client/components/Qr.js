@@ -23,18 +23,8 @@ class Qrcode extends Component {
   }
   render() {
     return (
-      <div>
-        <h3>QR Code:</h3>
+      <div className="qr">
         <canvas id="canvas" align="center" />
-        <Button
-          inverted
-          color="blue"
-          onClick={() => {
-            this.getQRLink('amanthapar@gmail.com')
-          }}
-        >
-          URI
-        </Button>
       </div>
     )
   }

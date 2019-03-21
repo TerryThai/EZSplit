@@ -1,6 +1,10 @@
 #custom input {
   box-shadow: inset 0px 0px 5px 1px black;
 }
+.ui.placeholder.segment .button,
+.ui.placeholder.segment textarea {
+  display: flex;
+}
 
 .column-center {
   display: flex;
@@ -154,7 +158,7 @@ thead {
 .carousel.carousel-slider {
   position: absolute;
   margin: 0;
-  max-height: 535px;
+  max-height: 545px;
   overflow: hidden;
 }
 .carousel.carousel-slider .control-arrow {
@@ -323,6 +327,10 @@ thead {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+.qr {
+  display: flex;
+  justify-content: center;
 }
 
 .ui.container.custom {

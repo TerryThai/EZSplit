@@ -20,14 +20,12 @@ class UploadImage extends Component {
     return (
       <Grid>
         <Grid.Row centered>
-          <Label as="label" basic htmlFor="upload">
+          <label as="label" basic htmlFor="upload">
             <Button
-              circular
               color="black"
               icon="upload"
-              size="small"
+              size="large"
               label={{basic: true, content: 'Upload Receipt'}}
-              labelPosition="right"
             />
             <input
               hidden
@@ -35,7 +33,7 @@ class UploadImage extends Component {
               type="file"
               onChange={this.handleChange}
             />
-          </Label>
+          </label>
         </Grid.Row>
         {this.state.isLoading ? <Spinner /> : <Table />}
         <Divider />

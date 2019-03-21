@@ -9,7 +9,9 @@ import {
   Grid,
   Segment,
   Image,
-  Container
+  Container,
+  Card,
+  Icon
 } from 'semantic-ui-react'
 
 /**
@@ -22,15 +24,20 @@ export const UserHome = props => {
     <Segment placeholder>
       <Grid columns={2} relaxed="very" stackable>
         <Grid.Column>
-          <h4>Welcome, {email} </h4>
-          <Image src={imageUrl} />
-          <Qrcode />
+          <Card
+            image={imageUrl}
+            description={<Qrcode />}
+            extra={`Welcome, ${email}!!!`}
+            centered={true}
+            raised={true}
+            color="grey"
+          />
         </Grid.Column>
         <Grid.Column verticalAlign="middle">
           <UploadImage />
         </Grid.Column>
       </Grid>
-      <Divider vertical>Upload A Receipt</Divider>
+      <Divider vertical />
     </Segment>
   ) : (
     <Container className="custom">
