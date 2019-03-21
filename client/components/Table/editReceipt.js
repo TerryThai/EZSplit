@@ -1,17 +1,22 @@
 import React, {Component} from 'react'
-import {helpers} from '../../../helpers'
 import {connect} from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
-import Tip from '../Tip/tip'
-import {Button} from 'semantic-ui-react'
 import {getSingleReceiptFromServer} from '../../store/receipts'
+import socket from '../../socket'
 
 class EditReceipt extends Component {
-  state = {}
+  state = {
+    name: ''
+  }
 
   componentDidMount() {
     this.props.getSingleReceiptFromServer(this.props.match.params.receiptId)
+  }
+
+  hi = () => {
+    console.log('hi')
+    socket.emit('cell-update', 'hi')
   }
 
   render() {
@@ -27,8 +32,9 @@ class EditReceipt extends Component {
     ]
 
     const table = this.props.singleReceipt.data && (
-      <div className="thetable">
+      <div className="thetable" onChange={this.hi}>
         <BootstrapTable
+          name={name}
           keyField="id"
           data={lineItems}
           columns={columns}
