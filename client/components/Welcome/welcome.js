@@ -10,7 +10,7 @@ export default class Welcome extends Component {
           infiniteLoop={true}
           showThumbs={false}
           showStatus={false}
-          interval={1500}
+          interval={3000}
           autoPlay={true}
         >
           <div>

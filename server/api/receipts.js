@@ -77,3 +77,15 @@ router.put('/:receiptId', async (req, res, next) => {
     next(err)
   }
 })
+
+// receipts/editReceipts/:receiptId
+router.get('/editReceipts/:receiptId', async (req, res, next) => {
+  try {
+    const [receipt] = await MongoReceipt.find({
+      _id: req.params.receiptId
+    })
+    res.json(receipt)
+  } catch (err) {
+    next(err)
+  }
+})

@@ -23,6 +23,7 @@ const GET_HISTORY = 'GET_HISTORY'
 const SAVE_RECEIPT = 'SAVE_RECEIPT'
 const GET_RECEIPTS_BY_GROUP = 'GET_RECEIPTS_BY_GROUP'
 const CLEAR_OCR = 'CLEAR_OCR'
+const GET_RECEIPT = 'GET_RECEIPT'
 
 /**
  * INITIAL STATE
@@ -32,6 +33,7 @@ const initialState = {
   originalOcr: {},
   history: [],
   receipt: {},
+  singleReceipt: {},
   groupReceipts: {}
 }
 /**
@@ -43,6 +45,11 @@ export const saveReceipt = (groupId, table) => ({
   type: SAVE_RECEIPT,
   receipt: {groupId, table}
 })
+export const getReceipt = receipt => ({
+  type: GET_RECEIPT,
+  receipt
+})
+
 export const getReceiptsByGroup = groupReceipts => ({
   type: GET_RECEIPTS_BY_GROUP,
   groupReceipts
@@ -74,6 +81,17 @@ export const getReceiptsByGroupFromServer = groupId => async dispatch => {
     console.error(err)
   }
 }
+export const getSingleReceiptFromServer = receiptId => async dispatch => {
+  try {
+    const {data: receipt} = await axios.get(
+      `/api/receipts/editReceipts/${receiptId}`
+    )
+    dispatch(getReceipt(receipt))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export const saveReceiptThunk = (groupId, table) => async dispatch => {
   try {
     const {data: newReceipt} = await axios.post('/api/receipts/save', {
@@ -81,7 +99,7 @@ export const saveReceiptThunk = (groupId, table) => async dispatch => {
       table
     })
     dispatch(saveReceipt(newReceipt))
-    history.push('/editReceipt')
+    history.push(`/editReceipt/${newReceipt._id}`)
   } catch (err) {
     console.error(err)
   }
@@ -101,6 +119,8 @@ export default function(state = initialState, action) {
       return {...state, originalOcr: action.originalOcr}
     case SAVE_RECEIPT:
       return {...state, receipt: action.receipt}
+    case GET_RECEIPT:
+      return {...state, singleReceipt: action.receipt}
     case GET_RECEIPTS_BY_GROUP:
       return {...state, groupReceipts: action.groupReceipts}
     case CLEAR_OCR:
