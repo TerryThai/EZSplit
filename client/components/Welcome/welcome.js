@@ -41,6 +41,20 @@ export default class Welcome extends Component {
             />
             <p className="legend" />
           </div>
+          <div>
+            <img
+              className="pics"
+              src="https://media.timeout.com/images/105276447/750/422/image.jpg"
+            />
+            <p className="legend" />
+          </div>
+          <div>
+            <img
+              className="pics"
+              src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/28/11/sushi-istock.gif?w968"
+            />
+            <p className="legend" />
+          </div>
         </Carousel>
       </div>
     )

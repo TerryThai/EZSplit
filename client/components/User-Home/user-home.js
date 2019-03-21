@@ -37,7 +37,7 @@ export const UserHome = props => {
           <UploadImage />
         </Grid.Column>
       </Grid>
-      <Divider vertical />
+      <Divider vertical>Home</Divider>
     </Segment>
   ) : (
     <Container className="custom">

@@ -81,6 +81,7 @@ export const saveReceiptThunk = (groupId, table) => async dispatch => {
       table
     })
     dispatch(saveReceipt(newReceipt))
+    history.push('/editReceipt')
   } catch (err) {
     console.error(err)
   }
