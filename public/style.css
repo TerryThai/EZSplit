@@ -9,7 +9,6 @@
 }
 
 .table-div-container {
-  margin: auto;
   width: 60%;
 }
 
@@ -324,4 +323,21 @@ thead {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.ui.container.custom {
+  width: 100%;
+}
+
+.table-sidebar-container {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 30px;
+  justify-content: center;
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 35px;
 }

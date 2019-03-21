@@ -33,7 +33,7 @@ export const UserHome = props => {
       <Divider vertical>Upload A Receipt</Divider>
     </Segment>
   ) : (
-    <Container>
+    <Container className="custom">
       <SideBarGroup />
     </Container>
   )

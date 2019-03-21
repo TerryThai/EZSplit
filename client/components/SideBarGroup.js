@@ -27,21 +27,24 @@ class SideBarGroup extends Component {
       }
     })
     return (
-      <div>
-        <Dropdown
-          onChange={this.onChange}
-          placeholder="Select Group"
-          search
-          selection
-          options={lineItems}
-        />
-        <CreateGroupSideBar />
+      <div className="table-sidebar-container">
+        <div className="sidebar-container">
+          <Dropdown
+            onChange={this.onChange}
+            placeholder="Select Group"
+            search
+            selection
+            options={lineItems}
+          />
+          <CreateGroupSideBar />
+        </div>
+
         <Table groupId={this.state.selectedGroup} />
       </div>
     )
   }
 }
-
+//
 const mapState = state => ({
   groups: state.groups.groups,
   user: state.user
