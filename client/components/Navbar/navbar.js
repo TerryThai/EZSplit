@@ -48,6 +48,9 @@ const Navbar = ({handleClick, isLoggedIn, clearOcr}) => (
             <Link to="/signup">Sign Up</Link>
           </Menu.Item>
           <Menu.Item>
+            <Link to="/login">Log In</Link>
+          </Menu.Item>
+          <Menu.Item>
             <Link to="/bio">About Us</Link>
           </Menu.Item>
           <Menu.Item>

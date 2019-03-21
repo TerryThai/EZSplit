@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/ezsplit', {
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/ezsplit'
+mongoose.connect(mongoURI, {
   useNewUrlParser: true
 })
 

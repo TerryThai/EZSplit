@@ -31,18 +31,21 @@ class CreateGroupSideBar extends Component {
     this.setState({name: '', users: []})
   }
 
-  async componentDidMount() {
-    await this.props.getFriendsThunk(this.props.user.email)
-  }
-
-  render() {
-    const friendOptions = this.props.friends.map(friend => {
+  friendOptions = () => {
+    return this.props.friends.map(friend => {
       return {
         key: friend._id,
         text: friend.name,
         value: friend
       }
     })
+  }
+
+  async componentDidMount() {
+    await this.props.getFriendsThunk(this.props.user.email)
+  }
+
+  render() {
     const style = {
       display: 'flex',
       flexDirection: 'column',
@@ -70,15 +73,13 @@ class CreateGroupSideBar extends Component {
           </label>
           {this.props.friends[0] ? (
             <Dropdown
-              options={friendOptions}
+              options={this.friendOptions()}
               placeholder="Add"
               fluid
               multiple
               selection
               onChange={this.addUser}
             />
-          ) : this.state.componentMounted ? (
-            <h3>You have no friends.</h3>
           ) : (
             <h3>Loading...</h3>
           )}

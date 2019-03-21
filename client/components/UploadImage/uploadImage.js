@@ -13,14 +13,14 @@ class UploadImage extends Component {
     this.setState({isLoading: true})
     let file = evt.target.files[0]
     await this.props.getOcrThunk(file)
-    this.setState({isLoading: false})
+    // this.setState({isLoading: false})
   }
 
   render() {
     return (
       <Grid>
         <Grid.Row centered>
-          <label as="label" basic htmlFor="upload">
+          <label as="label" basic="true" htmlFor="upload">
             <Button
               color="black"
               icon="upload"

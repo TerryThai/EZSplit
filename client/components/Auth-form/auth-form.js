@@ -20,11 +20,22 @@ const AuthForm = props => {
                 <Form.Input
                   fluid
                   label="Name"
+                  name="name"
                   placeholder="first and last name"
                 />
               )}
-              <Form.Input fluid label="Email" placeholder="email" />
-              <Form.Input fluid label="Password" placeholder="password" />
+              <Form.Input
+                name="email"
+                fluid
+                label="Email"
+                placeholder="email"
+              />
+              <Form.Input
+                name="password"
+                fluid
+                label="Password"
+                placeholder="password"
+              />
             </Form.Group>
             <Form.Checkbox label="I agree to the Terms and Conditions" />
 
