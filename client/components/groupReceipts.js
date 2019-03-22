@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {getReceiptsByGroupFromServer} from '../store'
 import {Spinner, Table} from '../index'
 import SingleReceipt from './singleReceipt'
+import {Link} from 'react-router-dom'
 
 class groupReceipts extends Component {
   state = {
@@ -17,18 +18,17 @@ class groupReceipts extends Component {
 
   render() {
     const {groupId, receipts} = this.props.groupReceipts
-    console.log('==============>', this.props.groupReceipts)
 
     return (
       <div className="all-receipts-container">
         {groupId &&
-          receipts.map(receipt => (
-            <SingleReceipt key={receipt._id} lineItems={receipt.data} />
-            // return <div key={receipt._id}>{receipt.Cost}</div>
-          ))}
-        {/* {this.props.groupReceipts.groupId ? this.props.groupReceipts.receipts.map(
-            item => item.img.name
-          ) : ''} */}
+          receipts.map(receipt => {
+            return (
+              <Link key={receipt._id} to={`/editReceipt/${receipt._id}`}>
+                <SingleReceipt key={receipt._id} lineItems={receipt.data} />
+              </Link>
+            )
+          })}
       </div>
     )
   }

@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const MongoUser = require('../mongodb/models/user')
 const MongoGroup = require('../mongodb/models/group')
+const {User} = require('../db/models/index')
 module.exports = router
 
 // get all friends for current user
@@ -41,11 +42,17 @@ router.put('/quickadd', async (req, res, next) => {
 router.put('/add', async (req, res, next) => {
   try {
     console.log('hit add')
-    myEmail = req.body.myEmail
-    friendEmail = req.body.friendEmail
+    let newFriend
+    let myEmail = req.body.myEmail
+    let friendEmail = req.body.friendEmail
     let friend = await MongoUser.findOne({email: friendEmail})
     if (friend === null) {
-      newFriend = {error: 'User not found'}
+      let seqFriend = await User.findOne({where: {email: friendEmail}})
+      if (seqFriend === null) {
+        newFriend = {error: 'User not found'}
+      } else {
+        newFriend = {name: seqFriend.name, email: seqFriend.email}
+      }
     } else {
       newFriend = {name: friend.name, email: friend.email}
       await MongoUser.findOneAndUpdate(

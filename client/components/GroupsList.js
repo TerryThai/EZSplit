@@ -34,7 +34,7 @@ class GroupsList extends Component {
       this.props.groups.map(group => {
         return {
           id: group._id,
-          name: group.name,
+          name: <Link to={`receipts/${group._id}`}>{group.name}</Link>,
           members: group.users.map((user, idx) => (
             <Link to={`users/${user.email}`} key={idx}>
               {user.name}{' '}
