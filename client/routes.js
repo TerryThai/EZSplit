@@ -41,6 +41,7 @@ class Routes extends Component {
             <Route exact path="/groups" component={GroupsList} />
             <Route exact path="/groups/create" component={CreateGroup} />
             <Route exact path="/receipts/:groupId" component={groupReceipts} />
+            <Route exact path="/editReceipt" component={EditReceipt} />
             <Route
               exact
               path="/editReceipt/:receiptId"

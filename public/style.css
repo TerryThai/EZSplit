@@ -1,3 +1,28 @@
+.uploadlabel {
+  margin-right: -32px;
+}
+
+.ui.grid > .centered.row {
+}
+.userhome {
+  margin: 10px;
+}
+.ui.very.padded.left.floated.segment .upload {
+}
+
+.ui.raised.very.padded.right.floated.segment {
+}
+.ui.very.padded.left.floated.segment.chart {
+}
+
+body {
+  margin: 10px;
+}
+
+.ui[class*='right floated'].segment {
+  margin-top: 14px;
+}
+
 #custom input {
   box-shadow: inset 0px 0px 5px 1px black;
 }

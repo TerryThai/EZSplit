@@ -20,7 +20,12 @@ class UploadImage extends Component {
     return (
       <Grid>
         <Grid.Row centered>
-          <label as="label" basic="true" htmlFor="upload">
+          <label
+            as="label"
+            basic="true"
+            htmlFor="upload"
+            className="uploadlabel"
+          >
             <Button
               color="black"
               icon="upload"
