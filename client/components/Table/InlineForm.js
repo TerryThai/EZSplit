@@ -15,13 +15,13 @@ import {
 let addusers = []
 
 class InlineForm extends Component {
-  // saveUsers = () => {
-  //   this.props.saveUsers(addusers, this.props.rowIdx)
-  // }
+  saveUsers = () => {
+    this.props.saveUsers(addusers, this.props.rowIdx)
+  }
 
-  // handleUsers = (evt, data) => {
-  //   addusers = data.value
-  // }
+  handleUsers = (evt, data) => {
+    addusers = data.value
+  }
 
   focus = (num, rowIdx) =>
     num === this.props.focus[0] && rowIdx === this.props.focus[1]
@@ -36,13 +36,13 @@ class InlineForm extends Component {
   }
 
   render() {
-    // const usernames = this.props.users.map(user => {
-    //   return {key: Math.random(), text: user.name, value: user.email}
-    // })
+    const groupMembersList = this.props.groupMembers.map(member => {
+      return {key: Math.random(), text: member.name, value: member.email}
+    })
 
     return (
       <Table.Row key={Math.random()}>
-        <Table.Cell style={{width: '5em'}}>
+        <Table.Cell>
           <Button
             icon
             onClick={() => {
@@ -67,9 +67,8 @@ class InlineForm extends Component {
             name="item"
           />
         </Table.Cell>
-        <Table.Cell style={{width: '10em'}}>
+        <Table.Cell>
           <Input
-            style={{width: '10em'}}
             autoFocus={this.focus(2, this.props.rowIdx)}
             onKeyDown={evt => this.handleKeyDown(evt, this.props.rowIdx)}
             onChange={evt => {
@@ -80,16 +79,15 @@ class InlineForm extends Component {
             name="cost"
           />
         </Table.Cell>
-        <Table.Cell style={{width: '15em'}}>
+        <Table.Cell>
           <Dropdown
             fluid
-            style={{width: '10em'}}
             placeholder="People"
             multiple
             selection
-            // options={usernames}
-            // onBlur={this.saveUsers}
-            // onChange={this.handleUsers}
+            options={groupMembersList}
+            onBlur={this.saveUsers}
+            onChange={this.handleUsers}
           />
         </Table.Cell>
       </Table.Row>

@@ -380,3 +380,19 @@ thead {
   flex-direction: column;
   margin-top: 35px;
 }
+
+.custom-edit {
+  width: 50px;
+}
+
+.custom-item {
+}
+
+.custom-cost {
+  width: 100px;
+  text-align: center !important;
+}
+
+.custom-user {
+  width: 200px;
+}

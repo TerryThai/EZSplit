@@ -26,9 +26,8 @@ const row = (
   stopEdit,
   handleEditChange,
   saveUsers,
-  // handleSave,
   editIdx,
-  users,
+  groupMembers,
   focus,
   focusMe,
   allData
@@ -43,7 +42,7 @@ const row = (
         handleEditChange={handleEditChange}
         saveUsers={saveUsers}
         stopEdit={stopEdit}
-        users={users}
+        groupMembers={groupMembers}
         focus={focus}
         focusMe={focusMe}
         allData={allData}
@@ -52,14 +51,14 @@ const row = (
   } else {
     return (
       <Table.Row key={Math.random()}>
-        <Table.Cell style={{width: '5em'}}>
+        <Table.Cell className="custom-edit">
           <Button icon onClick={() => startEdit(rowIdx, data)}>
             <Icon name="edit" />
           </Button>
         </Table.Cell>
-        <Table.Cell>{data.item}</Table.Cell>
-        <Table.Cell style={{width: '10em'}}>{data.cost}</Table.Cell>
-        <Table.Cell style={{width: '15em'}}>
+        <Table.Cell className="custom-item">{data.item}</Table.Cell>
+        <Table.Cell className="custom-cost">{data.cost}</Table.Cell>
+        <Table.Cell className="custom-user">
           {data.users.map(user => user.name)}
         </Table.Cell>
       </Table.Row>
@@ -72,6 +71,7 @@ class SocketTable extends Component {
     data: [],
     calc: [],
     editIdx: [],
+    groupMembers: [],
     focus: []
   }
 
@@ -80,29 +80,20 @@ class SocketTable extends Component {
       this.props.match.params.receiptId
     )
     await this.props.selectGroupThunk(this.props.singleReceipt.groupId)
-
     const lineItems = this.props.singleReceipt.data.map((item, idx) => {
       return {item: item.Items, id: idx, cost: item.Cost, users: []}
     })
-    this.setState({data: lineItems})
+
+    this.setState({
+      data: lineItems,
+      groupMembers: this.props.selectedGroup.users
+    })
     console.log(this.state)
     socket.on('cell-update', newData => {
-      console.log(newData, 'in sockets file')
-
-      /****************************/
-      /*******DO THUNK HERE****/
-      /****************************/
       store.dispatch(updateReceipt(newData))
       this.setState({data: newData})
     })
   }
-
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps !== this.props) {
-  //     console.log('==>prevProps', prevProps, '==>this.props', this.props)
-  //     // this.setState({data: this.props.singleReceipt.data})
-  //   }
-  // }
 
   hi = event => {
     console.log('changing')
@@ -115,12 +106,13 @@ class SocketTable extends Component {
     console.log('start edit')
     this.setState({
       editIdx: [...this.state.editIdx, rowIdx]
-      // editData: [...editData, data]
     })
   }
 
   saveUsers = (userEmails, rowIdx) => {
-    let addUsers = users.filter(user => userEmails.includes(user.email))
+    let addUsers = this.state.groupMembers.filter(user =>
+      userEmails.includes(user.email)
+    )
     const row = this.state.data[rowIdx]
     const newRow = {...row, users: addUsers}
     const newState = this.state.data
@@ -147,19 +139,17 @@ class SocketTable extends Component {
   }
 
   stopEdit = async rowIdx => {
-    console.log('stop edit', this.state.editIdx, rowIdx)
     const newEditIdx = this.state.editIdx.filter(idx => idx !== rowIdx)
     await this.setState({
       editIdx: newEditIdx
     })
-    console.log(this.state.editIdx)
   }
 
   render() {
     console.log('selectedgroup', this.props.selectedGroup)
     return (
-      <div style={{width: '200%'}}>
-        <Segment style={{overflow: 'auto', maxHeight: '66vh', width: '100vh'}}>
+      <div>
+        <Segment style={{overflow: 'scroll', maxHeight: '66vh'}}>
           <Table selectable inverted celled>
             {/* header row */}
             <Table.Header>
@@ -180,10 +170,8 @@ class SocketTable extends Component {
                   this.stopEdit,
                   this.handleEditChange,
                   this.saveUsers,
-                  // this.handleSave,
                   this.state.editIdx,
-                  // this.props.users
-                  this.props.users,
+                  this.state.groupMembers,
                   this.state.focus,
                   this.focusMe,
                   this.state.data
@@ -199,7 +187,6 @@ class SocketTable extends Component {
 
 const mapState = state => ({
   singleReceipt: state.receipts.singleReceipt,
-  // users: state.groups.selectedGroup.users,
   selectedGroup: state.groups.selectedGroup
 })
 
