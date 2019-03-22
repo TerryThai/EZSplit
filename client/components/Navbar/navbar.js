@@ -33,9 +33,6 @@ const Navbar = ({handleClick, isLoggedIn, clearOcr}) => (
             <Link to="/groups">Groups</Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to="/receipts">Show All Receipts</Link>
-          </Menu.Item>
-          <Menu.Item>
             <a href="#" onClick={handleClick}>
               Logout
             </a>

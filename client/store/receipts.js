@@ -24,6 +24,7 @@ const SAVE_RECEIPT = 'SAVE_RECEIPT'
 const GET_RECEIPTS_BY_GROUP = 'GET_RECEIPTS_BY_GROUP'
 const CLEAR_OCR = 'CLEAR_OCR'
 const GET_RECEIPT = 'GET_RECEIPT'
+const UPDATE_RECEIPT = 'UPDATE_RECEIPT'
 
 /**
  * INITIAL STATE
@@ -55,6 +56,10 @@ export const getReceiptsByGroup = groupReceipts => ({
   groupReceipts
 })
 export const clearOCR = () => ({type: CLEAR_OCR})
+export const updateReceipt = updatedData => ({
+  type: UPDATE_RECEIPT,
+  data: updatedData
+})
 /**
  * THUNK CREATORS
  */
@@ -125,6 +130,9 @@ export default function(state = initialState, action) {
       return {...state, groupReceipts: action.groupReceipts}
     case CLEAR_OCR:
       return {...state, ocr: {}}
+    case UPDATE_RECEIPT:
+      console.log('hit UPDATA_RECEIPT in reducer')
+      return {...state, singleReceipt: {data: [...action.data]}}
     default:
       return state
   }

@@ -2,8 +2,10 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
-import {getSingleReceiptFromServer} from '../../store/receipts'
+import {getSingleReceiptFromServer, updateReceipt} from '../../store/receipts'
 import socket from '../../socket'
+
+let lineItems
 
 class EditReceipt extends Component {
   state = {
@@ -14,13 +16,15 @@ class EditReceipt extends Component {
     this.props.getSingleReceiptFromServer(this.props.match.params.receiptId)
   }
 
-  hi = () => {
-    console.log('hi')
-    socket.emit('cell-update', 'hi')
+  hi = event => {
+    if (event.keyCode === 13) {
+      // console.log(event.target.value)
+      socket.emit('cell-update', lineItems)
+    }
   }
 
   render() {
-    const lineItems = this.props.singleReceipt.data
+    lineItems = this.props.singleReceipt.data
       ? this.props.singleReceipt.data.map((item, idx) => {
           return {Items: item.Items, id: idx, Cost: item.Cost}
         })
@@ -28,17 +32,19 @@ class EditReceipt extends Component {
 
     const columns = [
       {dataField: 'Items', text: 'Items'},
-      {dataField: 'Cost', text: 'Cost'}
+      {dataField: 'Cost', text: 'Cost'},
+      {dataField: 'id', text: 'Idx'}
     ]
 
     const table = this.props.singleReceipt.data && (
-      <div className="thetable" onChange={this.hi}>
+      <div className="thetable" onKeyDown={this.hi}>
         <BootstrapTable
           name={name}
           keyField="id"
           data={lineItems}
           columns={columns}
           cellEdit={cellEditFactory({mode: 'click'})}
+          name="Item"
         />
       </div>
     )
@@ -51,4 +57,11 @@ const mapState = state => ({
   singleReceipt: state.receipts.singleReceipt
 })
 
-export default connect(mapState, {getSingleReceiptFromServer})(EditReceipt)
+// const mapDispatch = dispatch => ({
+//   getSingleReceiptFromServer: () => dispatch(getSingleReceiptFromServer()),
+//   updateReceipt: newData => dispatch(updateReceipt(newData))
+// })
+
+export default connect(mapState, {getSingleReceiptFromServer, updateReceipt})(
+  EditReceipt
+)
