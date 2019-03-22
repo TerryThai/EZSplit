@@ -45,9 +45,10 @@ router.post('/send', async (req, res, next) => {
 //Save Receipt
 router.post('/save', async (req, res, next) => {
   try {
-    const {table, groupId} = req.body
+    const {table, groupId, uploader} = req.body
     const savedReceipt = await MongoReceipt.create({
       groupId,
+      uploader,
       data: table,
       img: {
         name: uploadedReceipt.name,

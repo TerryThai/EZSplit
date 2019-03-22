@@ -97,11 +97,16 @@ export const getSingleReceiptFromServer = receiptId => async dispatch => {
   }
 }
 
-export const saveReceiptThunk = (groupId, table) => async dispatch => {
+export const saveReceiptThunk = (
+  groupId,
+  table,
+  uploader
+) => async dispatch => {
   try {
     const {data: newReceipt} = await axios.post('/api/receipts/save', {
       groupId,
-      table
+      table,
+      uploader
     })
     dispatch(saveReceipt(newReceipt))
     history.push(`/editReceipt/${newReceipt._id}`)

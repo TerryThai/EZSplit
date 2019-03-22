@@ -54,7 +54,7 @@ class Table extends Component {
 
     const {totalAmount} = this.props.ocr
     const id = this.props.groupId ? this.props.groupId : 'nothing yet'
-    console.log('id from tabkle', id)
+    const uploader = this.props.user.name ? this.props.user : 'nothing yet'
     return (
       <div className="table-div-container">
         {table}
@@ -65,7 +65,7 @@ class Table extends Component {
               <Button
                 color="black"
                 floated="right"
-                onClick={() => this.props.saveReceipt(id, lineItems)}
+                onClick={() => this.props.saveReceipt(id, lineItems, uploader)}
               >
                 Save Receipt
               </Button>
@@ -79,11 +79,13 @@ class Table extends Component {
 
 const mapState = state => ({
   ocr: state.receipts.ocr,
-  originalOcr: state.receipts.originalOcr
+  originalOcr: state.receipts.originalOcr,
+  user: state.user
 })
 
 const mapDispatch = dispatch => ({
-  saveReceipt: (groupId, table) => dispatch(saveReceiptThunk(groupId, table))
+  saveReceipt: (groupId, table, uploader) =>
+    dispatch(saveReceiptThunk(groupId, table, uploader))
 })
 
 export default connect(mapState, mapDispatch)(Table)
