@@ -45,9 +45,12 @@ router.put('/add', async (req, res, next) => {
     let newFriend
     let myEmail = req.body.myEmail
     let friendEmail = req.body.friendEmail
+
     let friend = await MongoUser.findOne({email: friendEmail})
+
     if (friend === null) {
       let seqFriend = await User.findOne({where: {email: friendEmail}})
+
       if (seqFriend === null) {
         newFriend = {error: 'User not found'}
       } else {
@@ -55,6 +58,9 @@ router.put('/add', async (req, res, next) => {
       }
     } else {
       newFriend = {name: friend.name, email: friend.email}
+    }
+
+    if (newFriend.name) {
       await MongoUser.findOneAndUpdate(
         {email: myEmail},
         {$push: {friends: newFriend}}

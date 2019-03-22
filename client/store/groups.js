@@ -20,7 +20,7 @@ const initialState = {
 /**
  * ACTION CREATORS
  */
-export const selectGroup = groupId => ({type: SELECT_GROUP, groupId})
+const selectGroup = group => ({type: SELECT_GROUP, group})
 const createGroup = group => ({type: CREATE_GROUP, group})
 const getGroups = groups => ({type: GET_GROUPS, groups})
 const leaveGroup = groupId => ({type: LEAVE_GROUP, groupId})
@@ -28,6 +28,15 @@ const leaveGroup = groupId => ({type: LEAVE_GROUP, groupId})
 /**
  * THUNK CREATORS
  */
+export const selectGroupThunk = groupId => async dispatch => {
+  try {
+    const res = await axios.get(`/api/groups/select/${groupId}`)
+    console.log('response', res.data)
+    dispatch(selectGroup(res.data))
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 export const leaveGroupThunk = (groupId, userEmail) => async dispatch => {
   console.log(groupId, userEmail)
@@ -74,9 +83,7 @@ export default function(state = initialState, action) {
     case SELECT_GROUP:
       return {
         ...state,
-        selectedGroup: state.groups.filter(
-          group => group._id === action.groupId
-        )
+        selectedGroup: action.group
       }
     case LEAVE_GROUP:
       return {

@@ -11,7 +11,7 @@ import {
   AddBill,
   groupReceipts,
   FriendsList,
-  EditReceipt
+  SocketTable
 } from './components'
 import {me} from './store/user'
 
@@ -41,12 +41,12 @@ class Routes extends Component {
             <Route exact path="/groups" component={GroupsList} />
             <Route exact path="/groups/create" component={CreateGroup} />
             <Route exact path="/receipts/:groupId" component={groupReceipts} />
+            <Route exact path="/editReceipt" component={SocketTable} />
             <Route
               exact
               path="/editReceipt/:receiptId"
-              component={EditReceipt}
+              component={SocketTable}
             />
-            <Route exact path="/editReceipt" component={EditReceipt} />
             <Route
               path="/groups/create/redir"
               render={() => <CreateGroup redir={true} />}

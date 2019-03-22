@@ -14,6 +14,20 @@ router.get('/:email', async (req, res, next) => {
   }
 })
 
+// select group by id
+router.get('/select/:id', async (req, res, next) => {
+  try {
+    console.log(req.params.id)
+    const group = await MongoGroup.find({
+      _id: req.params.id
+    })
+    console.log('selectgroup group', group)
+    res.json(group[0])
+  } catch (err) {
+    next(err)
+  }
+})
+
 //create new group with friends
 router.post('/', async (req, res, next) => {
   try {
@@ -60,16 +74,3 @@ router.put('/:groupId/:email', async (req, res, next) => {
 //     next(err)
 //   }
 // })
-
-// select group by id
-router.get('/:id', async (req, res, next) => {
-  try {
-    const group = await MongoGroup.find({
-      ObjectId: req.params.id
-    })
-    console.log(group)
-    res.json(group)
-  } catch (err) {
-    next(err)
-  }
-})

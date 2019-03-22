@@ -131,7 +131,7 @@ export default function(state = initialState, action) {
     case CLEAR_OCR:
       return {...state, ocr: {}}
     case UPDATE_RECEIPT:
-      console.log('hit UPDATA_RECEIPT in reducer')
+      console.log('hit UPDATA_RECEIPT in reducer', action.data)
       return {...state, singleReceipt: {data: [...action.data]}}
     default:
       return state
