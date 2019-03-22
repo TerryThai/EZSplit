@@ -13,13 +13,40 @@ import {
   Card,
   Icon
 } from 'semantic-ui-react'
-import {HorizontalBar} from 'react-chartjs-2'
+import {HorizontalBar, Line} from 'react-chartjs-2'
 
 /**
  * COMPONENT
  */
 export const UserHome = props => {
   const {email, imageUrl} = props
+  const time = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+      {
+        label: 'My First dataset',
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192,1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: [65, 59, 80, 81, 56, 55, 40]
+      }
+    ]
+  }
+
   const data = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
@@ -35,7 +62,7 @@ export const UserHome = props => {
     ]
   }
   return !props.ocr.amounts ? (
-    <div className="userhome">
+    <div>
       <Segment compact floated="right" raised={true}>
         <Card
           image={imageUrl}
@@ -48,11 +75,38 @@ export const UserHome = props => {
       <Segment floated="right" padded="very" raised={true}>
         <UploadImage className="upload" />
       </Segment>
-      <Segment floated="right" padded="very" className="chart" raised={true}>
-        <HorizontalBar data={data} />
-      </Segment>
+
+      <Grid celled centered={true}>
+        <Grid.Row>
+          <Grid.Column width={8}>
+            <Segment padded="very" raised={true} className="line">
+              <Line data={time} />
+            </Segment>
+          </Grid.Column>
+          <Grid.Column width={8}>
+            <Segment padded="very" className="chart" raised={true}>
+              <HorizontalBar data={data} />
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     </div>
   ) : (
+    // <Segment compact floated="right" raised={true}>
+    //   <Card
+    //     image={imageUrl}
+    //     description={<Qrcode />}
+    //     extra={`Welcome, ${email}!!!`}
+    //     centered={true}
+    //     color="grey"
+    //   />
+    // </Segment>
+    // <Segment floated="right" padded="very" raised={true}>
+    //   <UploadImage className="upload" />
+    // </Segment>
+    // <Segment floated="right" padded="very" className="chart" raised={true}>
+    //   <HorizontalBar data={data} />
+    // </Segment>
     <Container className="custom">
       <SideBarGroup />
     </Container>

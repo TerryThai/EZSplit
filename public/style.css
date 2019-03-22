@@ -1,11 +1,16 @@
+.ui.raised.very.padded.segment.line {
+  background-color: currentColor;
+}
 .uploadlabel {
   margin-right: -32px;
 }
-
+.ui.raised.very.padded.segment.chart {
+  background-color: whitesmoke;
+}
 .ui.grid > .centered.row {
 }
 .userhome {
-  margin: 10px;
+  margin: 15px;
 }
 .ui.very.padded.left.floated.segment .upload {
 }
@@ -15,12 +20,13 @@
 .ui.very.padded.left.floated.segment.chart {
 }
 
-body {
-  margin: 10px;
-}
+/* body {
+  margin: 4px;
+} */
 
 .ui[class*='right floated'].segment {
   margin-top: 14px;
+  background-color: whitesmoke;
 }
 
 #custom input {
