@@ -14,11 +14,12 @@ class Stats extends Component {
           return (
             sum +
             receipt.data.reduce((all, item) => {
-              return all + item.cost
+              return all + Number(item.cost)
             }, 0)
           )
         }, 0)
       : 0
+    total = total.toFixed(2)
     return (
       <Statistic size="tiny" color="red" horizontal inverted>
         <Statistic.Value>

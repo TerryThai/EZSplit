@@ -23,6 +23,7 @@ class Tip extends Component {
       copyItem.data = (copyItem.data * tipAmount).toFixed(2)
       return copyItem
     })
+    console.log(copyOfItems)
     this.props.updateOcr(copyOfItems)
   }
 

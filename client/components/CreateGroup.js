@@ -49,7 +49,9 @@ class CreateGroup extends Component {
     // --ensure name is not blank
     if (this.state.name) {
       // --ensure name is not taken
-      let nameTaken = this.props.groups.filter(group=>group.name===this.state.name)
+      let nameTaken = this.props.groups.filter(
+        group => group.name === this.state.name
+      )
       if (nameTaken.length) {
         await this.setState({
           errorMsg: 'This name is taken already!'
@@ -81,8 +83,7 @@ class CreateGroup extends Component {
       display: 'flex',
       justifyContent: 'center',
       flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start'
+      alignItems: 'center'
     }
     return (
       <Grid rows={2} verticalAlign="middle" relaxed="very" stackable>
