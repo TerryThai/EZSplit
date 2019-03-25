@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import QrReader from 'react-qr-reader'
+import {Image} from 'semantic-ui-react'
 
 class Readqr extends Component {
   state = {
@@ -34,7 +35,7 @@ class Readqr extends Component {
           delay={100}
           onError={this.handleError}
           onScan={this.handleScan}
-          style={{width: '100%'}}
+          style={{width: '200%'}}
         />
 
         <div />

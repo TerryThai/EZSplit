@@ -8,7 +8,7 @@ import {
 import store from '../../store/index'
 import socket from '../../socket'
 import {InlineForm, UserBalances} from '../index'
-
+import axios from 'axios'
 import {
   Button,
   Table,
@@ -32,7 +32,8 @@ class SocketTable extends Component {
       cost: false,
       user: false,
       addUser: false
-    }
+    },
+    emailConfirmation: ''
   }
 
   async componentDidMount() {
@@ -138,6 +139,18 @@ class SocketTable extends Component {
   }
 
   calcBalances = () => {}
+
+  submitEmail = async () => {
+    this.setState({emailConfirmation: '..Sending Email!'})
+    const obj = {
+      receiptId: this.props.singleReceipt._id,
+      uploader: this.props.singleReceipt.uploader.name,
+      recipients: this.props.selectedGroup.users
+    }
+    console.log('obj', obj)
+    await axios.post('/api/email/send', obj)
+    this.setState({emailConfirmation: ''})
+  }
 
   row = (
     data,
@@ -274,6 +287,10 @@ class SocketTable extends Component {
             </Table.Body>
           </Table>
         </Segment>
+        <Button onClick={this.submitEmail}>
+          Email Group Members to join Board
+        </Button>
+        <h3>{this.state.emailConfirmation}</h3>
       </div>
     )
   }
