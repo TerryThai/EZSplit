@@ -1,6 +1,12 @@
 .ui.raised.very.padded.segment.line {
   background-color: currentColor;
 }
+.ui.raised.very.padded.segment.stats {
+  background-color: currentColor;
+}
+.ui.compact.raised.segment.user {
+  background-color: whitesmoke;
+}
 .uploadlabel {
   margin-right: -32px;
 }

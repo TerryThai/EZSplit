@@ -16,6 +16,17 @@ router.get('/:groupId', async (req, res, next) => {
   }
 })
 
+router.get('/user/:email', async (req, res, next) => {
+  try {
+    const receipts = await MongoReceipt.find({
+      'uploader.email': req.params.email
+    })
+    res.json({groupId: req.params.groupId, receipts})
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.post('/send', async (req, res, next) => {
   try {
     const file = req.files.file

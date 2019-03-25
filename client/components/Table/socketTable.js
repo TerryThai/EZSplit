@@ -91,7 +91,8 @@ class SocketTable extends Component {
     })
     console.log(this.state)
     socket.on('cell-update', newData => {
-      store.dispatch(updateReceipt(newData))
+      console.log(newData)
+      store.dispatch(updateReceipt({data: newData}))
       this.setState({data: newData})
     })
   }

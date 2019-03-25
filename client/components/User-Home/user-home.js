@@ -1,18 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Qrcode, UploadImage, Table, SideBarGroup} from '../index'
 import {
-  Button,
-  Divider,
-  Form,
-  Grid,
-  Segment,
-  Image,
-  Container,
-  Card,
-  Icon
-} from 'semantic-ui-react'
+  Qrcode,
+  Readqr,
+  UploadImage,
+  Table,
+  SideBarGroup,
+  FeedInfo,
+  Stats
+} from '../index'
+import {Grid, Segment, Container, Card} from 'semantic-ui-react'
 import {HorizontalBar, Line} from 'react-chartjs-2'
 
 /**
@@ -63,50 +61,61 @@ export const UserHome = props => {
   }
   return !props.ocr.amounts ? (
     <div>
-      <Segment compact floated="right" raised={true}>
-        <Card
-          image={imageUrl}
-          description={<Qrcode />}
-          extra={`Welcome, ${email}!!!`}
-          centered={true}
-          color="grey"
-        />
-      </Segment>
-      <Segment floated="right" padded="very" raised={true}>
-        <UploadImage className="upload" />
-      </Segment>
-
-      <Grid celled centered={true}>
-        <Grid.Row>
-          <Grid.Column width={8}>
-            <Segment padded="very" raised={true} className="line">
-              <Line data={time} />
-            </Segment>
-          </Grid.Column>
-          <Grid.Column width={8}>
-            <Segment padded="very" className="chart" raised={true}>
-              <HorizontalBar data={data} />
-            </Segment>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+      <div>
+        <Grid celled centered={true}>
+          {/* within this grid lives 3 Columns. 2 of which are size 6 and a remaining is an assumetrical size 3 */}
+          <Grid.Row>
+            {/* this is the start of our row. within this row lives 2 columns */}
+            <Grid.Column width={6}>
+              <Grid columns="equal" relaxed centered={true}>
+                <Grid.Row stretched>
+                  <Grid.Column>
+                    <Segment padded="very" raised={true}>
+                      <UploadImage className="upload" />
+                    </Segment>
+                  </Grid.Column>
+                  <Grid.Column centered={true}>
+                    <Segment padded="very" raised={true} className="stats">
+                      <Stats />
+                    </Segment>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+              <Segment padded="very" raised={true} className="line">
+                <Line data={time} />
+              </Segment>
+            </Grid.Column>
+            {/* this is the start of our second column */}
+            <Grid.Column width={6}>
+              <Grid columns="equal" relaxed centered={true}>
+                <Grid.Row>
+                  <Grid.Column>
+                    <Segment padded="very" raised={true}>
+                      <FeedInfo currentUser={email} />
+                    </Segment>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+              <Segment padded="very" className="chart" raised={true}>
+                <HorizontalBar data={data} />
+              </Segment>
+            </Grid.Column>
+            <Grid.Column width={4}>
+              <Segment compact raised={true} className="user">
+                <Card
+                  image={imageUrl}
+                  description={<Qrcode />}
+                  extra={`Welcome, ${email}!!!`}
+                  centered={true}
+                  color="grey"
+                />
+              </Segment>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </div>
     </div>
   ) : (
-    // <Segment compact floated="right" raised={true}>
-    //   <Card
-    //     image={imageUrl}
-    //     description={<Qrcode />}
-    //     extra={`Welcome, ${email}!!!`}
-    //     centered={true}
-    //     color="grey"
-    //   />
-    // </Segment>
-    // <Segment floated="right" padded="very" raised={true}>
-    //   <UploadImage className="upload" />
-    // </Segment>
-    // <Segment floated="right" padded="very" className="chart" raised={true}>
-    //   <HorizontalBar data={data} />
-    // </Segment>
     <Container className="custom">
       <SideBarGroup />
     </Container>

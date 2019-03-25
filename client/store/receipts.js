@@ -25,6 +25,7 @@ const GET_RECEIPTS_BY_GROUP = 'GET_RECEIPTS_BY_GROUP'
 const CLEAR_OCR = 'CLEAR_OCR'
 const GET_RECEIPT = 'GET_RECEIPT'
 const UPDATE_RECEIPT = 'UPDATE_RECEIPT'
+const GET_RECEIPTS_BY_USER = 'GET_RECEIPTS_BY_USER'
 
 /**
  * INITIAL STATE
@@ -35,7 +36,8 @@ const initialState = {
   history: [],
   receipt: {},
   singleReceipt: {},
-  groupReceipts: {}
+  groupReceipts: {},
+  userReceipts: []
 }
 /**
  * ACTION CREATORS
@@ -60,6 +62,11 @@ export const updateReceipt = updatedData => ({
   type: UPDATE_RECEIPT,
   data: updatedData
 })
+export const getReceiptsByUser = ArrayOfReceipts => ({
+  type: GET_RECEIPTS_BY_USER,
+  userReceipts: ArrayOfReceipts
+})
+
 /**
  * THUNK CREATORS
  */
@@ -115,6 +122,15 @@ export const saveReceiptThunk = (
   }
 }
 
+export const getReceiptsByUserFromServer = email => async dispatch => {
+  try {
+    const {data: userReceipts} = await axios.get(`/api/receipts/user/${email}`)
+    dispatch(getReceiptsByUser(userReceipts))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /**
  * REDUCER
  */
@@ -133,6 +149,8 @@ export default function(state = initialState, action) {
       return {...state, singleReceipt: action.receipt}
     case GET_RECEIPTS_BY_GROUP:
       return {...state, groupReceipts: action.groupReceipts}
+    case GET_RECEIPTS_BY_USER:
+      return {...state, userReceipts: action.userReceipts}
     case CLEAR_OCR:
       return {...state, ocr: {}}
     case UPDATE_RECEIPT:
