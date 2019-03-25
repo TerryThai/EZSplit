@@ -8,13 +8,15 @@ const SELECT_GROUP = 'SELECT_GROUP'
 const CREATE_GROUP = 'CREATE_GROUP'
 const GET_GROUPS = 'GET_GROUPS'
 const LEAVE_GROUP = 'LEAVE_GROUP'
+const ERROR_MESSAGE = 'ERROR_MESSAGE'
 
 /**
  * INITIAL STATE
  */
 const initialState = {
   selectedGroup: {},
-  groups: []
+  groups: [],
+  errorMsg: ''
 }
 
 /**
@@ -24,14 +26,14 @@ const selectGroup = group => ({type: SELECT_GROUP, group})
 const createGroup = group => ({type: CREATE_GROUP, group})
 const getGroups = groups => ({type: GET_GROUPS, groups})
 const leaveGroup = groupId => ({type: LEAVE_GROUP, groupId})
-
+// const errorMsg = msg => ({type: ERROR_MESSAGE, msg})
 /**
  * THUNK CREATORS
  */
+
 export const selectGroupThunk = groupId => async dispatch => {
   try {
     const res = await axios.get(`/api/groups/select/${groupId}`)
-    console.log('response', res.data)
     dispatch(selectGroup(res.data))
   } catch (error) {
     console.error(error)
@@ -39,7 +41,6 @@ export const selectGroupThunk = groupId => async dispatch => {
 }
 
 export const leaveGroupThunk = (groupId, userEmail) => async dispatch => {
-  console.log(groupId, userEmail)
   try {
     const res = await axios.put(`/api/groups/${groupId}/${userEmail}`)
     console.log('response', res.data)
@@ -74,16 +75,20 @@ export const createGroupThunk = groupObj => async dispatch => {
  */
 export default function(state = initialState, action) {
   switch (action.type) {
+    // case ERROR_MESSAGE:
+    //   return {...state, errorMsg: action.msg}
     case CREATE_GROUP:
       return {
         ...state,
         groups: [...state.groups, action.group],
-        selectedGroup: action.group
+        selectedGroup: action.group,
+        errorMsg: ''
       }
     case SELECT_GROUP:
       return {
         ...state,
-        selectedGroup: action.group
+        selectedGroup: action.group,
+        errorMsg: ''
       }
     case LEAVE_GROUP:
       return {

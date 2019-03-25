@@ -50,7 +50,7 @@
 }
 
 .table-div-container {
-  width: 60%;
+  width: 55%;
 }
 
 .all-receipts-container {
@@ -376,7 +376,6 @@ thead {
 
 .table-sidebar-container {
   display: flex;
-  flex-direction: row-reverse;
   margin-top: 30px;
   justify-content: center;
 }
@@ -385,6 +384,23 @@ thead {
   display: flex;
   flex-direction: column;
   margin-top: 35px;
+  width: 40%;
+}
+
+.custom-edit {
+  width: 50px;
+}
+
+.custom-item {
+}
+
+.custom-cost {
+  width: 100px;
+  text-align: center !important;
+}
+
+.custom-user {
+  width: 200px;
 }
 
 .custom-edit {

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getFriendsThunk, createGroupThunk} from '../store'
-import {Button, Icon, List, ListItem, Dropdown} from 'semantic-ui-react'
+import {Button, Icon, List, ListItem, Dropdown, Input} from 'semantic-ui-react'
 
 class CreateGroupSideBar extends Component {
   state = {
@@ -58,7 +58,7 @@ class CreateGroupSideBar extends Component {
             <h4>Group Name</h4>
           </label>
           <br />
-          <input
+          <Input
             type="text"
             id="groupName"
             name="name"

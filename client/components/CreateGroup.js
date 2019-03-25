@@ -1,8 +1,17 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getFriendsThunk, createGroupThunk} from '../store'
+import {getFriendsThunk, createGroupThunk, findGroupName} from '../store'
 import history from '../history'
-import {Button, Icon, List, ListItem} from 'semantic-ui-react'
+import {
+  Button,
+  Icon,
+  List,
+  ListItem,
+  Grid,
+  Image,
+  Form,
+  Message
+} from 'semantic-ui-react'
 
 // TODO
 // leave group action? remove user from group.users, remove group from user.groups
@@ -12,7 +21,8 @@ class CreateGroup extends Component {
   state = {
     componentMounted: false,
     name: '',
-    users: [{name: this.props.user.name, email: this.props.user.email}]
+    users: [{name: this.props.user.name, email: this.props.user.email}],
+    errorMsg: ''
   }
 
   addUser = user => {
@@ -35,9 +45,27 @@ class CreateGroup extends Component {
 
   handleSubmit = async event => {
     event.preventDefault()
-    await this.props.createGroupThunk(this.state)
-    if (this.props.redir) {
-      history.push('/addbill')
+    // validation:
+    // --ensure name is not blank
+    if (this.state.name) {
+      // --ensure name is not taken
+      let nameTaken = this.props.groups.filter(group=>group.name===this.state.name)
+      if (nameTaken.length) {
+        await this.setState({
+          errorMsg: 'This name is taken already!'
+        })
+      } else {
+        await this.props.createGroupThunk(this.state)
+        this.setState({
+          componentMounted: false,
+          name: '',
+          users: [{name: this.props.user.name, email: this.props.user.email}],
+          errorMsg: ''
+        })
+        if (this.props.redir) {
+          history.push(`/${this.props.redirUrl}`)
+        }
+      }
     }
   }
 
@@ -51,105 +79,116 @@ class CreateGroup extends Component {
   render() {
     const style = {
       display: 'flex',
+      justifyContent: 'center',
       flexDirection: 'column',
-      alignItems: 'center'
+      alignItems: 'center',
+      justifyContent: 'flex-start'
     }
     return (
-      <div style={style}>
-        <div>
-          {this.state.users[0] ? (
-            <div>
-              <h3>Group Members:</h3>
-              <List celled>
-                {this.state.users.map(user => {
+      <Grid rows={2} verticalAlign="middle" relaxed="very" stackable>
+        <Grid.Row style={style}>
+          <h3>Create a Group</h3>
+          <Form onSubmit={this.handleSubmit} style={{width: '50%'}}>
+            <input
+              type="text"
+              id="groupName"
+              name="name"
+              value={this.state.name}
+              onChange={this.handleChange}
+              placeholder="Group Name"
+            />{' '}
+            <Button content="create group" color="black" fluid />
+            {this.state.errorMsg && <Message>{this.state.errorMsg}</Message>}
+          </Form>
+          <h3>Your Friends:</h3>
+          {this.props.friends[0] ? (
+            <List divided verticalAlign="middle" style={{width: '50%'}}>
+              {this.props.friends.map((friend, idx) => {
+                if (
+                  this.state.users.filter(user => {
+                    return user.email === friend.email
+                  })[0]
+                ) {
+                  console.log('AddedUsers List: Friend already added!')
+                  return null
+                } else {
                   return (
-                    <ListItem key={user.email}>
-                      {user.name}
-                      {this.props.user.email !== user.email && (
+                    <ListItem key={idx}>
+                      <Image avatar src={friend.imageUrl} floated="left" />
+                      <List.Content>{friend.name}</List.Content>
+                      <List.Content floated="right">
                         <Button
                           size="tiny"
-                          floated="right"
                           icon
-                          onClick={() => this.removeUser(user.email)}
-                        >
-                          <Icon name="trash alternate" color="blue" />
-                        </Button>
-                      )}
-                    </ListItem>
-                  )
-                })}
-              </List>
-            </div>
-          ) : (
-            <h3>Add Members:</h3>
-          )}
-        </div>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="groupName">
-            <h3>Group Name</h3>
-          </label>
-          <br />
-          <input
-            type="text"
-            id="groupName"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleChange}
-            placeholder="Create a Group Name!"
-          />{' '}
-          <Button content="create group" primary />
-          <br />
-          <label htmlFor="addUsers">
-            <h3>Add Users:</h3>
-          </label>
-          {this.props.friends[0] ? (
-            <div>
-              <ul>
-                {this.props.friends.map((friend, idx) => {
-                  if (
-                    this.state.users.filter(user => {
-                      return user.email === friend.email
-                    })[0]
-                  ) {
-                    console.log('im inside & returning null')
-                    return null
-                  } else {
-                    return (
-                      <li key={idx}>
-                        {friend.name}
-                        <button
-                          type="button"
+                          basic
                           onClick={() => this.addUser(friend)}
                         >
-                          Add
-                        </button>
-                      </li>
-                    )
-                  }
-                })}
-              </ul>
-            </div>
+                          <Icon name="add circle" color="black" />
+                        </Button>
+                      </List.Content>
+                    </ListItem>
+                  )
+                }
+              })}
+            </List>
           ) : this.state.componentMounted ? (
-            <h3>You have no friends.</h3>
+            <h3>You have no friends yet.</h3>
           ) : (
             <h3>Loading...</h3>
           )}
           {/* option: use QR code to add friend */}
           {/* add friend logic: every time scan friend, if does not exist in friends list, add to friends list */}
-        </form>
-      </div>
+        </Grid.Row>
+        <hr />
+        <Grid.Row style={style}>
+          <h3>Added in Group:</h3>
+          <List divided verticalAlign="middle" style={{width: '50%'}}>
+            {this.state.users.map(user => {
+              return (
+                <ListItem key={user.email}>
+                  <Image avatar src={user.imageUrl} floated="left" />
+                  <List.Content>
+                    {/* <p> */}
+                    {user.name}{' '}
+                    {user.email === this.props.user.email && '(Yourself!)'}
+                    {/* </p> */}
+                    <br />
+                    {user.email !== this.props.user.email && (
+                      <p>Balance with you: </p>
+                    )}
+                  </List.Content>
+                  <List.Content floated="right">
+                    {this.props.user.email !== user.email && (
+                      <Button
+                        size="tiny"
+                        icon
+                        basic
+                        onClick={() => this.removeUser(user.email)}
+                      >
+                        <Icon name="trash alternate" color="black" />
+                      </Button>
+                    )}
+                  </List.Content>
+                </ListItem>
+              )
+            })}
+          </List>
+        </Grid.Row>
+      </Grid>
     )
   }
 }
 
 const mapState = state => ({
   friends: state.friends.friends,
-  user: state.user
+  user: state.user,
+  errorMsg: state.groups.errorMsg
 })
 
 const mapDispatch = dispatch => ({
   getFriendsThunk: email => dispatch(getFriendsThunk(email)),
-  createGroupThunk: group => dispatch(createGroupThunk(group))
+  createGroupThunk: group => dispatch(createGroupThunk(group)),
+  findGroupName: groupName => dispatch(findGroupName(groupName))
 })
 
 export default connect(mapState, mapDispatch)(CreateGroup)

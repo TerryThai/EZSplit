@@ -11,7 +11,6 @@ class Table extends Component {
   state = {}
 
   render() {
-    //deconstruct helper functions
     const {removeDollarSign, capitalize} = helpers
     // mapping over line items and using tenary to see if it exists,
     // if not the lineItem will return an empty object
@@ -25,13 +24,13 @@ class Table extends Component {
           // removed dollar sign as the api we utilized
           // combines the price and name of the item in a string
           const noDollah = removeDollarSign(formmatted)
-          return {Items: noDollah, id: idx, Cost: item.data}
+          return {items: noDollah, id: idx, cost: item.data}
         })
       : {}
 
     const columns = [
-      {dataField: 'Items', text: 'Items'},
-      {dataField: 'Cost', text: 'Cost'}
+      {dataField: 'items', text: 'Items'},
+      {dataField: 'cost', text: 'Cost'}
     ]
 
     // this table variable is tenary that renders out

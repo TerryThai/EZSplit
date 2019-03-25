@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getGroupsThunk} from '../store/groups'
-import {Divider, Dropdown} from 'semantic-ui-react'
-import {Table, CreateGroupSideBar} from '../components/index'
+import {Table, CreateGroupSideBar, CreateGroup} from '../components/index'
+import {Dropdown} from 'semantic-ui-react'
 
 class SideBarGroup extends Component {
   state = {
@@ -19,7 +19,7 @@ class SideBarGroup extends Component {
   }
 
   render() {
-    const lineItems = this.props.groups.map(group => {
+    const groups = this.props.groups.map(group => {
       return {
         key: group._id,
         text: group.name,
@@ -28,18 +28,18 @@ class SideBarGroup extends Component {
     })
     return (
       <div className="table-sidebar-container">
+        <Table groupId={this.state.selectedGroup} />
         <div className="sidebar-container">
           <Dropdown
             onChange={this.onChange}
             placeholder="Select Group"
             search
             selection
-            options={lineItems}
+            options={groups}
+            style={{width: '50%'}}
           />
-          <CreateGroupSideBar />
+          <CreateGroup groups={this.props.groups}/>
         </div>
-
-        <Table groupId={this.state.selectedGroup} />
       </div>
     )
   }

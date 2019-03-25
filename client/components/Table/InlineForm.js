@@ -17,6 +17,7 @@ let addusers = []
 class InlineForm extends Component {
   saveUsers = () => {
     this.props.saveUsers(addusers, this.props.rowIdx)
+    addusers = []
   }
 
   handleUsers = (evt, data) => {
@@ -28,18 +29,27 @@ class InlineForm extends Component {
 
   handleKeyDown = e => {
     if (e.keyCode === 13) {
-      console.log('==========>', e.target, e.keyCode)
       this.props.stopEdit(this.props.rowIdx)
-      console.log('this is newData ===>', this.props.allData)
       socket.emit('cell-update', this.props.allData)
     }
   }
 
   render() {
-    const groupMembersList = this.props.groupMembers.map(member => {
-      return {key: Math.random(), text: member.name, value: member.email}
-    })
+    // group members dropdown list functions: 
 
+    const added = this.props.data.users.map(user => user.email)
+    const leftover = this.props.groupMembers.filter(
+      member => !added.includes(member.email)
+    )
+    const groupMembersList = leftover.map(member => ({
+      key: Math.random(),
+      text: member.name,
+      value: member.email
+    }))
+
+    ///////////////////
+
+    console.log('addusers', addusers)
     return (
       <Table.Row key={Math.random()}>
         <Table.Cell>
@@ -57,6 +67,7 @@ class InlineForm extends Component {
         <Table.Cell>
           <Input
             fluid
+            disabled={this.props.lockedColumns.item}
             autoFocus={this.focus(1, this.props.rowIdx)}
             onKeyDown={evt => this.handleKeyDown(evt, this.props.rowIdx)}
             onChange={evt => {
@@ -69,6 +80,7 @@ class InlineForm extends Component {
         </Table.Cell>
         <Table.Cell>
           <Input
+            disabled={this.props.lockedColumns.cost}
             autoFocus={this.focus(2, this.props.rowIdx)}
             onKeyDown={evt => this.handleKeyDown(evt, this.props.rowIdx)}
             onChange={evt => {
@@ -79,9 +91,26 @@ class InlineForm extends Component {
             name="cost"
           />
         </Table.Cell>
+        <Table.Cell className="custom-user">
+          {this.props.data.users.map(user => {
+            return (
+              <Button
+                disabled={this.props.lockedColumns.user}
+                size="tiny"
+                key={user.email}
+                onClick={() =>
+                  this.props.removeUser(user.email, this.props.rowIdx)
+                }
+              >
+                {user.name} X
+              </Button>
+            )
+          })}
+        </Table.Cell>
         <Table.Cell>
           <Dropdown
             fluid
+            disabled={this.props.lockedColumns.addUser}
             placeholder="People"
             multiple
             selection
