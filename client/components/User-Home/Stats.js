@@ -9,7 +9,7 @@ class Stats extends Component {
   }
   render() {
     //double reduce cuz its so nested
-    const total = this.props.userReceipts.receipts
+    let total = this.props.userReceipts.receipts
       ? this.props.userReceipts.receipts.reduce((sum, receipt) => {
           return (
             sum +
@@ -19,7 +19,7 @@ class Stats extends Component {
           )
         }, 0)
       : 0
-
+    total = total.toFixed(2)
     return (
       <Statistic size="tiny" color="red" horizontal inverted>
         <Statistic.Value>
