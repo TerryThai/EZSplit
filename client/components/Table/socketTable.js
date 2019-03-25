@@ -7,7 +7,7 @@ import {
 } from '../../store'
 import store from '../../store/index'
 import socket from '../../socket'
-
+import axios from 'axios'
 import {InlineForm} from '../index'
 import {
   Button,
@@ -72,7 +72,8 @@ class SocketTable extends Component {
     calc: [],
     editIdx: [],
     groupMembers: [],
-    focus: []
+    focus: [],
+    emailConfirmation: ''
   }
 
   async componentDidMount() {
@@ -145,8 +146,18 @@ class SocketTable extends Component {
     })
   }
 
+  submitEmail = async () => {
+    this.setState({emailConfirmation: '..Sending Email!'})
+    const obj = {
+      receiptId: this.props.singleReceipt._id,
+      uploader: this.props.singleReceipt.uploader.name,
+      recipients: this.props.selectedGroup.users
+    }
+    await axios.post('/api/email/send', obj)
+    this.setState({emailConfirmation: ''})
+  }
+
   render() {
-    console.log('selectedgroup', this.props.selectedGroup)
     return (
       <div>
         <Segment style={{overflow: 'scroll', maxHeight: '66vh'}}>
@@ -180,6 +191,10 @@ class SocketTable extends Component {
             </Table.Body>
           </Table>
         </Segment>
+        <Button onClick={this.submitEmail}>
+          Email Group Members to join Board
+        </Button>
+        <h3>{this.state.emailConfirmation}</h3>
       </div>
     )
   }

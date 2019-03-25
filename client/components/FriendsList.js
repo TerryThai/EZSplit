@@ -1,16 +1,26 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getFriendsThunk, deleteFriendThunk, addFriendThunk} from '../store'
-import {List, ListItem, Button, Icon, Form, Message} from 'semantic-ui-react'
-
+import {
+  List,
+  ListItem,
+  Button,
+  Icon,
+  Form,
+  Message,
+  Checkbox
+} from 'semantic-ui-react'
+import {Readqr} from './index'
 class FriendsList extends Component {
   state = {
     componentMounted: false,
     showform: [false, false],
     name: '',
-    email: ''
+    email: '',
+    checked: false
   }
 
+  toggle = () => this.setState({checked: !this.state.checked})
   handleAddEmail = email => {
     this.props.addFriendThunk(this.props.user.email, email)
   }
@@ -149,6 +159,8 @@ class FriendsList extends Component {
           )}
           {this.state.showform[0] && <Button type="submit">Submit</Button>}
         </Form>
+        <Button onClick={this.toggle}>Toggle QR Scanner</Button>
+        {this.state.checked ? <Readqr /> : ''}
         {this.props.errorMsg && (
           <Message error style={{width: '80%', maxWidth: '450px'}}>
             {this.props.errorMsg}

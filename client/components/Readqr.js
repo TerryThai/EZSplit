@@ -19,9 +19,7 @@ class Readqr extends Component {
     console.error(err)
   }
 
-  componentDidMount() {
-    console.log('Good Morning')
-  }
+  componentDidMount() {}
 
   render() {
     return (
@@ -32,12 +30,12 @@ class Readqr extends Component {
           padding: '100px 0 0px 0'
         }}
       >
-        {/* <QrReader
+        <QrReader
           delay={100}
           onError={this.handleError}
           onScan={this.handleScan}
-          style={{width: '20%'}}
-        /> */}
+          style={{width: '100%'}}
+        />
 
         <div />
         <p>{this.state.result}</p>

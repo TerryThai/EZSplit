@@ -7,7 +7,7 @@ class Qrcode extends Component {
   componentDidMount() {
     QRCode.toCanvas(
       document.getElementById('canvas'),
-      'amanthapar@gmail.com',
+      `${this.props.email}`,
       error => {
         if (error) console.error(error)
         console.log('success!')
@@ -30,6 +30,8 @@ class Qrcode extends Component {
   }
 }
 
-const mapState = state => ({})
+const mapState = state => ({
+  email: state.user.email
+})
 
 export default connect(mapState, {})(Qrcode)

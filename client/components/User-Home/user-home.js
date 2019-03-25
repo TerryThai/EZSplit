@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Qrcode, Readqr, UploadImage, Table, SideBarGroup} from '../index'
+import {Qrcode, UploadImage, Table, SideBarGroup} from '../index'
 import {
   Button,
   Divider,
