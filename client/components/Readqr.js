@@ -21,7 +21,7 @@ class Readqr extends Component {
     }
     console.log('obj', obj)
     if (obj.friendEmail !== 'No result') {
-      await this.props.addFriendThunk(obj.myEmail, obj.friendEmail)
+      await this.props.addFriendThunk(obj.myEmail, obj.friendEmail, [])
       this.props.toggle()
     }
   }
