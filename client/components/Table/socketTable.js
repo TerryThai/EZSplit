@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {
   getSingleReceiptFromServer,
-  updateReceipt,
+  updateReceiptThunk,
   selectGroupThunk
 } from '../../store'
 import store from '../../store/index'
@@ -64,7 +64,6 @@ class SocketTable extends Component {
       // calc: calcArray
     })
     socket.on('cell-update', newData => {
-      console.log(newData)
       store.dispatch(updateReceipt({data: newData}))
       this.setState({data: newData})
     })
@@ -127,6 +126,13 @@ class SocketTable extends Component {
     await this.setState({
       editIdx: newEditIdx
     })
+    const newRow = this.state.data[rowIdx]
+    console.log(newRow)
+    await this.props.updateReceiptThunk(newRow, this.props.singleReceipt._id)
+  }
+
+  calcBalances = () => {
+    const data = this.state.data
   }
 
   lockColumn = async column => {
@@ -137,8 +143,6 @@ class SocketTable extends Component {
       }
     })
   }
-
-  calcBalances = () => {}
 
   submitEmail = async () => {
     this.setState({emailConfirmation: '..Sending Email!'})
@@ -304,6 +308,6 @@ const mapState = state => ({
 
 export default connect(mapState, {
   getSingleReceiptFromServer,
-  updateReceipt,
-  selectGroupThunk
+  selectGroupThunk,
+  updateReceiptThunk
 })(SocketTable)

@@ -58,10 +58,12 @@ export const getReceiptsByGroup = groupReceipts => ({
   groupReceipts
 })
 export const clearOCR = () => ({type: CLEAR_OCR})
-export const updateReceipt = updatedData => ({
+
+export const updateReceipt = updatedReceipt => ({
   type: UPDATE_RECEIPT,
-  data: updatedData
+  data: updatedReceipt.data
 })
+
 export const getReceiptsByUser = ArrayOfReceipts => ({
   type: GET_RECEIPTS_BY_USER,
   userReceipts: ArrayOfReceipts
@@ -70,6 +72,18 @@ export const getReceiptsByUser = ArrayOfReceipts => ({
 /**
  * THUNK CREATORS
  */
+
+export const updateReceiptThunk = (row, receiptId) => async dispatch => {
+  try {
+    console.log('thunk row: ', row)
+    const res = axios.put(`/api/receipts/${receiptId}`, row)
+    const receipt = res.data
+    dispatch(updateReceipt(receipt))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const getOcrThunk = image => async dispatch => {
   try {
     const b64 = await getBase64(image)
@@ -155,7 +169,7 @@ export default function(state = initialState, action) {
       return {...state, ocr: {}}
     case UPDATE_RECEIPT:
       console.log('hit UPDATA_RECEIPT in reducer', action.data)
-      return {...state, singleReceipt: {data: [...action.data]}}
+      return {...state, singleReceipt: {data: action.data}}
     default:
       return state
   }

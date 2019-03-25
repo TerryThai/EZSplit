@@ -183,7 +183,8 @@ class CreateGroup extends Component {
 const mapState = state => ({
   friends: state.friends.friends,
   user: state.user,
-  errorMsg: state.groups.errorMsg
+  errorMsg: state.groups.errorMsg,
+  groups: state.groups.groups
 })
 
 const mapDispatch = dispatch => ({
