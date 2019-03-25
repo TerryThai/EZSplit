@@ -418,3 +418,8 @@ thead {
 .custom-user {
   width: 200px;
 }
+
+.total-add-save-btn-contaniner {
+  display: flex;
+  justify-content: space-between;
+}

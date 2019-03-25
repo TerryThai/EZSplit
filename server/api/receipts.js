@@ -26,6 +26,18 @@ router.get('/user/:email', async (req, res, next) => {
     next(err)
   }
 })
+// receipts/editReceipts/:receiptId
+router.get('/editReceipts/:receiptId', async (req, res, next) => {
+  try {
+    const [receipt] = await MongoReceipt.find({
+      _id: req.params.receiptId
+    })
+    const {data, calc, _id, groupId, uploader} = receipt
+    res.json({data, calc, _id, groupId, uploader})
+  } catch (err) {
+    next(err)
+  }
+})
 
 router.post('/send', async (req, res, next) => {
   try {
@@ -58,7 +70,7 @@ router.post('/save', async (req, res, next) => {
   try {
     const {table, groupId, uploader} = req.body
     const savedReceipt = await MongoReceipt.create({
-      groupId,
+      groupId: groupId || Math.random(),
       uploader,
       data: table,
       img: {
@@ -82,18 +94,6 @@ router.put('/:receiptId', async (req, res, next) => {
       {new: true}
     )
 
-    res.json(receipt)
-  } catch (err) {
-    next(err)
-  }
-})
-
-// receipts/editReceipts/:receiptId
-router.get('/editReceipts/:receiptId', async (req, res, next) => {
-  try {
-    const [receipt] = await MongoReceipt.find({
-      _id: req.params.receiptId
-    })
     res.json(receipt)
   } catch (err) {
     next(err)

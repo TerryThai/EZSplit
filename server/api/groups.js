@@ -17,11 +17,13 @@ router.get('/:email', async (req, res, next) => {
 // select group by id
 router.get('/select/:id', async (req, res, next) => {
   try {
-    console.log(req.params.id)
+    if (req.params.id === 'nothing yet') {
+      //default group
+      req.params.id = '5c98133edfd344340fbbc790'
+    }
     const group = await MongoGroup.find({
       _id: req.params.id
     })
-    console.log('selectgroup group', group)
     res.json(group[0])
   } catch (err) {
     next(err)

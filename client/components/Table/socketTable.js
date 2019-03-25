@@ -42,13 +42,15 @@ class SocketTable extends Component {
     )
     await this.props.selectGroupThunk(this.props.singleReceipt.groupId)
     let lineItems = []
+    console.log(this.props.singleReceipt.data)
     this.props.singleReceipt.data.forEach((item, idx) => {
-      if (
-        !item.items.toLowerCase().includes('total') &&
-        !item.items.toLowerCase().includes('cash')
-      ) {
-        lineItems.push({item: item.items, id: idx, cost: item.cost, users: []})
-      }
+      lineItems.push({item: item.Items, id: idx, cost: item.Cost, users: []})
+      // if (
+      //   !item.items.toLowerCase().includes('total') &&
+      //   !item.items.toLowerCase().includes('cash')
+      // ) {
+      //   lineItems.push({item: item.items, id: idx, cost: item.cost, users: []})
+      // }
     })
 
     // const calcArray = this.props.groupMembers.map(member=>({email: member.email, payee: this.props.singleReceipt.uploader.email, amount: 0}))
