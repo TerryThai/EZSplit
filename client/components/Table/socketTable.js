@@ -47,7 +47,12 @@ class SocketTable extends Component {
         !item.item.toLowerCase().includes('total') &&
         !item.item.toLowerCase().includes('cash')
       ) {
-        lineItems.push({item: item.item, id: idx, cost: item.cost, users: []})
+        lineItems.push({
+          item: item.item,
+          id: idx,
+          cost: item.cost,
+          users: item.users || []
+        })
       }
     })
 
