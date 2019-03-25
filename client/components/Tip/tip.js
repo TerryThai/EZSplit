@@ -23,7 +23,7 @@ class Tip extends Component {
       copyItem.Cost = (copyItem.Cost * tipAmount).toFixed(2)
       return copyItem
     })
-    this.props.updateTipToStore(copyOfItems)
+    this.props.updateOcr(copyOfItems)
   }
 
   handleCustomTipClick = event => {

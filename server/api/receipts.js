@@ -89,9 +89,8 @@ router.post('/save', async (req, res, next) => {
 router.put('/:receiptId', async (req, res, next) => {
   try {
     const receipt = await MongoReceipt.findOneAndUpdate(
-      {_id: req.params.receiptId, 'data.id': req.params.data.id},
-      {$set: req.params.data},
-      {new: true}
+      {_id: req.params.receiptId},
+      {data: req.body}
     )
 
     res.json(receipt)

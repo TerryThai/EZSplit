@@ -43,7 +43,6 @@ export const selectGroupThunk = groupId => async dispatch => {
 export const leaveGroupThunk = (groupId, userEmail) => async dispatch => {
   try {
     const res = await axios.put(`/api/groups/${groupId}/${userEmail}`)
-    console.log('response', res.data)
     dispatch(leaveGroup(res.data))
   } catch (error) {
     console.error(error)

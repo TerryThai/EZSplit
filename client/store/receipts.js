@@ -70,11 +70,16 @@ export const updateTip = itemsWithUpdatedCost => ({
  * THUNK CREATORS
  */
 
-
-export const updateReceiptThunk = (row, receiptId) => async dispatch => {
+export const updateReceiptThunk = (
+  updatedReceiptArray,
+  receiptId
+) => async dispatch => {
   try {
-    console.log('thunk row: ', row)
-    const res = axios.put(`/api/receipts/${receiptId}`, row)
+    console.log('id: ', receiptId)
+    const res = await axios.put(
+      `/api/receipts/${receiptId}`,
+      updatedReceiptArray
+    )
     const receipt = res.data
     dispatch(updateReceipt(receipt))
   } catch (error) {
@@ -90,16 +95,6 @@ export const getOcrThunk = image => async dispatch => {
     formData.append('file', image)
     formData.append('base64', base64)
     const {data: ocr} = await axios.post('/api/receipts/send', formData)
-
-    // formatting the ocr data
-    const lineItems = ocr.amounts
-      ? ocr.amounts.map((item, idx) => {
-          const formmatted = helpers.capitalize(item.text)
-          const noDollah = helpers.removeDollarSign(formmatted)
-          return {Items: noDollah, id: Math.random() + idx, Cost: item.data}
-        })
-      : {}
-    ocr.amounts = lineItems
     dispatch(getOcr(ocr))
     dispatch(copyOfOcr(ocr))
   } catch (err) {
@@ -175,38 +170,9 @@ export default function(state = initialState, action) {
     case CLEAR_OCR:
       return {...state, ocr: {}}
     case UPDATE_RECEIPT:
-      return {...state, singleReceipt: {data: [...action.data.data]}}
-    case DELETE_ROW:
       return {
         ...state,
-        ocr: {
-          ...state.ocr,
-          amounts: state.ocr.amounts.filter(item => item.id !== action.id)
-        },
-        originalOcr: {
-          ...state.originalOcr,
-          amounts: state.originalOcr.amounts.filter(
-            item => item.id !== action.id
-          )
-        }
-      }
-    case ADD_ROW:
-      const newItem = {id: Math.random(), Items: '', Cost: 0}
-      return {
-        ...state,
-        ocr: {
-          ...state.ocr,
-          amounts: [...state.ocr.amounts, newItem]
-        },
-        originalOcr: {
-          ...state.originalOcr,
-          amounts: [...state.originalOcr.amounts, newItem]
-        }
-      }
-    case UPDATE_COST_WITH_TIP:
-      return {
-        ...state,
-        ocr: {...state.ocr, amounts: action.itemsWithUpdatedCost}
+        singleReceipt: {...state.singleReceipt, data: action.data}
       }
     default:
       return state

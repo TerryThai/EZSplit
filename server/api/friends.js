@@ -25,13 +25,11 @@ router.put('/quickadd', async (req, res, next) => {
     myEmail = req.body.myEmail
     friendEmail = req.body.friendEmail
     friendName = req.body.friendName
-    console.log(friendName, friendEmail)
     newFriend = {name: friendName, email: friendEmail}
     await MongoUser.findOneAndUpdate(
       {email: myEmail},
       {$push: {friends: newFriend}}
     )
-    console.log('NEWFRIEND!!!!!!!!', newFriend)
     res.json(newFriend)
   } catch (error) {
     next(error)

@@ -10,7 +10,6 @@ class CreateGroupSideBar extends Component {
   }
 
   addUser = (event, {value}) => {
-    console.log('adduser', value)
     this.setState({
       users: [
         {name: this.props.user.name, email: this.props.user.email},

@@ -44,13 +44,12 @@ class SocketTable extends Component {
     let lineItems = []
     console.log(this.props.singleReceipt.data)
     this.props.singleReceipt.data.forEach((item, idx) => {
-      lineItems.push({item: item.Items, id: idx, cost: item.Cost, users: []})
-      // if (
-      //   !item.items.toLowerCase().includes('total') &&
-      //   !item.items.toLowerCase().includes('cash')
-      // ) {
-      //   lineItems.push({item: item.items, id: idx, cost: item.cost, users: []})
-      // }
+      if (
+        !item.item.toLowerCase().includes('total') &&
+        !item.item.toLowerCase().includes('cash')
+      ) {
+        lineItems.push({item: item.item, id: idx, cost: item.cost, users: []})
+      }
     })
 
     // const calcArray = this.props.groupMembers.map(member=>({email: member.email, payee: this.props.singleReceipt.uploader.email, amount: 0}))
@@ -66,13 +65,13 @@ class SocketTable extends Component {
       // calc: calcArray
     })
     socket.on('cell-update', newData => {
-      store.dispatch(updateReceipt({data: newData}))
+      console.log('newdata', newData)
+      store.dispatch(updateReceiptThunk(newData, this.props.singleReceipt._id))
       this.setState({data: newData})
     })
   }
 
   startEdit = (rowIdx, data) => {
-    console.log('start edit')
     this.setState({
       editIdx: [...this.state.editIdx, rowIdx]
     })
@@ -128,9 +127,10 @@ class SocketTable extends Component {
     await this.setState({
       editIdx: newEditIdx
     })
-    const newRow = this.state.data[rowIdx]
-    console.log(newRow)
-    await this.props.updateReceiptThunk(newRow, this.props.singleReceipt._id)
+    await this.props.updateReceiptThunk(
+      this.state.data,
+      this.props.singleReceipt._id
+    )
   }
 
   calcBalances = () => {
@@ -153,7 +153,6 @@ class SocketTable extends Component {
       uploader: this.props.singleReceipt.uploader.name,
       recipients: this.props.selectedGroup.users
     }
-    console.log('obj', obj)
     await axios.post('/api/email/send', obj)
     this.setState({emailConfirmation: ''})
   }
@@ -211,7 +210,7 @@ class SocketTable extends Component {
   }
 
   render() {
-    console.log('socketTable state render', this.state)
+    console.log(this.props.singleReceipt)
     return (
       <div>
         <Segment style={{overflow: 'scroll', maxHeight: '66vh'}}>

@@ -48,7 +48,6 @@ router.post('/', async (req, res, next) => {
 router.put('/:groupId/:email', async (req, res, next) => {
   try {
     const {groupId, email} = req.params
-    console.log('leave group backend', groupId, email)
     const group = await MongoGroup.findOneAndUpdate(
       {
         _id: groupId
@@ -56,7 +55,6 @@ router.put('/:groupId/:email', async (req, res, next) => {
       {$pull: {users: {email}}},
       {new: true}
     )
-    console.log('newwwgroup', group)
     res.json(group._id)
   } catch (err) {
     next(err)

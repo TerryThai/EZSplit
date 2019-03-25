@@ -72,7 +72,6 @@ class FriendsList extends Component {
         newform = [!newform[0], false]
       }
     }
-    console.log(newform)
     this.setState({
       showform: newform
     })
@@ -85,7 +84,6 @@ class FriendsList extends Component {
     })
   }
   render() {
-    // console.log(this.props.friends)
     return (
       <div className="column-center">
         <br />

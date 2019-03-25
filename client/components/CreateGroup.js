@@ -111,7 +111,6 @@ class CreateGroup extends Component {
                     return user.email === friend.email
                   })[0]
                 ) {
-                  console.log('AddedUsers List: Friend already added!')
                   return null
                 } else {
                   return (

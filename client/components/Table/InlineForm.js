@@ -35,7 +35,7 @@ class InlineForm extends Component {
   }
 
   render() {
-    // group members dropdown list functions: 
+    // group members dropdown list functions:
 
     const added = this.props.data.users.map(user => user.email)
     const leftover = this.props.groupMembers.filter(
@@ -49,15 +49,14 @@ class InlineForm extends Component {
 
     ///////////////////
 
-    console.log('addusers', addusers)
     return (
       <Table.Row key={Math.random()}>
         <Table.Cell>
           <Button
             icon
             onClick={() => {
-              console.log(this.props.rowIdx)
               this.props.stopEdit(this.props.rowIdx)
+              console.log('all data', this.props.allData)
               socket.emit('cell-update', this.props.allData)
             }}
           >
