@@ -42,7 +42,6 @@ class SocketTable extends Component {
     )
     await this.props.selectGroupThunk(this.props.singleReceipt.groupId)
     let lineItems = []
-    console.log(this.props.singleReceipt.data)
     this.props.singleReceipt.data.forEach((item, idx) => {
       if (
         !item.item.toLowerCase().includes('total') &&

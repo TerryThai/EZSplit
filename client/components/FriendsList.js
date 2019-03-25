@@ -21,7 +21,6 @@ class FriendsList extends Component {
   }
 
   toggle = () => this.setState({checked: !this.state.checked})
-
   handleAddEmail = email => {
     this.props.addFriendThunk(this.props.user.email, email)
   }
@@ -159,7 +158,7 @@ class FriendsList extends Component {
           {this.state.showform[0] && <Button type="submit">Submit</Button>}
         </Form>
         <Button onClick={this.toggle}>Toggle QR Scanner</Button>
-        {this.state.checked ? <Readqr toggle={this.toggle} /> : ''}
+        {this.state.checked ? <Readqr /> : ''}
         {this.props.errorMsg && (
           <Message error style={{width: '80%', maxWidth: '450px'}}>
             {this.props.errorMsg}

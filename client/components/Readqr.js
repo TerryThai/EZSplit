@@ -2,27 +2,17 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import QrReader from 'react-qr-reader'
 import {Image} from 'semantic-ui-react'
-import {addFriendThunk} from '../store/index'
 
 class Readqr extends Component {
   state = {
     result: 'No result'
   }
 
-  handleScan = async data => {
+  handleScan = data => {
     if (data) {
       this.setState({
         result: data
       })
-    }
-    const obj = {
-      myEmail: this.props.user.email,
-      friendEmail: this.state.result
-    }
-    console.log('obj', obj)
-    if (obj.friendEmail !== 'No result') {
-      await this.props.addFriendThunk(obj.myEmail, obj.friendEmail, [])
-      this.props.toggle()
     }
   }
 
@@ -60,4 +50,4 @@ const mapState = state => ({
   user: state.user
 })
 
-export default connect(mapState, {addFriendThunk})(Readqr)
+export default connect(mapState, {})(Readqr)

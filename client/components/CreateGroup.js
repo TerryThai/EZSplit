@@ -84,7 +84,6 @@ class CreateGroup extends Component {
       justifyContent: 'center',
       flexDirection: 'column',
       alignItems: 'center'
-      // justifyContent: 'flex-start'
     }
     return (
       <Grid rows={2} verticalAlign="middle" relaxed="very" stackable>

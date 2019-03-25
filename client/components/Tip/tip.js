@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Button, Form, Icon} from 'semantic-ui-react'
-import {updateTip} from '../../store/receipts'
+import {getOcr} from '../../store/receipts'
 
 class Tip extends Component {
   state = {
@@ -20,7 +20,7 @@ class Tip extends Component {
     const newItems = [...this.props.originalOcr.amounts]
     const copyOfItems = newItems.map(item => {
       const copyItem = {...item}
-      copyItem.Cost = (copyItem.Cost * tipAmount).toFixed(2)
+      copyItem.data = (copyItem.data * tipAmount).toFixed(2)
       return copyItem
     })
     this.props.updateOcr(copyOfItems)
@@ -73,7 +73,7 @@ class Tip extends Component {
 }
 
 const mapDispatch = dispatch => ({
-  updateTipToStore: newCostsWithTip => dispatch(updateTip(newCostsWithTip))
+  updateOcr: receipt => dispatch(getOcr(receipt))
 })
 
 export default connect(null, mapDispatch)(Tip)

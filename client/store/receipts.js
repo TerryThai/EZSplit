@@ -1,12 +1,24 @@
 import axios from 'axios'
 import history from '../history'
-import {helpers} from '../../helpers'
+
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
+  })
+}
+function parseBase64(base64) {
+  let idx = base64.indexOf(',') + 1
+  return base64.slice(idx)
+}
 
 /**
  * ACTION TYPES
  */
 const GET_OCR = 'GET_OCR'
-const COPY_OF_OCR = 'COPY_OF_OCR'
+const GET_OCR_TWO = 'GET_OCR_TWO'
 const GET_HISTORY = 'GET_HISTORY'
 const SAVE_RECEIPT = 'SAVE_RECEIPT'
 const GET_RECEIPTS_BY_GROUP = 'GET_RECEIPTS_BY_GROUP'
@@ -14,9 +26,6 @@ const CLEAR_OCR = 'CLEAR_OCR'
 const GET_RECEIPT = 'GET_RECEIPT'
 const UPDATE_RECEIPT = 'UPDATE_RECEIPT'
 const GET_RECEIPTS_BY_USER = 'GET_RECEIPTS_BY_USER'
-const DELETE_ROW = 'DELETE_ROW'
-const ADD_ROW = 'ADD_ROW'
-const UPDATE_COST_WITH_TIP = 'UPDATE_COST_WITH_TIP'
 
 /**
  * INITIAL STATE
@@ -34,7 +43,7 @@ const initialState = {
  * ACTION CREATORS
  */
 export const getOcr = ocr => ({type: GET_OCR, ocr})
-export const copyOfOcr = originalOcr => ({type: COPY_OF_OCR, originalOcr})
+export const getOcrTwo = originalOcr => ({type: GET_OCR_TWO, originalOcr})
 export const saveReceipt = (groupId, table) => ({
   type: SAVE_RECEIPT,
   receipt: {groupId, table}
@@ -58,12 +67,6 @@ export const updateReceipt = updatedReceipt => ({
 export const getReceiptsByUser = ArrayOfReceipts => ({
   type: GET_RECEIPTS_BY_USER,
   userReceipts: ArrayOfReceipts
-})
-export const deleteRow = id => ({type: DELETE_ROW, id})
-export const addRow = () => ({type: ADD_ROW})
-export const updateTip = itemsWithUpdatedCost => ({
-  type: UPDATE_COST_WITH_TIP,
-  itemsWithUpdatedCost
 })
 
 /**
@@ -89,14 +92,14 @@ export const updateReceiptThunk = (
 
 export const getOcrThunk = image => async dispatch => {
   try {
-    const b64 = await helpers.getBase64(image)
-    const base64 = helpers.parseBase64(b64)
+    const b64 = await getBase64(image)
+    const base64 = parseBase64(b64)
     const formData = new FormData()
     formData.append('file', image)
     formData.append('base64', base64)
     const {data: ocr} = await axios.post('/api/receipts/send', formData)
     dispatch(getOcr(ocr))
-    dispatch(copyOfOcr(ocr))
+    dispatch(getOcrTwo(ocr))
   } catch (err) {
     console.error(err)
   }
@@ -157,7 +160,7 @@ export default function(state = initialState, action) {
         return {...state, ocr: {...state.ocr, amounts: action.ocr}}
       }
       return {...state, ocr: action.ocr}
-    case COPY_OF_OCR:
+    case GET_OCR_TWO:
       return {...state, originalOcr: action.originalOcr}
     case SAVE_RECEIPT:
       return {...state, receipt: action.receipt}

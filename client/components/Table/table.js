@@ -1,41 +1,36 @@
 import React, {Component} from 'react'
+import {helpers} from '../../../helpers'
 import {connect} from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
 import Tip from '../Tip/tip'
 import {Button} from 'semantic-ui-react'
-import {saveReceiptThunk, deleteRow, addRow} from '../../store/receipts'
+import {saveReceiptThunk} from '../../store/receipts'
 
 class Table extends Component {
-  handleDeleteRow = rowContent => {
-    this.props.deleteRowFromTable(rowContent.id)
-  }
-
-  handleAddRow = () => {
-    this.props.addRowToTable()
-  }
+  state = {}
 
   render() {
+    const {removeDollarSign, capitalize} = helpers
+    // mapping over line items and using tenary to see if it exists,
+    // if not the lineItem will return an empty object
+    // the way the bootstrap table works is that it requires an
+    // object to be fed in to the cells
     const lineItems = this.props.ocr.amounts
+      ? this.props.ocr.amounts.map((item, idx) => {
+          // properly formatted each line item so that
+          // the first letter of each word is capitalized
+          const formmatted = capitalize(item.text)
+          // removed dollar sign as the api we utilized
+          // combines the price and name of the item in a string
+          const noDollah = removeDollarSign(formmatted)
+          return {item: noDollah, id: idx, cost: item.data}
+        })
+      : {}
 
     const columns = [
-      {dataField: 'Items', text: 'Items'},
-      {dataField: 'Cost', text: 'Cost'},
-      {
-        dataField: 'id',
-        text: 'Remove',
-        formatter: (rowIdx, rowContent) => {
-          return (
-            <button
-              type="button"
-              className="btn btn-danger btn-xs"
-              onClick={() => this.handleDeleteRow(rowContent)}
-            >
-              Delete
-            </button>
-          )
-        }
-      }
+      {dataField: 'item', text: 'Items'},
+      {dataField: 'cost', text: 'Cost'}
     ]
 
     // this table variable is tenary that renders out
@@ -63,14 +58,12 @@ class Table extends Component {
       <div className="table-div-container">
         {table}
         {this.props.ocr.totalAmount && (
-          <div className="total-add-save-btn-contaniner">
-            <div>total amount: {totalAmount.data}</div>
+          <div className="total-Save-contaniner">
             <div>
-              <Button primary onClick={() => this.handleAddRow()}>
-                Add Row
-              </Button>
+              total amount: {totalAmount.data}
               <Button
                 color="black"
+                floated="right"
                 onClick={() => this.props.saveReceipt(id, lineItems, uploader)}
               >
                 Save Receipt
@@ -91,9 +84,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   saveReceipt: (groupId, table, uploader) =>
-    dispatch(saveReceiptThunk(groupId, table, uploader)),
-  deleteRowFromTable: deletIdx => dispatch(deleteRow(deletIdx)),
-  addRowToTable: () => dispatch(addRow())
+    dispatch(saveReceiptThunk(groupId, table, uploader))
 })
 
 export default connect(mapState, mapDispatch)(Table)

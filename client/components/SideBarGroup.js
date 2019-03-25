@@ -38,7 +38,7 @@ class SideBarGroup extends Component {
             options={groups}
             style={{width: '50%'}}
           />
-          <CreateGroup groups={this.props.groups}/>
+          <CreateGroup groups={this.props.groups} />
         </div>
       </div>
     )
