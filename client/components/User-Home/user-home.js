@@ -66,7 +66,7 @@ export const UserHome = props => {
                       <PopupUpload />
                     </Segment>
                   </Grid.Column>
-                  <Grid.Column centered>
+                  <Grid.Column centered="true">
                     <Segment padded="very" raised={true} className="stats">
                       <Stats />
                     </Segment>
@@ -98,7 +98,7 @@ export const UserHome = props => {
                   image={imageUrl}
                   description={<Qrcode />}
                   extra={`Welcome, ${email}!!!`}
-                  centered="true"
+                  centered={true}
                   color="grey"
                 />
               </Segment>
