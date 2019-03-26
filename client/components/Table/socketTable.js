@@ -9,15 +9,14 @@ import store from '../../store/index'
 import socket from '../../socket'
 import {InlineForm, UserBalances} from '../index'
 import axios from 'axios'
-import {
-  Button,
-  Table,
-  Dropdown,
-  Segment,
-  Icon,
-  Form,
-  Input
-} from 'semantic-ui-react'
+import {Button, Table, Segment, Icon, Popup} from 'semantic-ui-react'
+
+const popStyle = {
+  borderRadius: 0,
+  opacity: 0.93,
+  padding: '2em',
+  backgroundColor: 'whitesmoke'
+}
 
 class SocketTable extends Component {
   state = {
@@ -33,7 +32,8 @@ class SocketTable extends Component {
       user: false,
       addUser: false
     },
-    emailConfirmation: ''
+    emailConfirmation: '',
+    isOpen: true
   }
 
   async componentDidMount() {
@@ -74,6 +74,9 @@ class SocketTable extends Component {
     this.setState({
       editIdx: [...this.state.editIdx, rowIdx]
     })
+  }
+  handleOpen = () => {
+    if (this.state.isOpen) this.setState({isOpen: false})
   }
 
   saveUsers = (userEmails, rowIdx) => {
@@ -213,6 +216,19 @@ class SocketTable extends Component {
     return (
       <div>
         <Segment style={{overflow: 'scroll', maxHeight: '66vh'}}>
+          {this.state.editIdx.length ? (
+            ''
+          ) : (
+            <Popup
+              trigger={<div />}
+              content="Here is your receipt! Please verify and make changes."
+              on="click"
+              style={popStyle}
+              open={this.state.isOpen}
+              onClick={this.handleOpen}
+              position="top center"
+            />
+          )}
           {/* <UserBalances calc={this.state.calc uploader={this.props.singleReceipt.uploader} /> */}
           <Table selectable inverted celled>
             {/* header row */}

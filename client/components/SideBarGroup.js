@@ -37,7 +37,7 @@ class SideBarGroup extends Component {
       <div className="table-sidebar-container">
         {this.props.userReceipts.receipts &&
         this.props.userReceipts.receipts.length ? (
-          table
+          <Table />
         ) : (
           <Popup
             trigger={<Table groupId={this.state.selectedGroup} />}
