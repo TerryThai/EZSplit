@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const User = require('../db/models/user')
+const MongoUser = require('../mongodb/models/user')
 module.exports = router
 
 router.post('/login', async (req, res, next) => {
@@ -21,7 +22,18 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
+    console.log('req.body', req.body)
     const user = await User.create(req.body)
+    const {email, name} = req.body
+    MongoUser.findOneAndUpdate(
+      {email, name},
+      {name},
+      {setDefaultsOnInsert: true, upsert: true},
+      (err, mongoUser) => {
+        if (err) console.log(err)
+        console.log(mongoUser)
+      }
+    )
     req.login(user, err => (err ? next(err) : res.json(user)))
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {

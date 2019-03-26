@@ -1,15 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {
-  Qrcode,
-  Readqr,
-  UploadImage,
-  Table,
-  SideBarGroup,
-  FeedInfo,
-  Stats
-} from '../index'
+import {Qrcode, SideBarGroup, FeedInfo, Stats, PopupUpload} from '../index'
 import {Grid, Segment, Container, Card} from 'semantic-ui-react'
 import {HorizontalBar, Line} from 'react-chartjs-2'
 
@@ -62,19 +54,19 @@ export const UserHome = props => {
   return !props.ocr.amounts ? (
     <div>
       <div>
-        <Grid celled centered={true}>
+        <Grid celled centered>
           {/* within this grid lives 3 Columns. 2 of which are size 6 and a remaining is an assumetrical size 3 */}
           <Grid.Row>
             {/* this is the start of our row. within this row lives 2 columns */}
             <Grid.Column width={6}>
-              <Grid columns="equal" relaxed centered={true}>
+              <Grid columns="equal" relaxed centered>
                 <Grid.Row stretched>
                   <Grid.Column>
                     <Segment padded="very" raised={true}>
-                      <UploadImage className="upload" />
+                      <PopupUpload />
                     </Segment>
                   </Grid.Column>
-                  <Grid.Column centered={true}>
+                  <Grid.Column centered="true">
                     <Segment padded="very" raised={true} className="stats">
                       <Stats />
                     </Segment>
@@ -87,7 +79,7 @@ export const UserHome = props => {
             </Grid.Column>
             {/* this is the start of our second column */}
             <Grid.Column width={6}>
-              <Grid columns="equal" relaxed centered={true}>
+              <Grid columns="equal" relaxed centered>
                 <Grid.Row>
                   <Grid.Column>
                     <Segment padded="very" raised={true}>

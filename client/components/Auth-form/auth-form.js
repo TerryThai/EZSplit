@@ -32,6 +32,7 @@ const AuthForm = props => {
               />
               <Form.Input
                 name="password"
+                type="password"
                 fluid
                 label="Password"
                 placeholder="password"

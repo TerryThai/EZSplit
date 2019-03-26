@@ -1,6 +1,10 @@
 .ui.raised.very.padded.segment.line {
   background-color: currentColor;
 }
+.ui.container.sidebar-container {
+  display: flex;
+  align-items: center;
+}
 .ui.raised.very.padded.segment.stats {
   background-color: currentColor;
 }
@@ -395,12 +399,12 @@ thead {
 }
 
 .custom-cost {
-  width: 100px;
+  /* width: 100px; */
   text-align: center !important;
 }
 
 .custom-user {
-  width: 200px;
+  /* width: 30vw; */
 }
 
 .custom-edit {
@@ -408,6 +412,7 @@ thead {
 }
 
 .custom-item {
+  width: 30vh;
 }
 
 .custom-cost {

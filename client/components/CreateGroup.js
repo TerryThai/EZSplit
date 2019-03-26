@@ -65,7 +65,7 @@ class CreateGroup extends Component {
           errorMsg: ''
         })
         if (this.props.redir) {
-          history.push(`/${this.props.redirUrl}`)
+          history.push(`${this.props.redirUrl}`)
         }
       }
     }
@@ -114,7 +114,6 @@ class CreateGroup extends Component {
                 } else {
                   return (
                     <ListItem key={idx}>
-                      <Image avatar src={friend.imageUrl} floated="left" />
                       <List.Content>{friend.name}</List.Content>
                       <List.Content floated="right">
                         <Button

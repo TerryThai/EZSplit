@@ -9,23 +9,21 @@ import store from '../../store/index'
 import socket from '../../socket'
 import {InlineForm, UserBalances} from '../index'
 import axios from 'axios'
-import {
-  Button,
-  Table,
-  Dropdown,
-  Segment,
-  Icon,
-  Form,
-  Input
-} from 'semantic-ui-react'
+import {Button, Table, Segment, Icon, Popup} from 'semantic-ui-react'
+
+const popStyle = {
+  borderRadius: 0,
+  opacity: 0.93,
+  padding: '2em',
+  backgroundColor: 'whitesmoke'
+}
 
 class SocketTable extends Component {
   state = {
     data: [],
-    calc: [],
     total: 0,
     editIdx: [],
-    groupMembers: [],
+    userAmounts: {},
     focus: [],
     lock: {
       item: false,
@@ -33,7 +31,8 @@ class SocketTable extends Component {
       user: false,
       addUser: false
     },
-    emailConfirmation: ''
+    emailConfirmation: '',
+    isOpen: true
   }
 
   async componentDidMount() {
@@ -41,6 +40,8 @@ class SocketTable extends Component {
       this.props.match.params.receiptId
     )
     await this.props.selectGroupThunk(this.props.singleReceipt.groupId)
+
+    // filter out line items containing 'total' and 'cash'
     let lineItems = []
     this.props.singleReceipt.data.forEach((item, idx) => {
       if (
@@ -56,29 +57,45 @@ class SocketTable extends Component {
       }
     })
 
-    // const calcArray = this.props.groupMembers.map(member=>({email: member.email, payee: this.props.singleReceipt.uploader.email, amount: 0}))
+    // initialize state to have userAmounts with group users
+    let userAmounts = this.props.singleReceipt.userAmounts
+    this.props.selectedGroup.users.map(user => {
+      if (!userAmounts[user.email]) {
+        userAmounts[user.email] = {
+          name: user.name,
+          amount: 0,
+          items: {}
+        }
+      }
+    })
 
-    // invoke this.calcBalance on saveUser and removeUser ?  to update the this.state.calc
-
-    // this.state.calc is [{email, payee, amount}]
-    // or [{name, email, amount}], receipt payer = uploader => will initiate with uploader?
-
+    // set props to state
     await this.setState({
       data: lineItems,
-      groupMembers: this.props.selectedGroup.users
-      // calc: calcArray
+      userAmounts
     })
+
+    // SOCKET LISTENERS ::
     socket.on('cell-update', newData => {
-      console.log('newdata', newData)
-      store.dispatch(updateReceiptThunk(newData, this.props.singleReceipt._id))
       this.setState({data: newData})
     })
+    socket.on('lockChange', lockStatus => {
+      this.setState({lock: lockStatus})
+    })
+    socket.on('updateUserAmounts', userAmounts => {
+      this.setState({userAmounts})
+    })
+
+    ///////END componentdidmount
   }
 
   startEdit = (rowIdx, data) => {
     this.setState({
       editIdx: [...this.state.editIdx, rowIdx]
     })
+  }
+  handleOpen = () => {
+    if (this.state.isOpen) this.setState({isOpen: false})
   }
 
   saveUsers = (userEmails, rowIdx) => {
@@ -88,15 +105,19 @@ class SocketTable extends Component {
       email => !rowUserEmails.includes(email)
     )
     if (!userEmailsDeduped[0]) return
-    const newUsers = this.state.groupMembers.filter(user =>
+    const newUsers = this.props.selectedGroup.users.filter(user =>
       userEmailsDeduped.includes(user.email)
     )
     const newRow = {...row, users: [...row.users, ...newUsers]}
     const newState = this.state.data
     newState[rowIdx] = newRow
+    this.adjustBalances(rowIdx, newRow)
     this.setState({
       data: newState
     })
+
+    // show everyone live update of addUser action
+    socket.emit('cell-update', this.state.data)
   }
 
   removeUser = (userEmail, rowIdx) => {
@@ -105,9 +126,13 @@ class SocketTable extends Component {
     const newRow = {...row, users: newUsers}
     const newState = this.state.data
     newState[rowIdx] = newRow
+    this.adjustBalances(rowIdx, newRow, userEmail)
     this.setState({
       data: newState
     })
+
+    // show everyone live update of removeUser action
+    socket.emit('cell-update', this.state.data)
   }
 
   handleEditChange = (evt, rowIdx) => {
@@ -131,34 +156,76 @@ class SocketTable extends Component {
     await this.setState({
       editIdx: newEditIdx
     })
+
+    // save update to backend
     await this.props.updateReceiptThunk(
-      this.state.data,
+      {data: this.state.data, userAmounts: this.state.userAmounts},
       this.props.singleReceipt._id
     )
   }
 
-  calcBalances = () => {
-    const data = this.state.data
+  updateUserAmounts = async newAmounts => {
+    await this.setState({
+      userAmounts: newAmounts
+    })
+  }
+
+  sumValues = obj =>
+    Object.values(obj)
+      .reduce((a, b) => a + b)
+      .toFixed(2)
+
+  adjustBalances = (rowIdx, newRow, userEmail) => {
+    const userAmounts = this.state.userAmounts
+    newRow.users.forEach(user => {
+      userAmounts[user.email].items[rowIdx] = newRow.cost / newRow.users.length
+      userAmounts[user.email].amount = this.sumValues(
+        userAmounts[user.email].items
+      )
+    })
+    if (userEmail) {
+      console.log(userEmail)
+      delete userAmounts[userEmail].items[rowIdx]
+      if (Object.keys(userAmounts[userEmail].items).length) {
+        userAmounts[userEmail].amount = this.sumValues(
+          userAmounts[userEmail].items
+        )
+      } else {
+        userAmounts[userEmail].amount = 0
+      }
+    }
+
+    this.setState({
+      userAmounts
+    })
+
+    socket.emit('userAmounts', this.state.userAmounts)
   }
 
   lockColumn = async column => {
-    this.setState({
+    await this.setState({
       lock: {
         ...this.state.lock,
         [column]: !this.state.lock[column]
       }
     })
+
+    // change locked columns for everyone
+    socket.emit('cell-lock', this.state.lock)
   }
 
+  isUploader = () =>
+    this.props.user.email === this.props.singleReceipt.uploader.email
+
   submitEmail = async () => {
-    this.setState({emailConfirmation: '..Sending Email!'})
+    this.setState({emailConfirmation: 'Sent!'})
     const obj = {
       receiptId: this.props.singleReceipt._id,
       uploader: this.props.singleReceipt.uploader.name,
       recipients: this.props.selectedGroup.users
     }
     await axios.post('/api/email/send', obj)
-    this.setState({emailConfirmation: ''})
+    // this.setState({emailConfirmation: ''})
   }
 
   row = (
@@ -205,7 +272,11 @@ class SocketTable extends Component {
           <Table.Cell className="custom-item">{data.item}</Table.Cell>
           <Table.Cell className="custom-cost">{data.cost}</Table.Cell>
           <Table.Cell className="custom-user">
-            {data.users.map(user => user.name)}
+            {data.users.map(user => (
+              <Button disabled={true} key={user.email}>
+                {user.name}
+              </Button>
+            ))}
           </Table.Cell>
           {!!this.state.editIdx.length && <Table.Cell />}
         </Table.Row>
@@ -214,11 +285,32 @@ class SocketTable extends Component {
   }
 
   render() {
-    console.log(this.props.singleReceipt)
+    console.log('sockettable state:', this.state)
     return (
       <div>
         <Segment style={{overflow: 'scroll', maxHeight: '66vh'}}>
-          {/* <UserBalances calc={this.state.calc uploader={this.props.singleReceipt.uploader} /> */}
+          {this.state.editIdx.length ? (
+            ''
+          ) : (
+            <Popup
+              trigger={<div />}
+              content="Here is your receipt! Please verify and make changes."
+              on="click"
+              style={popStyle}
+              open={this.state.isOpen}
+              onClick={this.handleOpen}
+              position="top center"
+            />
+          )}
+          {this.props.selectedGroup && (
+            <UserBalances
+              uploader={this.props.singleReceipt.uploader}
+              userAmounts={this.state.userAmounts}
+              updateUserAmounts={this.updateUserAmounts}
+              submitEmail={this.submitEmail}
+              emailSent={this.state.emailConfirmation}
+            />
+          )}
           <Table selectable inverted celled>
             {/* header row */}
             <Table.Header>
@@ -226,50 +318,52 @@ class SocketTable extends Component {
                 <Table.HeaderCell>Edit</Table.HeaderCell>
                 <Table.HeaderCell>
                   Item
-                  {!!this.state.editIdx.length && (
-                    <Icon
-                      link
-                      style={{marginLeft: '15px'}}
-                      name={this.state.lock.item ? 'lock' : 'unlock'}
-                      onClick={() => this.lockColumn('item')}
-                    />
-                  )}
-                </Table.HeaderCell>
-                <Table.HeaderCell className="custom-cost">
-                  Cost
-                  {!!this.state.editIdx.length && (
-                    <Icon
-                      link
-                      style={{marginLeft: '15px'}}
-                      name={this.state.lock.cost ? 'lock' : 'unlock'}
-                      onClick={() => this.lockColumn('cost')}
-                    />
-                  )}
-                </Table.HeaderCell>
-                <Table.HeaderCell>
-                  User(s)
-                  {!!this.state.editIdx.length && (
-                    <Icon
-                      link
-                      style={{marginLeft: '15px'}}
-                      name={this.state.lock.user ? 'lock' : 'unlock'}
-                      onClick={() => this.lockColumn('user')}
-                    />
-                  )}
-                </Table.HeaderCell>
-                {!!this.state.editIdx.length && (
-                  // (this.props.user.email ===
-                  //   this.props.singleReceipt.uploader.email) &&
-                  <Table.HeaderCell>
-                    Add User
-                    {!!this.state.editIdx.length && (
+                  {!!this.state.editIdx.length &&
+                    this.isUploader() && (
                       <Icon
                         link
                         style={{marginLeft: '15px'}}
-                        name={this.state.lock.addUser ? 'lock' : 'unlock'}
-                        onClick={() => this.lockColumn('addUser')}
+                        name={this.state.lock.item ? 'lock' : 'unlock'}
+                        onClick={() => this.lockColumn('item')}
                       />
                     )}
+                </Table.HeaderCell>
+                <Table.HeaderCell className="custom-cost">
+                  Cost
+                  {!!this.state.editIdx.length &&
+                    this.isUploader() && (
+                      <Icon
+                        link
+                        style={{marginLeft: '15px'}}
+                        name={this.state.lock.cost ? 'lock' : 'unlock'}
+                        onClick={() => this.lockColumn('cost')}
+                      />
+                    )}
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  User(s)
+                  {!!this.state.editIdx.length &&
+                    this.isUploader() && (
+                      <Icon
+                        link
+                        style={{marginLeft: '15px'}}
+                        name={this.state.lock.user ? 'lock' : 'unlock'}
+                        onClick={() => this.lockColumn('user')}
+                      />
+                    )}
+                </Table.HeaderCell>
+                {!!this.state.editIdx.length && (
+                  <Table.HeaderCell>
+                    Add User
+                    {!!this.state.editIdx.length &&
+                      this.isUploader() && (
+                        <Icon
+                          link
+                          style={{marginLeft: '15px'}}
+                          name={this.state.lock.addUser ? 'lock' : 'unlock'}
+                          onClick={() => this.lockColumn('addUser')}
+                        />
+                      )}
                   </Table.HeaderCell>
                 )}
               </Table.Row>
@@ -286,7 +380,7 @@ class SocketTable extends Component {
                   this.saveUsers,
                   this.removeUser,
                   this.state.editIdx,
-                  this.state.groupMembers,
+                  this.props.selectedGroup.users,
                   this.state.focus,
                   this.focusMe,
                   this.state.data,
@@ -296,10 +390,6 @@ class SocketTable extends Component {
             </Table.Body>
           </Table>
         </Segment>
-        <Button onClick={this.submitEmail}>
-          Email Group Members to join Board
-        </Button>
-        <h3>{this.state.emailConfirmation}</h3>
       </div>
     )
   }

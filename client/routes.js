@@ -30,7 +30,6 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
-        {/* <Route path="/signup" component={Signup} /> */}
         <Route path="/signup" render={() => <Signup signup={true} />} />
         {isLoggedIn && (
           <Switch>
@@ -49,7 +48,7 @@ class Routes extends Component {
             />
             <Route
               path="/groups/create/redir"
-              render={() => <CreateGroup redir={true} />}
+              render={() => <CreateGroup redir={true} redirUrl="/groups" />}
             />
             <Redirect from="*" to="/home" component={UserHome} />
           </Switch>

@@ -158,7 +158,7 @@ class FriendsList extends Component {
           {this.state.showform[0] && <Button type="submit">Submit</Button>}
         </Form>
         <Button onClick={this.toggle}>Toggle QR Scanner</Button>
-        {this.state.checked ? <Readqr /> : ''}
+        {this.state.checked ? <Readqr toggle={this.toggle} /> : ''}
         {this.props.errorMsg && (
           <Message error style={{width: '80%', maxWidth: '450px'}}>
             {this.props.errorMsg}
