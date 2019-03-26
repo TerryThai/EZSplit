@@ -9,7 +9,7 @@ import store from '../../store/index'
 import socket from '../../socket'
 import {InlineForm, UserBalances} from '../index'
 import axios from 'axios'
-import {Button, Table, Segment, Icon, Popup} from 'semantic-ui-react'
+import {Button, Table, Segment, Icon, Popup, Sticky} from 'semantic-ui-react'
 
 const popStyle = {
   borderRadius: 0,
@@ -29,7 +29,8 @@ class SocketTable extends Component {
       item: false,
       cost: false,
       user: false,
-      addUser: false
+      addUser: false,
+      delete: true
     },
     emailConfirmation: '',
     isOpen: true
@@ -52,7 +53,8 @@ class SocketTable extends Component {
           item: item.item,
           id: idx,
           cost: item.cost,
-          users: item.users || []
+          users: item.users || [],
+          delete: item.delete || false
         })
       }
     })
@@ -137,7 +139,11 @@ class SocketTable extends Component {
 
   handleEditChange = (evt, rowIdx) => {
     const row = this.state.data[rowIdx]
-    const newRow = {...row, [evt.target.name]: evt.target.value}
+    const newRow = {
+      ...row,
+      [evt.target.name]:
+        evt.target.name === 'cost' ? Number(evt.target.value) : evt.target.value
+    }
     const newState = this.state.data
     newState[rowIdx] = newRow
     this.setState({
@@ -152,22 +158,19 @@ class SocketTable extends Component {
   }
 
   stopEdit = async rowIdx => {
+    console.log(rowIdx)
     const newEditIdx = this.state.editIdx.filter(idx => idx !== rowIdx)
     await this.setState({
       editIdx: newEditIdx
     })
+
+    this.adjustBalances(rowIdx, this.state.data[rowIdx])
 
     // save update to backend
     await this.props.updateReceiptThunk(
       {data: this.state.data, userAmounts: this.state.userAmounts},
       this.props.singleReceipt._id
     )
-  }
-
-  updateUserAmounts = async newAmounts => {
-    await this.setState({
-      userAmounts: newAmounts
-    })
   }
 
   sumValues = obj =>
@@ -177,21 +180,36 @@ class SocketTable extends Component {
 
   adjustBalances = (rowIdx, newRow, userEmail) => {
     const userAmounts = this.state.userAmounts
-    newRow.users.forEach(user => {
-      userAmounts[user.email].items[rowIdx] = newRow.cost / newRow.users.length
-      userAmounts[user.email].amount = this.sumValues(
-        userAmounts[user.email].items
-      )
-    })
-    if (userEmail) {
-      console.log(userEmail)
-      delete userAmounts[userEmail].items[rowIdx]
-      if (Object.keys(userAmounts[userEmail].items).length) {
-        userAmounts[userEmail].amount = this.sumValues(
-          userAmounts[userEmail].items
+
+    if (newRow.delete) {
+      newRow.users.forEach(user => {
+        delete userAmounts[user.email].items[rowIdx]
+        if (Object.keys(userAmounts[user.email].items).length) {
+          userAmounts[user.email].amount = this.sumValues(
+            userAmounts[user.email].items
+          )
+        } else {
+          userAmounts[user.email].amount = 0
+        }
+      })
+    } else {
+      newRow.users.forEach(user => {
+        userAmounts[user.email].items[rowIdx] =
+          newRow.cost / newRow.users.length
+        userAmounts[user.email].amount = this.sumValues(
+          userAmounts[user.email].items
         )
-      } else {
-        userAmounts[userEmail].amount = 0
+      })
+      if (userEmail) {
+        console.log(userEmail)
+        delete userAmounts[userEmail].items[rowIdx]
+        if (Object.keys(userAmounts[userEmail].items).length) {
+          userAmounts[userEmail].amount = this.sumValues(
+            userAmounts[userEmail].items
+          )
+        } else {
+          userAmounts[userEmail].amount = 0
+        }
       }
     }
 
@@ -199,6 +217,7 @@ class SocketTable extends Component {
       userAmounts
     })
 
+    // update everyone's amounts header
     socket.emit('userAmounts', this.state.userAmounts)
   }
 
@@ -212,6 +231,15 @@ class SocketTable extends Component {
 
     // change locked columns for everyone
     socket.emit('cell-lock', this.state.lock)
+  }
+
+  deleteRow = rowIdx => {
+    // doesn't actually delete, only hides
+    const row = this.state.data[rowIdx]
+    row.delete = true
+    this.adjustBalances(rowIdx, row)
+    this.stopEdit(rowIdx)
+    socket.emit('cell-update', this.state.data)
   }
 
   isUploader = () =>
@@ -241,7 +269,8 @@ class SocketTable extends Component {
     focus,
     focusMe,
     allData,
-    lockedColumns
+    lockedColumns,
+    deleteRow
   ) => {
     const isEditing = editIdx.includes(rowIdx)
     if (isEditing) {
@@ -259,16 +288,25 @@ class SocketTable extends Component {
           focusMe={focusMe}
           allData={allData}
           lockedColumns={lockedColumns}
+          deleteRow={deleteRow}
         />
       )
+    } else if (data.delete) {
+      console.log('found deleted row')
+      
     } else {
       return (
         <Table.Row key={Math.random()}>
           <Table.Cell className="custom-edit">
-            <Button icon onClick={() => startEdit(rowIdx, data)}>
-              <Icon name="edit" />
+            <Button
+              icon
+              onClick={() => startEdit(rowIdx, data)}
+              inverted={true}
+            >
+              <Icon name="edit" inverted={true} />
             </Button>
           </Table.Cell>
+          {!!this.state.editIdx.length && <Table.Cell />}
           <Table.Cell className="custom-item">{data.item}</Table.Cell>
           <Table.Cell className="custom-cost">{data.cost}</Table.Cell>
           <Table.Cell className="custom-user">
@@ -285,10 +323,9 @@ class SocketTable extends Component {
   }
 
   render() {
-    console.log('sockettable state:', this.state)
     return (
       <div>
-        <Segment style={{overflow: 'scroll', maxHeight: '66vh'}}>
+        <Segment style={{overflow: 'scroll', maxHeight: '75vh'}}>
           {this.state.editIdx.length ? (
             ''
           ) : (
@@ -306,16 +343,32 @@ class SocketTable extends Component {
             <UserBalances
               uploader={this.props.singleReceipt.uploader}
               userAmounts={this.state.userAmounts}
-              updateUserAmounts={this.updateUserAmounts}
               submitEmail={this.submitEmail}
               emailSent={this.state.emailConfirmation}
+              data={this.state.data}
             />
           )}
           <Table selectable inverted celled>
             {/* header row */}
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Edit</Table.HeaderCell>
+                <Table.HeaderCell className="custom-edit">
+                  Edit
+                </Table.HeaderCell>
+                {!!this.state.editIdx.length && (
+                  <Table.HeaderCell className="custom-delete">
+                    Delete
+                    {!!this.state.editIdx.length &&
+                      this.isUploader() && (
+                        <Icon
+                          link
+                          style={{marginLeft: '15px'}}
+                          name={this.state.lock.delete ? 'lock' : 'unlock'}
+                          onClick={() => this.lockColumn('delete')}
+                        />
+                      )}
+                  </Table.HeaderCell>
+                )}
                 <Table.HeaderCell>
                   Item
                   {!!this.state.editIdx.length &&
@@ -340,7 +393,7 @@ class SocketTable extends Component {
                       />
                     )}
                 </Table.HeaderCell>
-                <Table.HeaderCell>
+                <Table.HeaderCell className="custom-user">
                   User(s)
                   {!!this.state.editIdx.length &&
                     this.isUploader() && (
@@ -353,7 +406,7 @@ class SocketTable extends Component {
                     )}
                 </Table.HeaderCell>
                 {!!this.state.editIdx.length && (
-                  <Table.HeaderCell>
+                  <Table.HeaderCell className="custom-add-user">
                     Add User
                     {!!this.state.editIdx.length &&
                       this.isUploader() && (
@@ -384,7 +437,8 @@ class SocketTable extends Component {
                   this.state.focus,
                   this.focusMe,
                   this.state.data,
-                  this.state.lock
+                  this.state.lock,
+                  this.deleteRow
                 )
               })}
             </Table.Body>

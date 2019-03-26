@@ -393,26 +393,16 @@ thead {
 
 .custom-edit {
   width: 50px;
-}
-
-.custom-item {
-}
-
-.custom-cost {
-  /* width: 100px; */
   text-align: center !important;
 }
 
-.custom-user {
-  /* width: 30vw; */
-}
-
-.custom-edit {
-  width: 50px;
+.custom-delete {
+  width: 120px;
+  text-align: center !important;
 }
 
 .custom-item {
-  width: 30vh;
+  min-width: 30vh;
 }
 
 .custom-cost {
@@ -421,7 +411,13 @@ thead {
 }
 
 .custom-user {
-  width: 200px;
+  max-width: 20vh;
+  text-align: center !important;
+}
+
+.custom-add-user {
+  width: 20vh;
+  text-align: center !important;
 }
 
 .total-add-save-btn-contaniner {
