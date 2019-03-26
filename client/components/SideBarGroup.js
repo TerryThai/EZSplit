@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import {getGroupsThunk, selectGroupThunk} from '../store/groups'
-import {Table, CreateGroupSideBar, CreateGroup} from '../components/index'
+import {Table, CreateGroup} from '../components/index'
 import {Dropdown, Popup, Container} from 'semantic-ui-react'
 
 const style = {

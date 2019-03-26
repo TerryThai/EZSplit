@@ -424,3 +424,8 @@ thead {
   display: flex;
   justify-content: space-between;
 }
+
+.Toastify__toast.Toastify__toast--default {
+  background-color: rgb(31, 31, 31);
+  opacity: 0.77;
+}
