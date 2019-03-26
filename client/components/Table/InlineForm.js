@@ -27,6 +27,7 @@ class InlineForm extends Component {
   focus = (num, rowIdx) =>
     num === this.props.focus[0] && rowIdx === this.props.focus[1]
 
+  // allow save/stopEdit on Enter keydown
   handleKeyDown = e => {
     if (e.keyCode === 13) {
       this.props.stopEdit(this.props.rowIdx)
@@ -79,6 +80,7 @@ class InlineForm extends Component {
         </Table.Cell>
         <Table.Cell>
           <Input
+            type="number"
             disabled={this.props.lockedColumns.cost}
             autoFocus={this.focus(2, this.props.rowIdx)}
             onKeyDown={evt => this.handleKeyDown(evt, this.props.rowIdx)}

@@ -65,7 +65,7 @@ class CreateGroup extends Component {
           errorMsg: ''
         })
         if (this.props.redir) {
-          history.push(`/${this.props.redirUrl}`)
+          history.push(`${this.props.redirUrl}`)
         }
       }
     }

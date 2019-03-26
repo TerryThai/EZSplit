@@ -48,7 +48,7 @@ class Routes extends Component {
             />
             <Route
               path="/groups/create/redir"
-              render={() => <CreateGroup redir={true} />}
+              render={() => <CreateGroup redir={true} redirUrl="/groups" />}
             />
             <Redirect from="*" to="/home" component={UserHome} />
           </Switch>

@@ -2,8 +2,16 @@ module.exports = io => {
   io.on('connection', socket => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
-    socket.on('cell-update', table => {
-      socket.broadcast.emit('cell-update', table)
+    socket.on('cell-update', tableData => {
+      socket.broadcast.emit('cell-update', tableData)
+    })
+
+    socket.on('cell-lock', lockStatus => {
+      socket.broadcast.emit('lockChange', lockStatus)
+    })
+
+    socket.on('userAmounts', userAmounts => {
+      socket.broadcast.emit('updateUserAmounts', userAmounts)
     })
 
     socket.on('disconnect', () => {

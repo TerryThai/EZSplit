@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {getGroupsThunk} from '../store/groups'
+import {getGroupsThunk,selectGroupThunk} from '../store/groups'
 import {Table, CreateGroupSideBar, CreateGroup} from '../components/index'
 import {Dropdown, Popup, Container} from 'semantic-ui-react'
 
@@ -14,15 +14,17 @@ const style = {
 
 class SideBarGroup extends Component {
   state = {
-    selectedGroup: ''
+    selectedGroup: null
   }
-
   async componentDidMount() {
     await this.props.getGroupsThunk(this.props.user.email)
   }
 
-  onChange = (event, {value}) => {
-    this.setState({selectedGroup: value})
+  onChange = async (event, {value}) => {
+    await this.props.selectGroupThunk(value)
+    await this.setState({
+      selectedGroup: {...this.props.selectedGroup}
+    })
   }
 
   render() {
@@ -37,10 +39,10 @@ class SideBarGroup extends Component {
       <div className="table-sidebar-container">
         {this.props.userReceipts.receipts &&
         this.props.userReceipts.receipts.length ? (
-          <Table />
+          <Table selectedGroup={this.state.selectedGroup} />
         ) : (
           <Popup
-            trigger={<Table groupId={this.state.selectedGroup} />}
+            trigger={<Table selectedGroup={this.state.selectedGroup} />}
             content="Here is your receipt! Please verify and make changes."
             on="click"
             style={style}
@@ -68,14 +70,17 @@ class SideBarGroup extends Component {
               position="right center"
             />
           ) : (
-            <Dropdown
-              onChange={this.onChange}
-              placeholder="Select Group"
-              search
-              selection
-              options={groups}
-              style={{width: '50%'}}
-            />
+            <div>
+              <h3>Select a group to save receipt</h3>
+              <Dropdown
+                onChange={this.onChange}
+                placeholder="Select Group"
+                search
+                selection
+                options={groups}
+                style={{width: '50%'}}
+              />
+            </div>
           )}
           <CreateGroup groups={this.props.groups} />
         </Container>
@@ -85,13 +90,15 @@ class SideBarGroup extends Component {
 }
 //
 const mapState = state => ({
+  selectedGroup: state.groups.selectedGroup,
   groups: state.groups.groups,
   user: state.user,
   userReceipts: state.receipts.userReceipts
 })
 
 const mapDispatch = dispatch => ({
-  getGroupsThunk: userId => dispatch(getGroupsThunk(userId))
+  getGroupsThunk: userId => dispatch(getGroupsThunk(userId)),
+  selectGroupThunk: groupId => dispatch(selectGroupThunk(groupId))
 })
 
 export default connect(mapState, mapDispatch)(SideBarGroup)

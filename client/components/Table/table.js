@@ -9,7 +9,9 @@ import {saveReceiptThunk} from '../../store/receipts'
 
 class Table extends Component {
   state = {}
-
+  // componentWillReceiveProps(nextProps) {
+  //   this.forceUpdate();
+  // }
   render() {
     const {removeDollarSign, capitalize} = helpers
     // mapping over line items and using tenary to see if it exists,
@@ -52,8 +54,8 @@ class Table extends Component {
     )
 
     const {totalAmount} = this.props.ocr
-    const id = this.props.groupId ? this.props.groupId : 'nothing yet'
-    const uploader = this.props.user.name ? this.props.user : 'nothing yet'
+    const selectedGroup = this.props.selectedGroup || null
+    console.log('table rendered', this.props.selectedGroup, selectedGroup)
     return (
       <div className="table-div-container">
         {table}
@@ -61,9 +63,16 @@ class Table extends Component {
           <div className="total-Save-contaniner">
             <div>
               <Button
+                disabled={selectedGroup === null}
                 color="black"
                 floated="right"
-                onClick={() => this.props.saveReceipt(id, lineItems, uploader)}
+                onClick={() =>
+                  this.props.saveReceipt(
+                    this.props.selectedGroup._id,
+                    lineItems,
+                    this.props.user
+                  )
+                }
               >
                 Save Receipt
               </Button>
