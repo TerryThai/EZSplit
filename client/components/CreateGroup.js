@@ -114,7 +114,6 @@ class CreateGroup extends Component {
                 } else {
                   return (
                     <ListItem key={idx}>
-                      <Image avatar src={friend.imageUrl} floated="left" />
                       <List.Content>{friend.name}</List.Content>
                       <List.Content floated="right">
                         <Button

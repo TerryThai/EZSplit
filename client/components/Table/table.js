@@ -60,7 +60,6 @@ class Table extends Component {
         {this.props.ocr.totalAmount && (
           <div className="total-Save-contaniner">
             <div>
-              total amount: {totalAmount.data}
               <Button
                 color="black"
                 floated="right"
