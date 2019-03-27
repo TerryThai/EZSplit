@@ -594,6 +594,10 @@ Note: Beware of modifying this element as it can break the animations - you shou
   justify-content: space-between;
 }
 
+#custom-tr-row {
+  justify-content: space-between;
+}
+
 @media screen and (max-width: 900px) {
   #main-container {
     background-image: url('./food.jpg');
@@ -649,8 +653,11 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 @media only screen and (max-width: 767px) {
   #payer-total-email {
+    /* display: flex !important; */
+  }
+  .ui.table:not(.unstackable) tr > th#payer-total-email {
     display: flex !important;
-    margin: auto;
+    width: 100% !important;
   }
 }
 

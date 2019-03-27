@@ -361,7 +361,7 @@ class SocketTable extends Component {
           <Table selectable inverted celled>
             {/* header row */}
             <Table.Header>
-              <Table.Row>
+              <Table.Row id="custom-tr-row">
                 <Table.HeaderCell className="custom-edit">
                   Edit
                 </Table.HeaderCell>
