@@ -1,14 +1,14 @@
 .ui.raised.very.padded.segment.line {
   background-color: currentColor;
 }
-.ui.raised.very.padded.segment.stats {
+.ui.raised.segment.stats {
   background-color: currentColor;
 }
 .ui.compact.raised.segment.user {
   background-color: whitesmoke;
 }
 .uploadlabel {
-  margin-right: -32px;
+  margin: 0px;
 }
 .ui.raised.very.padded.segment.chart {
   background-color: whitesmoke;
@@ -16,7 +16,6 @@
 .ui.grid > .centered.row {
 }
 .userhome {
-  margin: 15px;
 }
 .ui.very.padded.left.floated.segment .upload {
 }
@@ -31,7 +30,6 @@
 } */
 
 .ui[class*='right floated'].segment {
-  margin-top: 14px;
   background-color: whitesmoke;
 }
 
@@ -57,7 +55,7 @@
   display: flex;
   justify-content: space-evenly;
 }
-
+/* 172.16.22.252 */
 .table {
   width: 100%;
   max-width: 100%;
@@ -71,8 +69,8 @@ thead {
 }
 .ui.container {
   width: 590px;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .carousel .control-arrow,
@@ -354,7 +352,7 @@ thead {
   opacity: 0.8;
   filter: alpha(opacity=50); /* For IE8 and earlier */
 }
-.shadow {
+#shadow {
   box-shadow: 13px 14px 19px black;
   opacity: 0.9;
 }
@@ -422,4 +420,154 @@ thead {
 .total-add-save-btn-contaniner {
   display: flex;
   justify-content: space-between;
+}
+
+#main-container,
+.item-container,
+.item {
+  display: flex;
+  flex-wrap: wrap;
+}
+#main-container {
+  justify-content: center;
+  background-image: url('./burberry.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.item {
+  flex-grow: 1;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+.item .spent-container {
+  margin: 0;
+  background-color: currentColor;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  box-shadow: 3px 2px 5px 1px black;
+  width: 207px;
+  padding: 10px;
+}
+
+.smoke {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 21px;
+  box-shadow: 3px 2px 5px 1px black;
+}
+
+.somke:hover {
+}
+
+#line {
+  background-color: currentColor;
+  margin-top: 7px;
+  box-shadow: 3px 2px 2px 1px black;
+  opacity: 0.95;
+}
+
+#second-item-container {
+  flex-direction: column;
+  align-items: center;
+}
+
+.content {
+  text-align: center !important;
+}
+
+.ui.feed {
+  background-color: whitesmoke;
+  opacity: 0.89;
+  width: 100%;
+  height: 20%;
+  overflow: scroll;
+}
+
+#bar {
+  background-color: whitesmoke;
+  margin-top: 7px;
+  box-shadow: 3px 2px 2px 1px black;
+  opacity: 0.75;
+}
+
+#user-background {
+  background-color: rgb(70, 70, 70);
+  width: 85%;
+  margin: 0 auto;
+  margin-top: 20px;
+  border-radius: 6px;
+}
+
+.padding-for-first-item {
+  padding: 50px 20px;
+}
+
+.padding-for-second-item {
+  padding: 50px 20px;
+}
+
+@media screen and (max-width: 900px) {
+  #main-container {
+    background-image: url('./winter-free-photo-2210x3312.jpg');
+  }
+  #line {
+    opacity: 0.75;
+  }
+  canvas {
+    display: none;
+  }
+  .row-padding,
+  #bar {
+    padding-top: 10px;
+  }
+  #disable {
+    display: none;
+  }
+  .padding-for-first-item {
+    padding: 50px 20px 0px 20px;
+  }
+  .padding-for-second-item {
+    padding: 0px 20px;
+  }
+  .sidebar {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .item .spent-container {
+    width: 140px;
+  }
+  .item {
+    flex-grow: 1;
+    justify-content: center;
+  }
+  #shadow {
+    margin-top: 14px;
+    opacity: 0.88;
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .slider-wrapper.axis-horizontal {
+    width: 100%;
+    height: 210px;
+  }
+  .ui.container {
+    margin-left: 0px;
+  }
+
+  .ui.celled.grid {
+    background-color: white;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .item .spent-container {
+    width: 120px;
+  }
 }

@@ -21,7 +21,13 @@ class Stats extends Component {
       : 0
     total = total.toFixed(2)
     return (
-      <Statistic size="tiny" color="red" horizontal inverted>
+      <Statistic
+        size="mini"
+        color="red"
+        className="spent-container"
+        horizontal
+        inverted
+      >
         <Statistic.Value>
           <Icon name="dollar sign" />
           {total}

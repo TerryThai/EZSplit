@@ -18,30 +18,16 @@ class UploadImage extends Component {
 
   render() {
     return (
-      <Grid>
-        <Grid.Row centered>
-          <label
-            as="label"
-            basic="true"
-            htmlFor="upload"
-            className="uploadlabel"
-          >
-            <Button
-              color="black"
-              icon="upload"
-              size="large"
-              label={{basic: true, content: 'Upload Receipt'}}
-            />
-            <input
-              hidden
-              id="upload"
-              type="file"
-              onChange={this.handleChange}
-            />
-          </label>
-        </Grid.Row>
+      <label as="label" basic="true" htmlFor="upload" className="uploadlabel">
+        <Button
+          color="black"
+          icon="upload"
+          size="large"
+          label={{basic: true, content: 'Upload Receipt'}}
+        />
+        <input hidden id="upload" type="file" onChange={this.handleChange} />
         {this.state.isLoading ? <Spinner /> : <Table />}
-      </Grid>
+      </label>
     )
   }
 }
