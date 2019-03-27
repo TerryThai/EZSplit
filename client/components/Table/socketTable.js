@@ -5,11 +5,11 @@ import {
   updateReceiptThunk,
   selectGroupThunk
 } from '../../store'
-import store from '../../store/index'
 import socket from '../../socket'
 import {InlineForm, UserBalances} from '../index'
 import axios from 'axios'
-import {Button, Table, Segment, Icon, Popup, Sticky} from 'semantic-ui-react'
+import {Button, Table, Segment, Icon, Popup} from 'semantic-ui-react'
+import {toast} from 'react-toastify'
 
 const popStyle = {
   borderRadius: 0,
@@ -87,7 +87,9 @@ class SocketTable extends Component {
     socket.on('updateUserAmounts', userAmounts => {
       this.setState({userAmounts})
     })
-
+    socket.on('rowDeleted', () => {
+      toast(<div>Row Deleted</div>)
+    })
     ///////END componentdidmount
   }
 
@@ -96,6 +98,7 @@ class SocketTable extends Component {
       editIdx: [...this.state.editIdx, rowIdx]
     })
   }
+
   handleOpen = () => {
     if (this.state.isOpen) this.setState({isOpen: false})
   }
@@ -239,11 +242,15 @@ class SocketTable extends Component {
     row.delete = true
     this.adjustBalances(rowIdx, row)
     this.stopEdit(rowIdx)
+    toast(<div>Row Deleted</div>)
+    socket.emit('deleteRow')
     socket.emit('cell-update', this.state.data)
   }
 
   isUploader = () =>
-    this.props.user.email === this.props.singleReceipt.uploader.email
+    this.props.singleReceipt.uploader
+      ? this.props.user.email === this.props.singleReceipt.uploader.email
+      : false
 
   submitEmail = async () => {
     this.setState({emailConfirmation: 'Sent!'})
@@ -273,7 +280,9 @@ class SocketTable extends Component {
     deleteRow
   ) => {
     const isEditing = editIdx.includes(rowIdx)
-    if (isEditing) {
+    if (data.delete) {
+      console.log('found deleted row')
+    } else if (isEditing) {
       return (
         <InlineForm
           rowIdx={rowIdx}
@@ -291,9 +300,6 @@ class SocketTable extends Component {
           deleteRow={deleteRow}
         />
       )
-    } else if (data.delete) {
-      console.log('found deleted row')
-      
     } else {
       return (
         <Table.Row key={Math.random()}>
@@ -341,6 +347,7 @@ class SocketTable extends Component {
           )}
           {this.props.selectedGroup && (
             <UserBalances
+              isUploader={this.isUploader()}
               uploader={this.props.singleReceipt.uploader}
               userAmounts={this.state.userAmounts}
               submitEmail={this.submitEmail}
