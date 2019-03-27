@@ -589,6 +589,11 @@ Note: Beware of modifying this element as it can break the animations - you shou
   box-shadow: 1px 4px 20px 7px #171a1d;
 }
 
+#payer-total-email {
+  display: flex;
+  justify-content: space-between;
+}
+
 @media screen and (max-width: 900px) {
   #main-container {
     background-image: url('./food.jpg');
@@ -629,6 +634,29 @@ Note: Beware of modifying this element as it can break the animations - you shou
   .ui.mini.horizontal.statistic > .value,
   .ui.mini.horizontal.statistics .statistic > .value {
     font-size: 1rem !important;
+  }
+  #app {
+    margin-top: 73px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .ui.table:not(.unstackable) tr {
+    display: flex !important;
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #payer-total-email {
+    display: flex !important;
+    margin: auto;
+  }
+}
+
+@media only screen and (max-width: 458px) {
+  #payer-total-email {
+    flex-direction: column;
   }
 }
 
