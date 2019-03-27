@@ -29,6 +29,9 @@
   margin: 4px;
 } */
 
+.required.field.passwordField {
+  padding-bottom: 20px;
+}
 .ui[class*='right floated'].segment {
   background-color: whitesmoke;
 }
@@ -430,8 +433,8 @@ thead {
   flex-wrap: wrap;
 }
 #main-container {
-  justify-content: center;
-  background-image: url('./burberry.jpg');
+  justify-content: space-between;
+  background-image: url('./flat.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -451,7 +454,7 @@ thead {
   font-size: smaller;
   width: 150px;
   border-radius: 5px;
-  padding-left: 22px;
+  padding-left: 12px;
 }
 
 .smoke {
@@ -470,6 +473,7 @@ thead {
   margin-top: 7px;
   box-shadow: 3px 2px 2px 1px black;
   opacity: 0.95;
+  border-radius: 4px;
 }
 
 #second-item-container {
@@ -487,6 +491,7 @@ thead {
   width: 100%;
   height: 20%;
   overflow: scroll;
+  border-radius: 4px;
 }
 
 #bar {
@@ -494,6 +499,7 @@ thead {
   margin-top: 7px;
   box-shadow: 3px 2px 2px 1px black;
   opacity: 0.75;
+  border-radius: 4px;
 }
 
 #user-background {
@@ -509,7 +515,7 @@ thead {
 }
 
 .padding-for-second-item {
-  padding: 50px 20px;
+  padding: 80px 20px;
 }
 /* Position and sizing of burger button */
 .bm-burger-button {
@@ -528,7 +534,7 @@ thead {
 
 /* Color/shape of burger icon bars on hover*/
 .bm-burger-bars-hover {
-  background: #34b8da;
+  background: #c6c8c9;
 }
 
 /* Position and sizing of clickable cross button */
@@ -556,7 +562,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: #19191a;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
-  opacity: 0.89;
+  opacity: 0.95;
 }
 
 /* Morph shape necessary with bubble or elastic */
@@ -568,11 +574,15 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .bm-item-list {
   color: #b8b7ad;
   padding: 0.8em;
+  padding-left: 30%;
 }
 
 /* Individual item */
 .bm-item {
   display: inline-block;
+  font-family: unset;
+  color: lightgrey;
+  padding-bottom: 10px;
 }
 
 /* Styling of overlay */
@@ -588,6 +598,9 @@ Note: Beware of modifying this element as it can break the animations - you shou
   overflow: scroll;
   box-shadow: 1px 4px 20px 7px #171a1d;
 }
+div.logoMobile {
+  display: none;
+}
 
 #payer-total-email {
   display: flex;
@@ -600,7 +613,11 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 @media screen and (max-width: 900px) {
   #main-container {
-    background-image: url('./food.jpg');
+    background-image: none;
+    padding-top: 15px;
+    background-color: whitesmoke;
+    margin-bottom: 12px;
+    justify-content: center;
   }
   #line {
     opacity: 0.75;
@@ -613,11 +630,12 @@ Note: Beware of modifying this element as it can break the animations - you shou
     display: none;
   }
   .padding-for-first-item {
-    padding: 60px 20px 0px 20px;
-    margin-top: 20px;
+    padding: 0px 20px 0px 20px;
+    margin-top: 10px;
+    margin-bottom: -25px;
   }
   .padding-for-second-item {
-    padding: 20px 20px;
+    padding: 0px 20px;
     margin-top: -10px;
   }
   .sidebar {
@@ -631,16 +649,40 @@ Note: Beware of modifying this element as it can break the animations - you shou
   }
   .item .spent-container {
     width: 150px;
-    border-radius: 5px;
+    border-radius: 3px;
     padding-left: 22px;
     height: 38px;
+    box-shadow: 0px 0px 0px 0px black;
+    margin-top: 1px;
   }
   .ui.mini.horizontal.statistic > .value,
   .ui.mini.horizontal.statistics .statistic > .value {
     font-size: 1rem !important;
   }
   #app {
-    margin-top: 73px;
+    margin-top: 0px;
+  }
+  div.logoMobile {
+    display: flex;
+    justify-content: center;
+    height: 90px;
+  }
+  #shadow.ui.inverted.segment {
+    margin-top: 64px;
+    opacity: 0.93;
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 19px;
+  }
+
+  div.logoMobile img {
+    height: 82px;
+    width: 85px;
+    margin-top: 8px;
+  }
+  .Yuva {
+    padding: 25px;
   }
 }
 
@@ -666,7 +708,6 @@ Note: Beware of modifying this element as it can break the animations - you shou
     flex-direction: column;
   }
 }
-
 @media screen and (max-width: 500px) {
   .item .spent-container {
     width: 140px;

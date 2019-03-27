@@ -44,6 +44,7 @@ class SocketTable extends Component {
 
     // filter out line items containing 'total' and 'cash'
     let lineItems = []
+    console.log(this.props.singleReceipt)
     this.props.singleReceipt.data.forEach((item, idx) => {
       if (
         !item.item.toLowerCase().includes('total') &&
@@ -90,6 +91,11 @@ class SocketTable extends Component {
     socket.on('rowDeleted', () => {
       toast(<div>Row Deleted</div>)
     })
+
+    await this.props.updateReceiptThunk(
+      {data: lineItems, userAmounts: this.state.userAmounts},
+      this.props.singleReceipt._id
+    )
     ///////END componentdidmount
   }
 
