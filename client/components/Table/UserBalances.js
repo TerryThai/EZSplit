@@ -19,30 +19,37 @@ const calcTotal = data => {
 
 const UserBalances = props => {
   return (
-    <Table inverted celled columns={Object.keys(props.userAmounts).length + 1}>
-      <Table.Header>
-        <Table.Row>
-          {Object.keys(props.userAmounts).map(key => {
-            const user = props.userAmounts[key]
-            return (
-              <Table.HeaderCell key={key}>
+    <Table
+      id="table"
+      inverted
+      celled
+      columns={Object.keys(props.userAmounts).length + 1}
+    >
+      <Table.Header id="table-header">
+        <Table.Row id="table-row">
+          <Table.HeaderCell id="payer-total-email">
+            {Object.keys(props.userAmounts).map(key => {
+              const user = props.userAmounts[key]
+              return (
+                // <Table.HeaderCell key={key}>
                 <Button inverted>
                   {props.uploader.email === key
                     ? `(Original Payer) ${user.name}: $${user.amount}`
                     : `${user.name}: $${user.amount}`}
                 </Button>
-              </Table.HeaderCell>
-            )
-          })}
-          <Table.HeaderCell>
+                // </Table.HeaderCell>
+              )
+            })}
+            {/* <Table.HeaderCell> */}
             <Button inverted>Total: ${calcTotal(props.data)}</Button>
-          </Table.HeaderCell>
-          <Table.HeaderCell>
+            {/* </Table.HeaderCell>
+            <Table.HeaderCell> */}
             {props.isUploader && (
               <Button onClick={props.submitEmail} disabled={!!props.emailSent}>
                 {!props.emailSent ? 'Email Invitations' : props.emailSent}
               </Button>
             )}
+            {/* </Table.HeaderCell> */}
           </Table.HeaderCell>
           <Table.HeaderCell>
             {props.isUploader && (

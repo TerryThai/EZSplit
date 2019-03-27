@@ -44,6 +44,7 @@ class AuthForm extends React.Component {
                   placeholder="email"
                 />
                 <Form.Input
+                  className="passwordField"
                   required={true}
                   name="password"
                   type="password"

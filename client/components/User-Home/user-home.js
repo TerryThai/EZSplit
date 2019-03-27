@@ -80,7 +80,6 @@ export const UserHome = props => {
             image={imageUrl}
             description={<Qrcode />}
             extra={`Welcome, ${email}!!!`}
-            centered="true"
             color="grey"
           />
         </div>
