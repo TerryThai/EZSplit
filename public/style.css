@@ -1,18 +1,14 @@
 .ui.raised.very.padded.segment.line {
   background-color: currentColor;
 }
-.ui.container.sidebar-container {
-  display: flex;
-  align-items: center;
-}
-.ui.raised.very.padded.segment.stats {
+.ui.raised.segment.stats {
   background-color: currentColor;
 }
 .ui.compact.raised.segment.user {
   background-color: whitesmoke;
 }
 .uploadlabel {
-  margin-right: -32px;
+  margin: 0px;
 }
 .ui.raised.very.padded.segment.chart {
   background-color: whitesmoke;
@@ -20,7 +16,6 @@
 .ui.grid > .centered.row {
 }
 .userhome {
-  margin: 15px;
 }
 .ui.very.padded.left.floated.segment .upload {
 }
@@ -35,7 +30,6 @@
 } */
 
 .ui[class*='right floated'].segment {
-  margin-top: 14px;
   background-color: whitesmoke;
 }
 
@@ -61,7 +55,7 @@
   display: flex;
   justify-content: space-evenly;
 }
-
+/* 172.16.22.252 */
 .table {
   width: 100%;
   max-width: 100%;
@@ -75,8 +69,8 @@ thead {
 }
 .ui.container {
   width: 590px;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .carousel .control-arrow,
@@ -358,7 +352,7 @@ thead {
   opacity: 0.8;
   filter: alpha(opacity=50); /* For IE8 and earlier */
 }
-.shadow {
+#shadow {
   box-shadow: 13px 14px 19px black;
   opacity: 0.9;
 }
@@ -428,4 +422,249 @@ thead {
 .Toastify__toast.Toastify__toast--default {
   background-color: rgb(31, 31, 31);
   opacity: 0.77;
+}
+#main-container,
+.item-container,
+.item {
+  display: flex;
+  flex-wrap: wrap;
+}
+#main-container {
+  justify-content: center;
+  background-image: url('./burberry.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.item {
+  flex-grow: 1;
+  justify-content: space-evenly;
+}
+.item .spent-container {
+  margin: 0;
+  background-color: currentColor;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  box-shadow: 3px 2px 5px 1px black;
+  font-size: smaller;
+  width: 150px;
+  border-radius: 5px;
+  padding-left: 22px;
+}
+
+.smoke {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 21px;
+  box-shadow: 3px 2px 5px 1px black;
+}
+
+.somke:hover {
+}
+
+#line {
+  background-color: currentColor;
+  margin-top: 7px;
+  box-shadow: 3px 2px 2px 1px black;
+  opacity: 0.95;
+}
+
+#second-item-container {
+  flex-direction: column;
+  align-items: center;
+}
+
+.content {
+  text-align: center !important;
+}
+
+.ui.feed {
+  background-color: whitesmoke;
+  opacity: 0.89;
+  width: 100%;
+  height: 20%;
+  overflow: scroll;
+}
+
+#bar {
+  background-color: whitesmoke;
+  margin-top: 7px;
+  box-shadow: 3px 2px 2px 1px black;
+  opacity: 0.75;
+}
+
+#user-background {
+  background-color: rgb(70, 70, 70);
+  width: 85%;
+  margin: 0 auto;
+  margin-top: 20px;
+  border-radius: 6px;
+}
+
+.padding-for-first-item {
+  padding: 50px 20px;
+}
+
+.padding-for-second-item {
+  padding: 50px 20px;
+}
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+  display: none;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: #373a47;
+}
+
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+  background: #34b8da;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #19191a;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+  opacity: 0.89;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.ui.feed {
+  background-color: floralwhite;
+  opacity: 0.67;
+  width: 100%;
+  height: 20%;
+  overflow: scroll;
+  box-shadow: 1px 4px 20px 7px #171a1d;
+}
+
+@media screen and (max-width: 900px) {
+  #main-container {
+    background-image: url('./food.jpg');
+  }
+  #line {
+    opacity: 0.75;
+  }
+  .row-padding,
+  #bar {
+    padding-top: 10px;
+  }
+  #disable {
+    display: none;
+  }
+  .padding-for-first-item {
+    padding: 60px 20px 0px 20px;
+    margin-top: 20px;
+  }
+  .padding-for-second-item {
+    padding: 20px 20px;
+    margin-top: -10px;
+  }
+  .sidebar {
+    display: none;
+  }
+  /* .ui.feed{
+    display: none
+  } */
+  .bm-burger-button {
+    display: flex;
+  }
+  .item .spent-container {
+    width: 150px;
+    border-radius: 5px;
+    padding-left: 22px;
+    height: 38px;
+  }
+  .ui.mini.horizontal.statistic > .value,
+  .ui.mini.horizontal.statistics .statistic > .value {
+    font-size: 1rem !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .item .spent-container {
+    width: 140px;
+  }
+  .item {
+    flex-grow: 1;
+    justify-content: center;
+  }
+  #shadow {
+    margin-top: 14px;
+    opacity: 0.88;
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .slider-wrapper.axis-horizontal {
+    width: 100%;
+    height: 210px;
+  }
+  .ui.container {
+    margin-left: 0px;
+  }
+
+  .ui.celled.grid {
+    background-color: white;
+  }
+  .chartjs-render-monitor {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .item .spent-container {
+    width: 120px;
+  }
 }

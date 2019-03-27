@@ -17,7 +17,7 @@ class AuthForm extends React.Component {
       <div className="loginheight">
         <Welcome />
         <Container className="padThai">
-          <Segment inverted className="shadow">
+          <Segment inverted id="shadow">
             <Form
               unstackable
               inverted
