@@ -98,6 +98,9 @@ class SocketTable extends Component {
       editIdx: [...this.state.editIdx, rowIdx]
     })
   }
+  handleOpen = () => {
+    if (this.state.isOpen) this.setState({isOpen: false})
+  }
 
   handleOpen = () => {
     if (this.state.isOpen) this.setState({isOpen: false})
@@ -331,7 +334,7 @@ class SocketTable extends Component {
   render() {
     return (
       <div>
-        <Segment style={{overflow: 'scroll', maxHeight: '75vh'}}>
+        <Segment style={{overflow: 'scroll', maxHeight: '66vh'}}>
           {this.state.editIdx.length ? (
             ''
           ) : (

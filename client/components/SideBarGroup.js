@@ -53,14 +53,17 @@ class SideBarGroup extends Component {
           {!this.props.groups.length ? (
             <Popup
               trigger={
-                <Dropdown
-                  onChange={this.onChange}
-                  placeholder="Select Group"
-                  search
-                  selection
-                  options={groups}
-                  style={{width: '50%'}}
-                />
+                <div>
+                  <h3>Choose a group</h3>
+                  <Dropdown
+                    onChange={this.onChange}
+                    placeholder="Select Group"
+                    search
+                    selection
+                    options={groups}
+                    style={{width: '50%'}}
+                  />
+                </div>
               }
               content="Please create a group and add your friends."
               on="click"

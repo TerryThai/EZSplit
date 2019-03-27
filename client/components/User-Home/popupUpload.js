@@ -11,15 +11,21 @@ const style = {
 }
 
 class PopupUpload extends React.Component {
+  state = {
+    isOpen: true
+  }
+  handleOpen = () => {
+    if (this.state.isOpen) this.setState({isOpen: false})
+  }
   render() {
     return this.props.userReceipts.receipts &&
       this.props.userReceipts.receipts.length === 0 ? (
       <Popup
         trigger={<UploadImage />}
         content="Hi, welcome to ezsplit! To get started, upload a receipt!"
-        on="click"
+        open={this.state.isOpen}
+        onClick={this.handleOpen}
         style={style}
-        open={true}
       />
     ) : (
       <UploadImage />
