@@ -263,7 +263,20 @@ class SocketTable extends Component {
       recipients: this.props.selectedGroup.users
     }
     await axios.post('/api/email/send', obj)
+    toast(<div>Email Sent!</div>)
     // this.setState({emailConfirmation: ''})
+  }
+
+  submitUserAmountsEmail = async () => {
+    const obj = {
+      groupName: this.props.selectedGroup.name,
+      userAmounts: this.props.singleReceipt.userAmounts,
+      uploader: this.props.singleReceipt.uploader.name,
+      date: this.props.singleReceipt.date,
+      recipients: this.props.selectedGroup.users
+    }
+    await axios.post('/api/email/sendUserAmounts', obj)
+    toast(<div>Email Sent!</div>)
   }
 
   row = (
@@ -356,6 +369,7 @@ class SocketTable extends Component {
               submitEmail={this.submitEmail}
               emailSent={this.state.emailConfirmation}
               data={this.state.data}
+              submitUserAmountsEmail={this.submitUserAmountsEmail}
             />
           )}
           <Table selectable inverted celled>
