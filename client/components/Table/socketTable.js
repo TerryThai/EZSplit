@@ -268,13 +268,30 @@ class SocketTable extends Component {
   }
 
   submitUserAmountsEmail = async () => {
+    const payers = Object.keys(this.props.singleReceipt.userAmounts)
+      .filter(keys => keys !== this.props.singleReceipt.uploader.email)
+      .map(payee => {
+        console.log(payee)
+        return `<div>${
+          this.props.singleReceipt.userAmounts[payee].name
+        } owes $${this.props.singleReceipt.userAmounts[payee].amount} to ${
+          this.props.singleReceipt.uploader.name
+        }
+        </div>`
+      })
+      .reduce((a, b) => a.concat(b))
+    console.log(payers)
     const obj = {
+      receiptId: this.props.singleReceipt._id,
       groupName: this.props.selectedGroup.name,
       userAmounts: this.props.singleReceipt.userAmounts,
-      uploader: this.props.singleReceipt.uploader.name,
+      uploader: this.props.singleReceipt.uploader,
       date: this.props.singleReceipt.date,
-      recipients: this.props.selectedGroup.users
+      recipients: this.props.selectedGroup.users,
+      payers
     }
+    console.log(obj)
+
     await axios.post('/api/email/sendUserAmounts', obj)
     toast(<div>Email Sent!</div>)
   }
