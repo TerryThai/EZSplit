@@ -13,7 +13,7 @@ const AuthForm = props => {
     <div className="loginheight">
       <Welcome />
       <Container className="padThai">
-        <Segment inverted className="shadow">
+        <Segment inverted id="shadow">
           <Form unstackable inverted onSubmit={handleSubmit} name={name}>
             <Form.Group widths="equal">
               {props.signup && (
