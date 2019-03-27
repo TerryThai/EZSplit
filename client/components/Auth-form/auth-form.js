@@ -9,7 +9,7 @@ import {Welcome} from '../index'
  */
 class AuthForm extends React.Component {
   state = {
-    checked: false
+    checked: true
   }
   render() {
     const {name, displayName, handleSubmit, error} = this.props
@@ -55,7 +55,7 @@ class AuthForm extends React.Component {
               {this.props.name === 'signup' && (
                 <Form.Checkbox
                   onChange={() => {
-                    this.setState({checked: !this.state.checked})
+                    this.setState({checked: true})
                   }}
                   defaultChecked={false}
                   name="checkbox"
