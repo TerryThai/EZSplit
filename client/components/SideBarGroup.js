@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import {getGroupsThunk, selectGroupThunk} from '../store/groups'
-import {Table, CreateGroupSideBar, CreateGroup} from '../components/index'
+import {Table, CreateGroup} from '../components/index'
 import {Dropdown, Popup, Container} from 'semantic-ui-react'
 
 const style = {
@@ -54,14 +53,17 @@ class SideBarGroup extends Component {
           {!this.props.groups.length ? (
             <Popup
               trigger={
-                <Dropdown
-                  onChange={this.onChange}
-                  placeholder="Select Group"
-                  search
-                  selection
-                  options={groups}
-                  style={{width: '50%'}}
-                />
+                <div>
+                  <h3>Choose a group</h3>
+                  <Dropdown
+                    onChange={this.onChange}
+                    placeholder="Select Group"
+                    search
+                    selection
+                    options={groups}
+                    style={{width: '50%'}}
+                  />
+                </div>
               }
               content="Please create a group and add your friends."
               on="click"

@@ -7,55 +7,80 @@ import {Welcome} from '../index'
 /**
  * COMPONENT
  */
-const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
-  return (
-    <div className="loginheight">
-      <Welcome />
-      <Container className="padThai">
-        <Segment inverted className="shadow">
-          <Form unstackable inverted onSubmit={handleSubmit} name={name}>
-            <Form.Group widths="equal">
-              {props.signup && (
+class AuthForm extends React.Component {
+  state = {
+    checked: true
+  }
+  render() {
+    const {name, displayName, handleSubmit, error} = this.props
+    return (
+      <div className="loginheight">
+        <Welcome />
+        <Container className="padThai">
+          <Segment inverted id="shadow">
+            <Form
+              unstackable
+              inverted
+              onSubmit={evt => {
+                handleSubmit(evt, this.state)
+              }}
+              name={name}
+            >
+              <Form.Group widths="equal">
+                {this.props.signup && (
+                  <Form.Input
+                    required={true}
+                    fluid
+                    label="Name"
+                    name="name"
+                    placeholder="first and last name"
+                  />
+                )}
                 <Form.Input
+                  required={true}
+                  name="email"
                   fluid
-                  label="Name"
-                  name="name"
-                  placeholder="first and last name"
+                  label="Email"
+                  placeholder="email"
+                />
+                <Form.Input
+                  required={true}
+                  name="password"
+                  type="password"
+                  fluid
+                  label="Password"
+                  placeholder="password"
+                />
+              </Form.Group>
+              {this.props.name === 'signup' && (
+                <Form.Checkbox
+                  onChange={() => {
+                    this.setState({checked: true})
+                  }}
+                  defaultChecked={false}
+                  name="checkbox"
+                  required={true}
+                  label="I agree to the Terms and Conditions"
                 />
               )}
-              <Form.Input
-                name="email"
-                fluid
-                label="Email"
-                placeholder="email"
-              />
-              <Form.Input
-                name="password"
-                type="password"
-                fluid
-                label="Password"
-                placeholder="password"
-              />
-            </Form.Group>
-            <Form.Checkbox label="I agree to the Terms and Conditions" />
 
-            <Button type="submit">Submit</Button>
-            {!props.signup && (
-              <Button
-                method="get"
-                action="/auth/google"
-                color="google plus"
-                href="/auth/google"
-              >
-                <Icon name="google plus" /> Login with Google
-              </Button>
-            )}
-          </Form>
-        </Segment>
-      </Container>
-    </div>
-  )
+              <Button type="submit">Submit</Button>
+              {!this.props.signup && (
+                <Button
+                  method="get"
+                  action="/auth/google"
+                  color="google plus"
+                  href="/auth/google"
+                >
+                  <Icon name="google plus" /> Login with Google
+                </Button>
+              )}
+            </Form>
+          </Segment>
+        </Container>
+      </div>
+    )
+  }
 }
 
 /**
@@ -81,10 +106,11 @@ const mapSignup = state => {
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    handleSubmit(evt) {
-      evt.preventDefault()
+const mapDispatch = dispatch => ({
+  handleSubmit: (evt, state) => {
+    evt.preventDefault()
+    console.log(evt, state)
+    if (state.checked) {
       const formName = evt.target.name
       const name = evt.target.name.value
       const email = evt.target.email.value
@@ -92,7 +118,7 @@ const mapDispatch = dispatch => {
       dispatch(auth(email, password, formName, name))
     }
   }
-}
+})
 
 export const Login = connect(mapLogin, mapDispatch)(AuthForm)
 export const Signup = connect(mapSignup, mapDispatch)(AuthForm)

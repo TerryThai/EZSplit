@@ -12,6 +12,7 @@ import {
   Form,
   Message
 } from 'semantic-ui-react'
+import {toast} from 'react-toastify'
 
 // TODO
 // leave group action? remove user from group.users, remove group from user.groups
@@ -43,6 +44,10 @@ class CreateGroup extends Component {
     })
   }
 
+  handleToastClick = () => {
+    toast(<div>GROUP CREATED!</div>)
+  }
+
   handleSubmit = async event => {
     event.preventDefault()
     // validation:
@@ -57,6 +62,7 @@ class CreateGroup extends Component {
           errorMsg: 'This name is taken already!'
         })
       } else {
+        this.handleToastClick()
         await this.props.createGroupThunk(this.state)
         this.setState({
           componentMounted: false,

@@ -21,11 +21,14 @@ class Stats extends Component {
       : 0
     total = total.toFixed(2)
     return (
-      <Statistic size="tiny" color="red" horizontal inverted>
-        <Statistic.Value>
-          <Icon name="dollar sign" />
-          {total}
-        </Statistic.Value>
+      <Statistic
+        size="mini"
+        color="red"
+        className="spent-container"
+        horizontal
+        inverted
+      >
+        <Statistic.Value>${total}</Statistic.Value>
         <Statistic.Label>Spent</Statistic.Label>
       </Statistic>
     )
