@@ -51,13 +51,6 @@ const UserBalances = props => {
             )}
             {/* </Table.HeaderCell> */}
           </Table.HeaderCell>
-          <Table.HeaderCell>
-            {props.isUploader && (
-              <Button onClick={props.submitUserAmountsEmail}>
-                Email User Balances
-              </Button>
-            )}
-          </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
     </Table>

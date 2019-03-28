@@ -37,20 +37,21 @@ class Tip extends Component {
 
   render() {
     return (
-      <Button.Group size="tiny">
+      <Button.Group size="tiny" className="tips-div">
         <Button size="tiny" color="black" onClick={this.tip} value={15}>
           15%
         </Button>
         <Button.Or />
-        <Button color="black" onClick={this.tip} value={18}>
+        <Button color="black" onClick={this.tip} value={18} className="tip-btn">
           18%
         </Button>
         <Button.Or />
-        <Button color="black" onClick={this.tip} value={20}>
+        <Button color="black" onClick={this.tip} value={20} className="tip-btn">
           20%
         </Button>
         <Button.Or />
         <Button
+          className="tip-btn"
           name="customTip"
           color="black"
           onClick={this.tip}

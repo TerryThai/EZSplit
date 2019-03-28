@@ -356,7 +356,6 @@ thead {
   filter: alpha(opacity=50); /* For IE8 and earlier */
 }
 #shadow {
-  box-shadow: 13px 14px 19px black;
   opacity: 0.9;
 }
 .logo {
@@ -516,6 +515,7 @@ thead {
 
 .padding-for-second-item {
   padding: 80px 20px;
+  margin-bottom: 5%;
 }
 /* Position and sizing of burger button */
 .bm-burger-button {
@@ -611,11 +611,26 @@ div.logoMobile {
   justify-content: space-between;
 }
 
+.group-deleted-btn {
+  width: 44px;
+}
+td,
+th {
+  text-align: center;
+}
+
 @media screen and (max-width: 900px) {
   #main-container {
     background-image: none;
     padding-top: 15px;
-    background-color: whitesmoke;
+    /* background: linear-gradient(
+      to right,
+      rgb(245, 245, 245),
+      rgb(240, 240, 240),
+      rgb(235, 235, 235),
+      rgb(230, 230, 230)
+    ); */
+    background: linear-gradient(to right, #ffffff, #fdfbfb, #ebedee, #ebedee);
     margin-bottom: 12px;
     justify-content: center;
   }
@@ -675,7 +690,11 @@ div.logoMobile {
     margin-right: auto;
     padding: 19px;
   }
-
+  div.logoMobile {
+    display: flex;
+    justify-content: center;
+    height: 90px;
+  }
   div.logoMobile img {
     height: 82px;
     width: 85px;
@@ -684,6 +703,29 @@ div.logoMobile {
   .Yuva {
     padding: 25px;
   }
+}
+
+@media only screen and (max-width: 848px) {
+  .or {
+    display: none;
+  }
+  .table-div-container {
+    width: 100%;
+  }
+  .table-sidebar-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .tips-div {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .tip-btn {
+  }
+  .ui.buttons .button:first-child {
+    border-radius: 1px;
+  }
+  border: 1px solid;
 }
 
 @media only screen and (max-width: 767px) {
@@ -714,7 +756,8 @@ div.logoMobile {
   }
   .item {
     flex-grow: 1;
-    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
   }
   #shadow {
     margin-top: 14px;
@@ -738,9 +781,16 @@ div.logoMobile {
     display: none;
   }
 }
+@media screen and (max-width: 436px) {
+  .ui[class*='left floated'].statistic {
+    float: left;
+    margin: 1px;
+  }
+}
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 375px) {
   .item .spent-container {
-    width: 120px;
+    height: 45.31px;
+    margin: 1px;
   }
 }

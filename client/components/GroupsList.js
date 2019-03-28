@@ -41,7 +41,13 @@ class GroupsList extends Component {
             </Link>
           )),
           leaveGroup: (
-            <button onClick={() => this.handleLeaveGroup(group._id)}>X</button>
+            <button
+              className="ui red icon button group-deleted-btn"
+              onClick={() => this.handleLeaveGroup(group._id)}
+            >
+              <i aria-hidden="true" className="remove icon" />
+            </button>
+            // <button className="group-deleted-btn" onClick={() => this.handleLeaveGroup(group._id)}>X</button>
           )
         }
       }) || []

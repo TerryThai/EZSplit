@@ -13,7 +13,8 @@ const style = {
 
 class SideBarGroup extends Component {
   state = {
-    selectedGroup: null
+    selectedGroup: null,
+    isOpen: true
   }
   async componentDidMount() {
     await this.props.getGroupsThunk(this.props.user.email)
@@ -24,6 +25,10 @@ class SideBarGroup extends Component {
     await this.setState({
       selectedGroup: {...this.props.selectedGroup}
     })
+  }
+
+  handleOpen = () => {
+    if (this.state.isOpen) this.setState({isOpen: false})
   }
 
   render() {
@@ -45,7 +50,8 @@ class SideBarGroup extends Component {
             content="Here is your receipt! Please verify and make changes."
             on="click"
             style={style}
-            open={true}
+            open={this.state.isOpen}
+            onClick={this.handleOpen}
             position="top center"
           />
         )}
