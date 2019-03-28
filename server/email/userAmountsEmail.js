@@ -1,3 +1,11 @@
+let url
+
+if (process.env.NODE_ENV !== 'production') {
+  url = `http://localhost:3000`
+} else {
+  url = `https://ezsplit.herokuapp.com`
+}
+
 module.exports = email => {
   return `
   <html>
@@ -5,9 +13,9 @@ module.exports = email => {
     <div style='text-align: center;'>
       <h4> Thanks for using ezsplit! </h4>
       <p>Group :${email.groupName}<p>
-      <div><a href="https://ezsplit.herokuapp.com/editReceipt/${
-        email.receiptId
-      }">Click here if you need reference to the table</a></div>
+      <div><a href="${url}/editReceipt/${
+    email.receiptId
+  }">Click here if you need reference to the table</a></div>
       <p>${email.body}<p>
       <p>${email.payers}<p>
       <div>
