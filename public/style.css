@@ -611,6 +611,14 @@ div.logoMobile {
   justify-content: space-between;
 }
 
+.group-deleted-btn {
+  width: 44px;
+}
+td,
+th {
+  text-align: center;
+}
+
 @media screen and (max-width: 900px) {
   #main-container {
     background-image: none;
