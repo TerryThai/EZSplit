@@ -169,7 +169,7 @@ export default function(state = initialState, action) {
     case GET_RECEIPTS_BY_GROUP:
       return {...state, groupReceipts: action.groupReceipts}
     case GET_RECEIPTS_BY_USER:
-      return {...state, userReceipts: action.userReceipts}
+      return {...state, userReceipts: action.userReceipts.receipts}
     case CLEAR_OCR:
       return {...state, ocr: {}}
     case UPDATE_RECEIPT:
