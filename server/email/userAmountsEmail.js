@@ -3,11 +3,14 @@ module.exports = email => {
   <html>
   <body>
     <div style='text-align: center;'>
-      <h3> Hello! Thanks for using EzSplit! </h3>
-      <p>${email.body}<p>
+      <h4> Thanks for using ezsplit! </h4>
+      <p>Group :${email.groupName}<p>
       <div><a href="https://ezsplit.herokuapp.com/editReceipt/${
         email.receiptId
-      }">Click here to open table</a></div>
+      }">Click here if you need reference to the table</a></div>
+      <p>${email.body}<p>
+      <p>${email.payers}<p>
+      <div>
     </div>
   </body>
   </html>

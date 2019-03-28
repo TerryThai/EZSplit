@@ -44,6 +44,7 @@ class SocketTable extends Component {
 
     // filter out line items containing 'total' and 'cash'
     let lineItems = []
+    console.log(this.props.singleReceipt)
     this.props.singleReceipt.data.forEach((item, idx) => {
       if (
         !item.item.toLowerCase().includes('total') &&
@@ -90,6 +91,11 @@ class SocketTable extends Component {
     socket.on('rowDeleted', () => {
       toast(<div>Row Deleted</div>)
     })
+
+    await this.props.updateReceiptThunk(
+      {data: lineItems, userAmounts: this.state.userAmounts},
+      this.props.singleReceipt._id
+    )
     ///////END componentdidmount
   }
 
@@ -263,7 +269,37 @@ class SocketTable extends Component {
       recipients: this.props.selectedGroup.users
     }
     await axios.post('/api/email/send', obj)
+    toast(<div>Email Sent!</div>)
     // this.setState({emailConfirmation: ''})
+  }
+
+  submitUserAmountsEmail = async () => {
+    const payers = Object.keys(this.props.singleReceipt.userAmounts)
+      .filter(keys => keys !== this.props.singleReceipt.uploader.email)
+      .map(payee => {
+        console.log(payee)
+        return `<div>${
+          this.props.singleReceipt.userAmounts[payee].name
+        } owes $${this.props.singleReceipt.userAmounts[payee].amount} to ${
+          this.props.singleReceipt.uploader.name
+        }
+        </div>`
+      })
+      .reduce((a, b) => a.concat(b))
+    console.log(payers)
+    const obj = {
+      receiptId: this.props.singleReceipt._id,
+      groupName: this.props.selectedGroup.name,
+      userAmounts: this.props.singleReceipt.userAmounts,
+      uploader: this.props.singleReceipt.uploader,
+      date: this.props.singleReceipt.date,
+      recipients: this.props.selectedGroup.users,
+      payers
+    }
+    console.log(obj)
+
+    await axios.post('/api/email/sendUserAmounts', obj)
+    toast(<div>Email Sent!</div>)
   }
 
   row = (
@@ -356,12 +392,13 @@ class SocketTable extends Component {
               submitEmail={this.submitEmail}
               emailSent={this.state.emailConfirmation}
               data={this.state.data}
+              submitUserAmountsEmail={this.submitUserAmountsEmail}
             />
           )}
           <Table selectable inverted celled>
             {/* header row */}
             <Table.Header>
-              <Table.Row>
+              <Table.Row id="custom-tr-row">
                 <Table.HeaderCell className="custom-edit">
                   Edit
                 </Table.HeaderCell>

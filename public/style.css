@@ -602,6 +602,15 @@ div.logoMobile {
   display: none;
 }
 
+#payer-total-email {
+  display: flex;
+  justify-content: space-between;
+}
+
+#custom-tr-row {
+  justify-content: space-between;
+}
+
 @media screen and (max-width: 900px) {
   #main-container {
     background-image: none;
@@ -650,6 +659,14 @@ div.logoMobile {
   .ui.mini.horizontal.statistics .statistic > .value {
     font-size: 1rem !important;
   }
+  #app {
+    margin-top: 0px;
+  }
+  div.logoMobile {
+    display: flex;
+    justify-content: center;
+    height: 90px;
+  }
   #shadow.ui.inverted.segment {
     margin-top: 64px;
     opacity: 0.93;
@@ -658,18 +675,38 @@ div.logoMobile {
     margin-right: auto;
     padding: 19px;
   }
-  div.logoMobile {
-    display: flex;
-    justify-content: center;
-    height: 90px;
-  }
   div.logoMobile img {
     height: 82px;
     width: 85px;
     margin-top: 8px;
   }
+  .Yuva {
+    padding: 25px;
+  }
 }
 
+@media only screen and (max-width: 767px) {
+  .ui.table:not(.unstackable) tr {
+    display: flex !important;
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #payer-total-email {
+    /* display: flex !important; */
+  }
+  .ui.table:not(.unstackable) tr > th#payer-total-email {
+    display: flex !important;
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 458px) {
+  #payer-total-email {
+    flex-direction: column;
+  }
+}
 @media screen and (max-width: 500px) {
   .item .spent-container {
     width: 140px;

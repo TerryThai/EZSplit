@@ -72,7 +72,7 @@ class SideBarGroup extends Component {
               position="right center"
             />
           ) : (
-            <div>
+            <div className="Yuva">
               <h3>Select a group to save receipt</h3>
               <Dropdown
                 onChange={this.onChange}
