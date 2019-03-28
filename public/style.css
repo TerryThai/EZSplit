@@ -727,7 +727,7 @@ th {
   .item {
     flex-grow: 1;
     flex-wrap: nowrap;
-    align-items: flex-end;
+    align-items: center;
   }
   #shadow {
     margin-top: 14px;
@@ -754,12 +754,13 @@ th {
 @media screen and (max-width: 436px) {
   .ui[class*='left floated'].statistic {
     float: left;
-    margin: 0;
+    margin: 1px;
   }
 }
 
 @media screen and (max-width: 375px) {
   .item .spent-container {
     height: 45.31px;
+    margin: 1px;
   }
 }
