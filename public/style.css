@@ -698,6 +698,28 @@ th {
   }
 }
 
+@media only screen and (max-width: 848px) {
+  .or {
+    display: none;
+  }
+  .table-div-container {
+    width: 100%;
+  }
+  .table-sidebar-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .tips-div {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .tip-btn {
+  }
+  .ui.buttons .button:first-child {
+    border-radius: 1px;
+  }
+}
+
 @media only screen and (max-width: 767px) {
   .ui.table:not(.unstackable) tr {
     display: flex !important;
