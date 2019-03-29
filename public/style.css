@@ -693,18 +693,6 @@ td,
 th {
   text-align: center;
 }
-div.logoMobile {
-  display: none;
-}
-
-#payer-total-email {
-  display: flex;
-  justify-content: space-between;
-}
-
-#custom-tr-row {
-  justify-content: space-between;
-}
 
 @media screen and (max-width: 900px) {
   #main-container {
