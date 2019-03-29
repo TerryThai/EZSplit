@@ -35,7 +35,7 @@ class Stats extends Component {
         floated="left"
       >
         <Statistic.Value>${this.getTotalSpendings()}</Statistic.Value>
-        <Statistic.Label>Spent Total</Statistic.Label>
+        <Statistic.Label>Spent</Statistic.Label>
       </Statistic>
     )
   }

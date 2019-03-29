@@ -4,11 +4,18 @@ import {connect} from 'react-redux'
 import {Qrcode, SideBarGroup, FeedInfo, Stats, PopupUpload} from '../index'
 import {Grid, Segment, Container, Card} from 'semantic-ui-react'
 import {HorizontalBar, Line} from 'react-chartjs-2'
+import history from '../../history'
 
 /**
  * COMPONENT
  */
+
 export const UserHome = props => {
+  const receiptUrl = localStorage.getItem('receipt')
+  if (receiptUrl) {
+    localStorage.removeItem('receipt')
+    history.push(receiptUrl)
+  }
   const {email, imageUrl} = props
   const time = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
