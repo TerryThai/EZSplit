@@ -13,15 +13,9 @@ module.exports = email => {
     <div style='text-align: center;'>
       <h3> Hello! Thanks for using EzSplit! </h3>
       <p>${email.body}<p>
-<<<<<<< HEAD
-      <div><a href="https://ezsplit.herokuapp.com/editReceipt/${
-        email.receiptId
-      }">Click here to open table</a></div>
-=======
       <div><a href="${url}/editReceipt/${
     email.receiptId
   }">Click here to open table</a></div>
->>>>>>> master
     </div>
   </body>
   </html>
