@@ -802,6 +802,18 @@ th {
   }
 }
 
+.venmo {
+  display: flex;
+  justify-content: center;
+}
+.venmo-link {
+  width: 15%;
+}
+.venmo-link img {
+  width: 100%;
+  height: 100%;
+}
+
 @media only screen and (max-width: 848px) {
   .or {
     display: none;
