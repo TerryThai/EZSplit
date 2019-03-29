@@ -7,13 +7,13 @@ const FeedContent = props => {
       {props.ious.youOwe.map(iou => (
         <Feed.Event
           key={iou.email}
-          content={`${iou.name} owes you ${iou.amount}.`}
+          content={`${iou.name} owes you $${iou.amount.toFix(2)}.`}
         />
       ))}
       {props.ious.oweYou.map(iou => (
         <Feed.Event
           key={iou.email}
-          content={`${iou.name} owes you ${iou.amount}.`}
+          content={`${iou.name} owes you $${iou.amount.toFix(2)}.`}
         />
       ))}
     </div>
