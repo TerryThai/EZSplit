@@ -11,7 +11,8 @@ import {
   AddBill,
   groupReceipts,
   FriendsList,
-  SocketTable
+  SocketTable,
+  RedirectToReceipt
 } from './components'
 import {me} from './store/user'
 
@@ -50,10 +51,16 @@ class Routes extends Component {
               path="/groups/create/redir"
               render={() => <CreateGroup redir={true} redirUrl="/groups" />}
             />
+
             <Redirect from="*" to="/home" component={UserHome} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
+        <Route
+          exact
+          path="/editReceipt/:receiptId"
+          component={RedirectToReceipt}
+        />
         <Route component={Login} />
       </Switch>
     )

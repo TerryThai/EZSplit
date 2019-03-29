@@ -121,13 +121,15 @@ class FriendsList extends Component {
             <h3>Loading...</h3>
           )}
         </List>
-        Add friend by
+        <h3>Add friend by</h3>
         <Button.Group color="black" style={{width: '80%', maxWidth: '450px'}}>
-          <Button onClick={() => this.toggleForm(1)}>email</Button>
+          <Button onClick={() => this.toggleForm(1)}>Email</Button>
           <Button.Or />
           <Button positive onClick={() => this.toggleForm(1, 1)}>
-            name & email
+            Name & Email
           </Button>
+          <Button.Or />
+          <Button onClick={this.toggle}>Toggle QR Scanner</Button>
         </Button.Group>
         <Form onSubmit={this.handleSubmit}>
           {this.state.showform[0] &&
@@ -157,7 +159,6 @@ class FriendsList extends Component {
           )}
           {this.state.showform[0] && <Button type="submit">Submit</Button>}
         </Form>
-        <Button onClick={this.toggle}>Toggle QR Scanner</Button>
         {this.state.checked ? <Readqr toggle={this.toggle} /> : ''}
         {this.props.errorMsg && (
           <Message error style={{width: '80%', maxWidth: '450px'}}>

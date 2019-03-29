@@ -4,11 +4,18 @@ import {connect} from 'react-redux'
 import {Qrcode, SideBarGroup, FeedInfo, Stats, PopupUpload} from '../index'
 import {Grid, Segment, Container, Card} from 'semantic-ui-react'
 import {HorizontalBar, Line} from 'react-chartjs-2'
+import history from '../../history'
 
 /**
  * COMPONENT
  */
+
 export const UserHome = props => {
+  const receiptUrl = localStorage.getItem('receipt')
+  if (receiptUrl) {
+    localStorage.removeItem('receipt')
+    history.push(receiptUrl)
+  }
   const {email, imageUrl} = props
   const time = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -37,74 +44,34 @@ export const UserHome = props => {
     ]
   }
 
-  const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-      {
-        label: 'Receipt Totals By Month',
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
-        borderColor: 'rgba(39, 87, 113, 0.4)',
-        borderWidth: 1,
-        hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-        hoverBorderColor: 'rgba(255,99,132,1)',
-        data: [65, 59, 80, 81, 56, 55, 40]
-      }
-    ]
-  }
   return !props.ocr.amounts ? (
-    <div>
-      <div>
-        <Grid celled centered>
-          {/* within this grid lives 3 Columns. 2 of which are size 6 and a remaining is an assumetrical size 3 */}
-          <Grid.Row>
-            {/* this is the start of our row. within this row lives 2 columns */}
-            <Grid.Column width={6}>
-              <Grid columns="equal" relaxed centered>
-                <Grid.Row stretched>
-                  <Grid.Column>
-                    <Segment padded="very" raised={true}>
-                      <PopupUpload />
-                    </Segment>
-                  </Grid.Column>
-                  <Grid.Column centered="true">
-                    <Segment padded="very" raised={true} className="stats">
-                      <Stats />
-                    </Segment>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-              <Segment padded="very" raised={true} className="line">
-                <Line data={time} />
-              </Segment>
-            </Grid.Column>
-            {/* this is the start of our second column */}
-            <Grid.Column width={6}>
-              <Grid columns="equal" relaxed centered>
-                <Grid.Row>
-                  <Grid.Column>
-                    <Segment padded="very" raised={true}>
-                      <FeedInfo currentUser={email} />
-                    </Segment>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-              <Segment padded="very" className="chart" raised={true}>
-                <HorizontalBar data={data} />
-              </Segment>
-            </Grid.Column>
-            <Grid.Column width={4}>
-              <Segment compact raised={true} className="user">
-                <Card
-                  image={imageUrl}
-                  description={<Qrcode />}
-                  extra={`Welcome, ${email}!!!`}
-                  centered={true}
-                  color="grey"
-                />
-              </Segment>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+    <div id="user-background">
+      <div id="main-container">
+        <div className="padding-for-first-item">
+          <div className="item">
+            <PopupUpload className="row-padding" />
+            <Stats className="row-padding" />
+          </div>
+          <div className="wrapper">
+            <div className="profile">
+              <img src={imageUrl} className="thumbnail" />
+              <div className="check">
+                <i className="fas fa-check" />
+              </div>
+              <p className="title">{email}</p>
+              <div className="qr">
+                <Qrcode />
+              </div>
+              <Line data={time} id="line" className="row-padding" />
+              <div className="smallFeed">
+                <FeedInfo currentUser={email} className="smallFeed" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="largeFeed">
+        <FeedInfo currentUser={email} />
       </div>
     </div>
   ) : (

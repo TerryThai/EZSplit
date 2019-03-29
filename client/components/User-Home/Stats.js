@@ -7,25 +7,34 @@ class Stats extends Component {
   async componentDidMount() {
     await this.props.getUserReceipts(this.props.email)
   }
+
+  getTotalSpendings = () => {
+    let userTotalSpending = 0
+    if (this.props.userReceipts.length) {
+      console.log('totalspendings length found')
+      this.props.userReceipts.forEach(receipt => {
+        userTotalSpending += Number(
+          receipt.userAmounts[this.props.email].amount
+        )
+      })
+      return userTotalSpending.toFixed(2)
+    } else {
+      console.log('totalspendings no length found')
+      return userTotalSpending
+    }
+  }
+
   render() {
-    //double reduce cuz its so nested
-    let total = this.props.userReceipts.receipts
-      ? this.props.userReceipts.receipts.reduce((sum, receipt) => {
-          return (
-            sum +
-            receipt.data.reduce((all, item) => {
-              return all + Number(item.cost)
-            }, 0)
-          )
-        }, 0)
-      : 0
-    total = total.toFixed(2)
     return (
-      <Statistic size="tiny" color="red" horizontal inverted>
-        <Statistic.Value>
-          <Icon name="dollar sign" />
-          {total}
-        </Statistic.Value>
+      <Statistic
+        size="mini"
+        color="red"
+        className="spent-container"
+        horizontal
+        inverted
+        floated="left"
+      >
+        <Statistic.Value>${this.getTotalSpendings()}</Statistic.Value>
         <Statistic.Label>Spent</Statistic.Label>
       </Statistic>
     )

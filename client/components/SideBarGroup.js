@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import {getGroupsThunk, selectGroupThunk} from '../store/groups'
-import {Table, CreateGroupSideBar, CreateGroup} from '../components/index'
+import {Table, CreateGroup} from '../components/index'
 import {Dropdown, Popup, Container} from 'semantic-ui-react'
 
 const style = {
@@ -14,7 +13,8 @@ const style = {
 
 class SideBarGroup extends Component {
   state = {
-    selectedGroup: null
+    selectedGroup: null,
+    isOpen: true
   }
   async componentDidMount() {
     await this.props.getGroupsThunk(this.props.user.email)
@@ -25,6 +25,10 @@ class SideBarGroup extends Component {
     await this.setState({
       selectedGroup: {...this.props.selectedGroup}
     })
+  }
+
+  handleOpen = () => {
+    if (this.state.isOpen) this.setState({isOpen: false})
   }
 
   render() {
@@ -46,7 +50,8 @@ class SideBarGroup extends Component {
             content="Here is your receipt! Please verify and make changes."
             on="click"
             style={style}
-            open={true}
+            open={this.state.isOpen}
+            onClick={this.handleOpen}
             position="top center"
           />
         )}
@@ -54,14 +59,17 @@ class SideBarGroup extends Component {
           {!this.props.groups.length ? (
             <Popup
               trigger={
-                <Dropdown
-                  onChange={this.onChange}
-                  placeholder="Select Group"
-                  search
-                  selection
-                  options={groups}
-                  style={{width: '50%'}}
-                />
+                <div>
+                  <h3>Choose a group</h3>
+                  <Dropdown
+                    onChange={this.onChange}
+                    placeholder="Select Group"
+                    search
+                    selection
+                    options={groups}
+                    style={{width: '50%'}}
+                  />
+                </div>
               }
               content="Please create a group and add your friends."
               on="click"
@@ -70,7 +78,7 @@ class SideBarGroup extends Component {
               position="right center"
             />
           ) : (
-            <div>
+            <div className="Yuva">
               <h3>Select a group to save receipt</h3>
               <Dropdown
                 onChange={this.onChange}

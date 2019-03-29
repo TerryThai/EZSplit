@@ -52,9 +52,10 @@ class InlineForm extends Component {
 
     return (
       <Table.Row key={Math.random()}>
-        <Table.Cell>
+        <Table.Cell className="custom-edit">
           <Button
             icon
+            inverted={true}
             onClick={() => {
               this.props.stopEdit(this.props.rowIdx)
               console.log('all data', this.props.allData)
@@ -62,6 +63,16 @@ class InlineForm extends Component {
             }}
           >
             <Icon name="save" />
+          </Button>
+        </Table.Cell>
+        <Table.Cell className="custom-delete">
+          <Button
+            icon
+            onClick={() => this.props.deleteRow(this.props.rowIdx)}
+            inverted={true}
+            disabled={this.props.lockedColumns.delete}
+          >
+            <Icon name="delete" inverted={true} />
           </Button>
         </Table.Cell>
         <Table.Cell>
@@ -78,8 +89,9 @@ class InlineForm extends Component {
             name="item"
           />
         </Table.Cell>
-        <Table.Cell>
+        <Table.Cell className="custom-cost">
           <Input
+            style={{width: '100px'}}
             type="number"
             disabled={this.props.lockedColumns.cost}
             autoFocus={this.focus(2, this.props.rowIdx)}

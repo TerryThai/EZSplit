@@ -13,7 +13,9 @@ module.exports = io => {
     socket.on('userAmounts', userAmounts => {
       socket.broadcast.emit('updateUserAmounts', userAmounts)
     })
-
+    socket.on('deleteRow', () => {
+      socket.broadcast.emit('rowDeleted')
+    })
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
     })
