@@ -32,7 +32,9 @@ const User = db.define('user', {
     type: Sequelize.STRING
   },
   imageUrl: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    defaultValue:
+      'http://trackwalkins.com/wp-content/uploads/2019/02/default-profile-picture.jpg'
   }
 })
 

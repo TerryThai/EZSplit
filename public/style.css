@@ -1,3 +1,66 @@
+.wrapper {
+  width: 320px;
+  height: 540px;
+  background: #fdfeff;
+  transition: background 0.6s ease;
+  border-radius: 10px;
+  padding: 20px 20px 20px 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+}
+/* .wrapper .profile {
+  margin-top: 2.2em;
+  position: relative;
+} */
+
+.wrapper .profile .check {
+  position: absolute;
+  right: 5em;
+  bottom: 12.7em;
+}
+.wrapper .profile .check i {
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 100%;
+  background: linear-gradient(to bottom right, #c90a6d, #ff48a0);
+}
+.wrapper .profile .thumbnail {
+  width: 124px;
+  height: 124px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5em;
+  border-radius: 100%;
+  box-shadow: 0 13px 26px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+.wrapper .profile .name {
+  color: #2d354a;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+}
+.wrapper .profile .title {
+  color: #7c8097;
+  font-size: 0.75em;
+  font-weight: 300;
+  text-align: center;
+  padding-top: 0.5em;
+  padding-bottom: 0.7em;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.wrapper .profile .description {
+  color: #080911;
+  font-size: 14px;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 1.3em;
+}
+
 .ui.raised.very.padded.segment.line {
   background-color: currentColor;
 }
@@ -432,7 +495,7 @@ thead {
   flex-wrap: wrap;
 }
 #main-container {
-  justify-content: space-between;
+  justify-content: center;
   background-image: url('./flat.jpg');
   background-repeat: no-repeat;
   background-size: cover;
@@ -449,7 +512,6 @@ thead {
   opacity: 0.9;
   display: flex;
   align-items: center;
-  box-shadow: 3px 2px 5px 1px black;
   font-size: smaller;
   width: 150px;
   border-radius: 5px;
@@ -462,9 +524,6 @@ thead {
   align-items: center;
   padding: 0 21px;
   box-shadow: 3px 2px 5px 1px black;
-}
-
-.somke:hover {
 }
 
 #line {
@@ -520,10 +579,10 @@ thead {
 /* Position and sizing of burger button */
 .bm-burger-button {
   position: fixed;
-  width: 36px;
-  height: 30px;
-  left: 36px;
-  top: 36px;
+  width: 24px;
+  height: 22px;
+  left: 25px;
+  top: 25px;
   display: none;
 }
 
@@ -590,14 +649,26 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: rgba(0, 0, 0, 0.3);
 }
 
-.ui.feed {
-  background-color: floralwhite;
+.ui.feed.smallFeed {
+  background-color: rgb(253, 254, 255);
   opacity: 0.67;
   width: 100%;
   height: 20%;
   overflow: scroll;
-  box-shadow: 1px 4px 20px 7px #171a1d;
+  display: none;
 }
+.smallFeed {
+  display: none;
+}
+
+.ui.feed.largeFeed {
+  height: 70%;
+  display: flex;
+  align-content: center;
+  border-radius: 0;
+  width: 60%;
+}
+
 div.logoMobile {
   display: none;
 }
@@ -630,12 +701,30 @@ th {
       rgb(235, 235, 235),
       rgb(230, 230, 230)
     ); */
-    background: linear-gradient(to right, #ffffff, #fdfbfb, #ebedee, #ebedee);
+    background: linear-gradient(to right, #ffffff, #fdfbfb, #dfe1e2, #ffffff);
     margin-bottom: 12px;
     justify-content: center;
+    max-height: 800px;
+    height: 700px;
   }
+
+  .largeFeed {
+    display: none;
+  }
+  .smallFeed {
+    margin-top: 20px;
+    max-height: 350px;
+    display: block;
+    margin-top: 20px;
+    height: auto;
+  }
+  .wrapper {
+    margin-top: 15px;
+    height: 580px;
+  }
+
   #line {
-    opacity: 0.75;
+    opacity: 0.95;
   }
   .row-padding,
   #bar {
@@ -666,13 +755,17 @@ th {
     width: 150px;
     border-radius: 3px;
     padding-left: 22px;
-    height: 38px;
     box-shadow: 0px 0px 0px 0px black;
     margin-top: 1px;
   }
   .ui.mini.horizontal.statistic > .value,
   .ui.mini.horizontal.statistics .statistic > .value {
     font-size: 1rem !important;
+  }
+  .ui[class*='left floated'].statistic {
+    float: left;
+    margin: 1px;
+    height: 39px;
   }
   #app {
     margin-top: 0px;
@@ -725,7 +818,6 @@ th {
   .ui.buttons .button:first-child {
     border-radius: 1px;
   }
-  border: 1px solid;
 }
 
 @media only screen and (max-width: 767px) {
@@ -752,7 +844,8 @@ th {
 }
 @media screen and (max-width: 500px) {
   .item .spent-container {
-    width: 140px;
+    flex-direction: inherit;
+    height: 41px;
   }
   .item {
     flex-grow: 1;
@@ -784,7 +877,7 @@ th {
 @media screen and (max-width: 436px) {
   .ui[class*='left floated'].statistic {
     float: left;
-    margin: 1px;
+    margin: 0px;
   }
 }
 
