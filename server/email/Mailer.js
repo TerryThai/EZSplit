@@ -1,12 +1,19 @@
 const sendgrid = require('sendgrid')
 const helper = sendgrid.mail
-const keys = require('../../secrets')
+let sendGridkey
+
+if (!process.env.sendGridkey) {
+  const keys = require('../../secrets')
+  sendGridkey = keys.sendGridkey
+} else {
+  sendGridkey = process.env.sendGridkey
+}
 
 class Mailer extends helper.Mail {
   constructor({subject, recipients}, content) {
     super()
 
-    this.sgApi = sendgrid(keys.sendGridkey)
+    this.sgApi = sendgrid(sendGridkey)
     this.from_email = new helper.Email('no-reply@ezsplit.com')
     this.subject = subject
     this.body = new helper.Content('text/html', content)
