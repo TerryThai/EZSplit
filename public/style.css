@@ -721,7 +721,7 @@ th {
     max-height: 350px;
     display: block;
     margin-top: 20px;
-    height: auto;
+    height: 60px;
   }
   .wrapper {
     margin-top: 15px;
