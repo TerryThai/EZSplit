@@ -491,6 +491,14 @@ class SocketTable extends Component {
             </Table.Body>
           </Table>
         </Segment>
+        <div className="venmo">
+          <a href="https://venmo.com/account/sign-in" className="venmo-link">
+            <img src="https://maccablo.com/wp-content/uploads/2017/07/Venmo-safe.jpg" />
+          </a>
+          <a href="http://light-text.herokuapp.com/" className="venmo-link">
+            <img src="/light.png" />
+          </a>
+        </div>
       </div>
     )
   }
