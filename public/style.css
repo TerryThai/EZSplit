@@ -544,12 +544,12 @@ thead {
 }
 
 .ui.feed {
-  background-color: whitesmoke;
+  background-color: rgb(255, 255, 255);
   opacity: 0.89;
   width: 100%;
   height: 20%;
-  overflow: scroll;
   border-radius: 4px;
+  font-weight: bold;
 }
 
 #bar {
@@ -561,7 +561,6 @@ thead {
 }
 
 #user-background {
-  background-color: rgb(70, 70, 70);
   width: 85%;
   margin: 0 auto;
   margin-top: 20px;
@@ -667,6 +666,11 @@ Note: Beware of modifying this element as it can break the animations - you shou
   align-content: center;
   border-radius: 0;
   width: 60%;
+}
+
+.largeFeed .ui.feed {
+  width: 50%;
+  margin: auto;
 }
 
 div.logoMobile {
