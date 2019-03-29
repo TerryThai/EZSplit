@@ -1,0 +1,35 @@
+terry : introduction
+  team members,
+  reason for app, what problem it solves 
+  terry starts user story
+
+
+aman:  
+login with google oAuth. talk about home page very briefly. See your stats/metrics etc. Let's add some friends to my profile using QR scanner. Instead of adding friends by entering emails, we have a more streamlined experience. I can just scann someone's QR code and it automatically adds them to my list of friends. Lets now walk through the process of uploading the receipt. Upload receipt from home page, talk about grabbing onto table. enter tip amount, create new group, select friends which I just added. Select a group and save receipt which will bring you to a shared table..
+
+Yuva: 
+once you get to the table you can then invite the friends in your group by sending an invitation email with a unique link. Once they click the link, they'll be redirected to the same table, where they can join in editing the receipt items across devices. the uploader, who paid for the entire bill, has the option to lock certain columns, while everyone can make changes that will be shared and updated live through socketio connections. everyone can see the total amount they owe on the bill as they add themselves to items, and two or more can share a single item thus dividing the item cost evenly amongst them. 
+all changes are persisted to the database as they are made, and once spendings are divvied, the uploader can send an email to the group with the portions they owe. 
+
+henry: 
+  now if we go back to the home page, we can see the updated spendings and also a feed of IOUs amongst all your friends.
+  
+  (payments: send via lightText ?)
+
+  we built this app using react and redux on the front end for local state management and express and nodejs backend. to itemize our receipts, we are also using an optical character recognition API to parse data from receipt images. For storage, we are utilizing dual databases each with its own dedicated purposes: postgresql for authentication and mongoDB for storing nonsentive image and table data. a nosql document oriented database like mongoDB allows us to more easily store image data. 
+  we are also using SendGrid as our email delivery platform for notifications, and socket.io for realtime event based updates. 
+
+///////////////////////////////////////////////////
+
+  introduce tech stack (frontend and backend) 
+    React
+    Redux for local state management
+    Node/Express
+    OCR API to parse receipt images
+      prone to errors depending on qulity of image/lightning/receipt, 
+        that is why we want to live edit.
+    Dual DA: MongoDB & PostgreSQL
+      handling image data and needed a document-oriented database like NoSQL MongoDB.
+      separate PostgreSQL for authentication
+    SendGrid for email
+    Sockets.io for realtime table updates
