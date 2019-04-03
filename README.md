@@ -1,5 +1,4 @@
-# EZSPLIT
-ezsplit.herokuapp.com
+# EZSPLIT (ezsplit.herokuapp.com)
 Bill splitting app to itemize receipts for shared purchases
 
 Ezsplit is a revolutionary dining experience. We aim to remove the hassle of manually calculating item costs on the spot and instead allow for an immersive and collaborative experience with the click of a button. Users can snap a picture of their receipt and upload it at their leisure while allowing registered friends to live-update the item, price, and friends they wish to split the cost with. 
