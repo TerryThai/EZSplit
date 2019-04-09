@@ -5,7 +5,8 @@ Ezsplit is a revolutionary dining experience. We aim to remove the hassle of man
 
 Ezsplit integrates the use of socket.io, QR reading, and real-time receipt parsing software. Also, built with react, redux, express, and node, while also incorporating dual database architecture.
 
-<a href="exsplit.herokuapp.com">EZSPLIT/</a>
+<a href="ezsplit.herokuapp.com">ezsplit</a>
+[ezsplit](ezsplit.herokuapp.com) 
 
 # Getting Started
 On the main screen you may sign up or login via google. Once on your user landing page, you may navigate to the friends page which allows your to ad a friend.
